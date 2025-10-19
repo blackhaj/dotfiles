@@ -8,7 +8,7 @@
 - `chezmoi edit <file path>` - edits a file using your editor of choice
 - `chezmoi status` - quick summary of what files would change if you ran chezmoi apply
 - `chezmoi diff` - shows the changes that chezmoi apply would make to your home directory
--
+- `chezmoi forget <file path>` - removes a file from the dotfiles folder and stops chezmoi from managing it
 
 ## Notes
 
