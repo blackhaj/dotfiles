@@ -1,0 +1,27 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+# Timeout in ms (500 default)
+command_timeout = 2000
+
+[git_branch]
+# truncation_length = 30
+
+[docker_context]
+# format = "[$symbol]($style)"
+disabled = true
+
+[git_status]
+disabled = true
+
+[aws]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[python]
+disabled = true

@@ -1,0 +1,101 @@
+# Useful article on settings https://jvns.ca/blog/2024/02/16/popular-git-config-options/
+
+[credential "https://github.com"]
+helper =
+helper = !/opt/homebrew/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+helper =
+helper = !/opt/homebrew/bin/gh auth git-credential
+
+[github]
+user = blackhaj
+
+[user]
+email = henry@henryblack.co
+name = Henry Black
+
+[alias]
+a = add
+ca = commit -a
+cam = commit -am
+cm = commit -m
+s = status
+p = push
+pom = push origin master
+puom = pull origin master
+cob = checkout -b
+co = checkout
+fp = fetch --prune --all
+l = log --oneline --decorate --graph
+lall = log --oneline --decorate --graph --all
+ls = log --oneline --decorate --graph --stat
+lt = log --graph --decorate --pretty=format:'%C(yellow)%h%Creset%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset'
+
+[init]
+defaultBranch = main
+
+[core]
+editor = code --wait
+excludesfile = /Users/henryblack/.gitignore
+
+[merge]
+# Different diffs for merge conflicts
+# https://stackoverflow.com/questions/71252026/how-do-i-use-zealous-diff3-with-git-and-what-are-the-pros-and-cons
+conflictstyle = zdiff3
+# https://blog.gitbutler.com/how-git-core-devs-configure-git/
+algorithm = histogram
+colorMoved = plain
+mnemonicPrefix = true
+renames = true
+
+[rerere]
+# remembers how you resolved merge conflicts during a git rebase and automatically resolves conflicts for you when it can
+enabled = true
+autoupdate = true
+
+# [diff]
+#   # Shows function reordering better - https://luppeng.wordpress.com/2020/10/10/when-to-use-each-of-the-git-diff-algorithms/
+# 	algorithm = histogram
+
+# Trying difftastic for a while
+# https://difftastic.wilfred.me.uk/git.html
+[diff]
+tool = difftastic
+external = difft
+
+[difftool]
+prompt = false
+
+[difftool "difftastic"]
+cmd = difft "$LOCAL" "$REMOTE"
+
+[pager]
+difftool = true
+
+[fetch]
+# automatically delete remote tracking branches that have been deleted
+prune = true
+# automatically delete remote tags that have been deleted (I think)
+prunetags = true
+# fetch all remotes when using git fetch
+all = true
+
+[branch]
+# makes git branch sort by most recently used branches
+sort = -committerdate
+
+[tag]
+sort = version:refname
+
+[column]
+ui = auto
+
+[push]
+# Automatically push sets up a remote branch with the same name upon push
+autoSetupRemote = true
+
+[rebase]
+autoSquash = true
+autoStash = true
+updateRefs = true

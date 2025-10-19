@@ -1,0 +1,143 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+	{
+		"command": "workbench.action.terminal.kill",
+		"key": "cmd+f13"
+	},
+	{
+		"command": "typescript.goToSourceDefinition",
+		"key": "cmd+shift+a",
+		"when": "editorTextFocus"
+	},
+	// {
+	//   "key": "cmd+shift+j",
+	//   "command": "editor.action.insertSnippet",
+	//   "when": "editorTextFocus",
+	//   "args": {
+	//     "snippet": "JSON.stringify(${TM_SELECTED_TEXT}$1, null, 2)$0"
+	//   }
+	// },
+	{
+		"args": {
+			"apply": "first",
+			"kind": "source.addMissingImports"
+		},
+		"command": "editor.action.sourceAction",
+		"key": "cmd+shift+i"
+	},
+	{
+		"command": "-actions.findWithSelection",
+		"key": "cmd+e"
+	},
+	{
+		"command": "workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup",
+		"key": "cmd+e",
+		"when": "!activeEditorGroupEmpty"
+	},
+	{
+		"command": "-workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup",
+		"key": "ctrl+tab",
+		"when": "!activeEditorGroupEmpty"
+	},
+	{
+		"command": "-list.find",
+		"key": "cmd+f",
+		"when": "listFocus && listSupportsFind"
+	},
+	{
+		"command": "workbench.action.toggleDevTools",
+		"key": "alt+cmd+i"
+	},
+	{
+		"command": "-workbench.action.toggleDevTools",
+		"key": "alt+cmd+i",
+		"when": "isDevelopment"
+	},
+	{
+		"command": "editor.emmet.action.wrapWithAbbreviation",
+		"key": "ctrl+shift+alt+cmd+w"
+	},
+	{
+		"command": "git.openFile",
+		"key": "ctrl+shift+alt+cmd+o",
+		"when": "inDiffEditor"
+	},
+	{
+		"args": {
+			"commands": [
+				"workbench.action.reloadWindow"
+				// "typescript.restartTsServer",
+				// "eslint.restart",
+				// "biome.restartLspServer",
+				// "git.refresh"
+			]
+		},
+		"command": "runCommands",
+		"key": "cmd+shift+r",
+		"when": "editorTextFocus"
+	},
+	{
+		"command": "-editor.action.previousMatchFindAction",
+		"key": "shift+cmd+g",
+		"when": "editorFocus"
+	},
+	{
+		"command": "workbench.view.scm",
+		"key": "shift+cmd+g",
+		"when": "workbench.scm.active"
+	},
+	{
+		"command": "-workbench.view.scm",
+		"key": "ctrl+shift+g",
+		"when": "workbench.scm.active"
+	},
+	{
+		"command": "workbench.view.scm",
+		"key": "shift+cmd+g",
+		"when": "workbench.scm.active && !gitlens:disabled && config.gitlens.keymap == 'chorded'"
+	},
+	{
+		"command": "-workbench.view.scm",
+		"key": "ctrl+shift+g",
+		"when": "workbench.scm.active && !gitlens:disabled && config.gitlens.keymap == 'chorded'"
+	},
+	{
+		"command": "editor.cpp.disableenabled",
+		"key": "ctrl+shift+alt+cmd+d"
+	},
+	{
+		"command": "editor.action.enableCppGlobally",
+		"key": "ctrl+shift+alt+cmd+e"
+	},
+	{
+		"args": {
+			"text": "\\\r\n"
+		},
+		"command": "workbench.action.terminal.sendSequence",
+		"key": "shift+enter",
+		"when": "terminalFocus"
+	},
+	{
+		"command": "-workbench.view.explorer",
+		"key": "shift+cmd+e",
+		"when": "viewContainer.workbench.view.explorer.enabled"
+	},
+	{
+		"key": "cmd+i",
+		"command": "composerMode.agent"
+	},
+	{
+		"key": "shift+cmd+k",
+		"command": "-aipopup.action.modal.generate",
+		"when": "editorFocus && !composerBarIsVisible"
+	},
+	{
+		"key": "shift+cmd+l",
+		"command": "-addCursorsAtSearchResults",
+		"when": "fileMatchOrMatchFocus && searchViewletVisible"
+	},
+	{
+		"key": "shift+cmd+l",
+		"command": "-aichat.insertselectionintochat"
+	}
+]

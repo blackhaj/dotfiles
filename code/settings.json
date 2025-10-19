@@ -1,0 +1,281 @@
+{
+	"[astro]": {
+		"editor.defaultFormatter": "biomejs.biome",
+		"editor.formatOnSave": true
+	},
+	"[dotenv]": {
+		"editor.defaultFormatter": "foxundermoon.shell-format"
+	},
+	"[fish]": {
+		"editor.defaultFormatter": "bmalehorn.vscode-fish"
+	},
+	"[html]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[ignore]": {
+		"editor.defaultFormatter": "foxundermoon.shell-format"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.quickSuggestions": {
+			"strings": true
+		},
+		"editor.suggest.insertMode": "replace"
+	},
+	"[jsonc]": {
+		"editor.quickSuggestions": {
+			"strings": true
+		},
+		"editor.suggest.insertMode": "replace"
+	},
+	"[markdown]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": true
+	},
+	"[python]": {
+		"editor.defaultFormatter": "charliermarsh.ruff",
+		"editor.formatOnSave": true
+	},
+	"[shellscript]": {
+		"editor.defaultFormatter": "foxundermoon.shell-format"
+	},
+	"[terraform]": {
+		"editor.defaultFormatter": "hashicorp.terraform"
+	},
+	"[toml]": {
+		"editor.defaultFormatter": "tamasfe.even-better-toml",
+		"editor.formatOnSave": true
+	},
+	"[xml]": {
+		"editor.defaultFormatter": "redhat.vscode-xml"
+	},
+	"accessibility.signals.terminalBell": {
+		"sound": "on"
+	},
+	// *** More speed optimization attempts
+	"biome_lsp.trace.server": "verbose",
+	"biome.requireConfiguration": false,
+	"codestream.email": "blackhaj@gmail.com",
+	"cSpell.userWords": ["ariane", "mazeapp"],
+	"cursor.cpp.disabledLanguages": ["scminput"],
+	"cursor.preferNotificationsSameAsChat": true,
+	"diffEditor": {
+		"diffAlgorithm": "advanced",
+		"experimental.showMoves": true,
+		"ignoreTrimWhitespace": false
+	},
+	"editor.accessibilitySupport": "off",
+	"editor.bracketPairColorization.enabled": true,
+	"editor.defaultFormatter": "biomejs.biome",
+	"editor.detectIndentation": false,
+	"editor.formatOnSave": true,
+	"editor.glyphMargin": false,
+	"editor.guides.bracketPairs": "active",
+	"editor.inlineSuggest.enabled": true,
+	"editor.linkedEditing": true,
+	"editor.minimap.enabled": false,
+	"editor.quickSuggestions": {
+		"other": true,
+		"strings": true
+	},
+	"editor.renderWhitespace": "none",
+	"editor.showUnused": false,
+	"editor.stickyScroll.enabled": true,
+	"editor.suggest.localityBonus": true,
+	"editor.suggest.preview": true,
+	"editor.suggest.shareSuggestSelections": true,
+	"editor.suggest.showInterfaces": false,
+	"editor.suggest.showWords": false,
+	"editor.suggestSelection": "first",
+	"editor.tabSize": 2,
+	"editor.wordBasedSuggestions": "off",
+	"editor.wordWrap": "on",
+	"emmet.includeLanguages": {
+		"javascript": "javascriptreact"
+	},
+	"evenBetterToml.formatter.allowedBlankLines": 1,
+	"evenBetterToml.formatter.columnWidth": 3,
+	"evenBetterToml.schema.enabled": false,
+	"explorer.autoRevealExclude": {
+		"**/node_modules": false
+	},
+	"explorer.compactFolders": false,
+	"explorer.confirmDelete": false,
+	"explorer.confirmDragAndDrop": false,
+	"explorer.confirmPasteNative": false,
+	"figma.assetExportDirectory": "apps/maze-webapp/src/assets",
+	"files.associations": {
+		"*.css": "css",
+		"*.json": "jsonc",
+		"*.mdx": "markdown",
+		"CODEOWNERS": "plaintext",
+		"*.prisma": "prisma"
+	},
+	"files.dialog.defaultPath": "/Users/henryblack/code",
+	"files.exclude": {
+		"**/.git": false
+	},
+	"find-it-faster.general.killTerminalAfterUse": true,
+	"fish.path.fish": "/usr/local/bin/fish",
+	"git.allowForcePush": true,
+	"git.allowNoVerifyCommit": true,
+	"git.autofetch": true,
+	"git.confirmSync": false,
+	"git.enableSmartCommit": true,
+	"git.openRepositoryInParentFolders": "never",
+	"git.showUnpublishedCommitsButton": "always",
+	"github.copilot.editor.enableAutoCompletions": true,
+	"github.copilot.enable": {
+		"*": true,
+		"plaintext": true,
+		"scminput": false,
+		"yaml": true
+	},
+	"githubPullRequests.createOnPublishBranch": "never",
+	"githubPullRequests.fileListLayout": "tree",
+	"githubPullRequests.pullBranch": "never",
+	"gitlens.advanced.messages": {
+		"suppressCommitHasNoPreviousCommitWarning": true,
+		"suppressGitMissingWarning": true
+	},
+	"gitlens.ai.gitkraken.model": "gemini:gemini-2.0-flash",
+	"gitlens.ai.model": "gitkraken",
+	"gitlens.defaultDateFormat": "Do MMM, YYYY h:mma",
+	"gitlens.defaultDateShortFormat": "Do MMM, YYYY",
+	"gitlens.defaultTimeFormat": null,
+	"gitlens.launchpad.indicator.enabled": false,
+	"gitlens.statusBar.enabled": false,
+	"gitlens.views.commits.files.layout": "tree",
+	"gitlens.views.scm.grouped.hiddenViews": {
+		"branches": false,
+		"commits": false,
+		"contributors": true,
+		"fileHistory": false,
+		"launchpad": true,
+		"remotes": true,
+		"repositories": true,
+		"searchAndCompare": false,
+		"stashes": false,
+		"tags": true,
+		"worktrees": true
+	},
+	"html.format.enable": false,
+	"javascript.inlayHints.parameterNames.enabled": "all",
+	"javascript.preferences.jsxAttributeCompletionStyle": "none",
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	"jest.runMode": "on-demand",
+	"jsJsxSnippets.settings.importReactOnTop": false,
+	"json.validate.enable": true,
+	"json.schemas": [
+		{
+			"fileMatch": ["tsconfig.json", "tsconfig.*.json"],
+			"url": "https://json.schemastore.org/tsconfig"
+		}
+	],
+	"liveServer.settings.donotShowInfoMsg": true,
+	"markdownlint.config": {
+		"MD010": false,
+		"md029": false,
+		"MD034": false
+	},
+	"markdownlint.run": "onSave",
+	"material-icon-theme.activeIconPack": "react",
+	"mdx.server.enable": true,
+	"mdx.validate.validateFileLinks": "warning",
+	"mdx.validate.validateFragmentLinks": "warning",
+	"mdx.validate.validateMarkdownFileLinkFragments": "warning",
+	"mdx.validate.validateReferences": "warning",
+	"mdx.validate.validateUnusedLinkDefinitions": "warning",
+	"overwrap.trimWhitespace": true,
+	"pasteImage.defaultName": "${imageFileName}",
+	"pasteImage.filePathConfirmInputBoxMode": "onlyName",
+	"pasteImage.showFilePathConfirmInputBox": true,
+	"playwright.reuseBrowser": false,
+	"playwright.showTrace": true,
+	"prisma.showPrismaDataPlatformNotification": false,
+	"python.analysis.autoImportCompletions": true,
+	"python.languageServer": "None",
+	"python.terminal.activateEnvironment": false,
+	"python.venvPath": "${workspaceFolder}/services/pipecat-ai-moderator",
+	"scm.alwaysShowActions": true,
+	"scm.alwaysShowRepositories": true,
+	"security.promptForLocalFileProtocolHandling": false,
+	"security.workspace.trust.untrustedFiles": "open",
+	"semanticdiff.closeOriginalTab": true,
+	"semanticdiff.defaultDiffViewer": true,
+	"semanticdiff.diff.contextLines": 1000000,
+	// Makes shellcheck work with zsh files
+	"shellcheck.customArgs": ["--shell=bash"],
+	"shellcheck.ignorePatterns": {
+		"**/*.csh": true,
+		"**/*.cshrc": true,
+		"**/*.env*": true,
+		"**/*.fish": true,
+		"**/*.login": true,
+		"**/*.logout": true,
+		"**/*.tcsh": true,
+		"**/*.tcshrc": true,
+		"**/*.xonshrc": true,
+		"**/*.xsh": true,
+		"**/*.zlogin": true,
+		"**/*.zlogout": true,
+		"**/*.zprofile": true,
+		"**/*.zsh": true,
+		"**/*.zsh-theme": true,
+		"**/*.zshenv": true,
+		"**/*.zshrc": true,
+		"**/zlogin": true,
+		"**/zlogout": true,
+		"**/zprofile": true,
+		"**/zshenv": true,
+		"**/zshrc": true
+	},
+	"spellright.language": ["en"],
+	"terminal.integrated.defaultProfile.osx": "fish",
+	"terminal.integrated.enableMultiLinePasteWarning": "never",
+	"terminal.integrated.enableVisualBell": true,
+	"terminal.integrated.fontFamily": "MesloLGS NF",
+	"terminal.integrated.profiles.osx": {
+		"fish": {
+			"path": "/usr/local/bin/fish"
+		}
+	},
+	"terminal.integrated.scrollback": 1000000,
+	"terminal.integrated.tabs.title": "${cwdFolder}",
+	"typescript.experimental.useTsgo": false,
+	"typescript.inlayHints.parameterNames.enabled": "all",
+	"typescript.preferences.importModuleSpecifier": "non-relative",
+	"typescript.preferences.importModuleSpecifierEnding": "minimal",
+	"typescript.preferences.importModuleSpecifierGranularity": "directory",
+	"typescript.preferences.importModuleSpecifierStyle": "short",
+	"typescript.preferences.includePackageJsonAutoImports": "on",
+	"typescript.preferences.jsxAttributeCompletionStyle": "none",
+	"typescript.suggest.autoImports": true,
+	"typescript.tsserver.log": "off",
+	"typescript.updateImportsOnFileMove.enabled": "always",
+	"vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
+	"window.title": "${rootName}",
+	"window.zoomLevel": 1,
+	"workbench.colorTheme": "Default Dark Modern",
+	"workbench.editor.labelFormat": "short",
+	"workbench.iconTheme": "material-icon-theme",
+	"workbench.localHistory.exclude": {
+		"node_modules/": true
+	},
+	"workbench.panel.defaultLocation": "bottom",
+	"workbench.preferredDarkColorTheme": "Default Dark Modern",
+	"workbench.preferredLightColorTheme": "Default Light Modern",
+	"redhat.telemetry.enabled": false,
+	"cursor.composer.shouldChimeAfterChatFinishes": true,
+	"cursor.composer.queueMessageDefaultBehavior": "stop-and-send",
+	"cursor.composer.usageSummaryDisplay": "always",
+	"cursorpyright.analysis.autoImportCompletions": true,
+	"typescript.tsserver.maxTsServerMemory": 4000,
+	"explorer.fileNesting.enabled": true,
+	"[prisma]": {
+		"editor.defaultFormatter": "Prisma.prisma"
+	}
+}
