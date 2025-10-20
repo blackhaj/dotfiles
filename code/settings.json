@@ -119,7 +119,7 @@
 		"**/.git": false
 	},
 	"find-it-faster.general.killTerminalAfterUse": true,
-	"fish.path.fish": "/usr/local/bin/fish",
+	"fish.path.fish": "/opt/homebrew/bin/fish",
 	"git.allowForcePush": true,
 	"git.allowNoVerifyCommit": true,
 	"git.autofetch": true,
@@ -237,10 +237,10 @@
 	"terminal.integrated.defaultProfile.osx": "fish",
 	"terminal.integrated.enableMultiLinePasteWarning": "never",
 	"terminal.integrated.enableVisualBell": true,
-	"terminal.integrated.fontFamily": "MesloLGS NF",
+	"terminal.integrated.fontFamily": "MesloLGS Nerd Font",
 	"terminal.integrated.profiles.osx": {
 		"fish": {
-			"path": "/usr/local/bin/fish"
+			"path": "/opt/homebrew/bin/fish"
 		}
 	},
 	"terminal.integrated.scrollback": 1000000,
@@ -277,5 +277,6 @@
 	"explorer.fileNesting.enabled": true,
 	"[prisma]": {
 		"editor.defaultFormatter": "Prisma.prisma"
-	}
+	},
+	"window.commandCenter": true
 }

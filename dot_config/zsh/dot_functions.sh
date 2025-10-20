@@ -68,33 +68,6 @@ use-scripts() {
 
 alias sc='use-scripts'
 
-nuke_pnpm() {
-  rm -rf ~/.pnpm-store && pnpm -r exec rm -rf node_modules build dist lib && rm -rf node_modules apps/maze-webapp/public/ && pnpm i && say 'ready'
-}
-
-pritunl() {
-  client() {
-    # change this to point to your Pritunl.app if this is not the right path
-    /Applications/Pritunl.app/Contents/Resources/pritunl-client "$@"
-  }
-  # you can find the profile id by running `pritunl list`
-  profileId="y5sanivernfd94nc"
-
-  if [[ $1 == 'start' ]]; then
-    # set the "Pritunl" here to whatever you have your Pritunl under in 1pass
-    otp=$(op item get Pritunl --otp)
-    client start $profileId -p "$otp"
-  elif [[ $1 == 'stop' ]]; then
-    client stop $profileId
-  else
-    client "$@"
-  fi
-}
-
-alias pts='pritunl start'
-alias ptst='pritunl stop'
-alias ptr='pritunl stop && pritunl start'
-
 change_ts_hint_length() {
   # Add your VScode path here
   directory_path="/Applications/Visual Studio Code.app"
@@ -140,38 +113,3 @@ git_prune_squash_merged() {
 
 alias gsdall="git_prune_squash_merged"
 
-open_moderated_and_run() {
-  # Open VSCode with the repository
-  code ~/maze/service-moderated-testing
-
-  # Wait for VSCode to open and then run a command in the terminal
-  sleep 5
-
-  # Make sure VSCode is in focus
-  osascript -e 'tell application "Visual Studio Code" to activate'
-  # Open the integrated terminal
-  osascript -e 'tell application "System Events" to keystroke "`Command` + `" to front window'
-  # Type and execute your command
-  osascript -e 'tell application "System Events" to keystroke "ptd"'
-  # Press Enter to execute the command
-  osascript -e 'tell application "System Events" to key code 36'
-
-  return $?
-}
-
-alias op-mod="open_moderated_and_run"
-
-open_mono_and_run() {
-  # Open VSCode with the repository
-  code ~/maze/maze-monorepo
-
-  # Wait for VSCode to open and then run a command in the terminal
-  sleep 5                                                                                      # Adjust the wait time as needed
-  osascript -e 'tell application "Visual Studio Code" to activate'                             # Make sure VSCode is in focus
-  osascript -e 'tell application "System Events" to keystroke "`Command` + `" to front window' # Open the integrated terminal
-  osascript -e 'tell application "System Events" to keystroke "tu"'                            # Type and execute your command
-  osascript -e 'tell application "System Events" to key code 36'                               # Press Enter to execute the command
-  return $?
-}
-
-alias op-mono="open_mono_and_run"

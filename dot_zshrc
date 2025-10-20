@@ -165,3 +165,12 @@ export HISTSIZE=100000
 export PATH="$PATH:/Users/henryblack/.lmstudio/bin"
 # End of LM Studio CLI section
 
+eval "$(mise activate zsh)"
+
+# pnpm
+export PNPM_HOME="/Users/henryblack/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
