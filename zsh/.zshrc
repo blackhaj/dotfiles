@@ -150,7 +150,10 @@ export PATH="$PATH:/Users/henryblack/.local/bin"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-export EDITOR="code --wait"
+export EDITOR="cursor --wait"
+
+# Add my bin scripts to the PATH
+export PATH="$PATH:$HOME/bin/"
 
 # brew
 export HOMEBREW_NO_ENV_HINTS=1
@@ -174,3 +177,5 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# Set STOW_DIR (need to centralise this stuff and make it work across shells)

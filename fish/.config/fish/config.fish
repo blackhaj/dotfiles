@@ -14,7 +14,7 @@ set -U fish_color_quote ce9178
 
 # Loads functions, aliases and env
 # source "$HOME/.config/zsh/.functions.sh"
-source "$HOME/.config/fish/.aliases.fish"
+source "$HOME/.config/fish/aliases.fish"
 source "$HOME/.config/zsh/.env.sh"
 
 # Copied orbstack over from zsh
@@ -31,6 +31,9 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # Script Kit
 export PATH="$PATH:/Users/henryblack/.kenv/bin"
 export PATH="$PATH:/Users/henryblack/.kit/bin"
+
+# Add my bin scripts to the PATH
+set PATH $PATH $HOME/bin/
 
 # Homebrew
 set -gx PATH /opt/homebrew/bin $PATH
