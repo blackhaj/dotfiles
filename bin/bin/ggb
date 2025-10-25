@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Description: Fuzzy find and copy a git branch to clipboard
+
+# Record usage
+logx "$(basename "$0")"
+
+set -e # Exit on error
+set -u # Exit on undefined variable
+set -o pipefail # Exit on pipe error
+
+
+branch=$(fzfb)
+
+unifiedAddHistory "$branch"
+echo "$branch" | pbcopy

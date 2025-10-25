@@ -112,7 +112,14 @@
 		"*.json": "jsonc",
 		"*.mdx": "markdown",
 		"CODEOWNERS": "plaintext",
-		"*.prisma": "prisma"
+		"*.prisma": "prisma",
+		"fzfb": "shellscript",
+		"logx": "shellscript",
+		"tslen": "shellscript",
+		"mksh": "shellscript",
+		"ggb": "shellscript",
+		"gdf": "shellscript",
+		"gcof": "shellscript"
 	},
 	"files.dialog.defaultPath": "/Users/henryblack/code",
 	"files.exclude": {

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Description: Fuzzy find and run a package.json script with the correct package manager
+
+# Record usage
+logx "$(basename "$0")"
+
+set -e # Exit on error
+
+if [[ -f pnpm-lock.json ]]; then
+  packageManager="pnpm"
+elif [[ -f package-lock.json ]]; then
+  packageManager="npm"
+elif [[ -f bun.lock ]]; then
+  packageManager="bun"
+elif [[ -f yarn.lock ]]; then
+  packageManager="yarn"
+fi
+
+sc=$(cat package.json | jq '.scripts | keys[]' | tr -d '\"' | fzf)
+
+if [[ $? = 0 ]]; then
+  unifiedAddHistory "$packageManager run $sc"
+  $packageManager run "$sc"
+fi

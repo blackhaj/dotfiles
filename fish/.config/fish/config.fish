@@ -1,3 +1,9 @@
+source "$HOME/dotfiles/shared-shell/aliases.sh"
+source "$HOME/dotfiles/shared-shell/vars.sh"
+source "$HOME/dotfiles/shared-shell/work-aliases.sh"
+# Add my bin scripts to the PATH
+set PATH $PATH $HOME/bin/
+
 set -x PATH /usr/local/bin /opt/homebrew/bin $PATH
 
 # Test
@@ -12,11 +18,6 @@ set -U fish_greeting
 set -U fish_color_command 5281EB
 set -U fish_color_quote ce9178
 
-# Loads functions, aliases and env
-# source "$HOME/.config/zsh/.functions.sh"
-source "$HOME/.config/fish/aliases.fish"
-source "$HOME/.config/zsh/.env.sh"
-
 # Copied orbstack over from zsh
 source ~/.orbstack/shell/init.fish 2>/dev/null || :
 
@@ -24,16 +25,9 @@ source ~/.orbstack/shell/init.fish 2>/dev/null || :
 export STARSHIP_CONFIG="$HOME/.config/starship.toml"
 starship init fish | source
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
 # Script Kit
 export PATH="$PATH:/Users/henryblack/.kenv/bin"
 export PATH="$PATH:/Users/henryblack/.kit/bin"
-
-# Add my bin scripts to the PATH
-set PATH $PATH $HOME/bin/
 
 # Homebrew
 set -gx PATH /opt/homebrew/bin $PATH

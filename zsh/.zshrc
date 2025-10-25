@@ -110,27 +110,17 @@ export LANG=en_GB.UTF-8
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source "$HOME/.config/zsh/.functions.sh"
-source "$HOME/.config/zsh/.aliases.sh"
-source "$HOME/.config/zsh/.env.sh"
+source "$HOME/dotfiles/shared-shell/aliases.sh"
+source "$HOME/dotfiles/shared-shell/vars.sh"
+source "$HOME/dotfiles/shared-shell/work-aliases.sh"
 
-# Was this
-# export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
-# But I changed it to this so N has preference over homebrew
-# export N_PREFIX="$HOME/n"; PATH="$N_PREFIX/bin:"$PATH  # Added by n-install (see http://git.io/n-install-repo).
+export PATH="$PATH:/Users/henryblack/.local/bin"
 
-# TEST DELETE
-# export MY_SCRIPTS="$HOME/.zsh-scripts"
-# [[ :$PATH: == *":$MY_SCRIPTS:"* ]] || PATH+=":$MY_SCRIPTS"
-
-# fzf - fuzzy finder
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Postgres tools like pg_dump
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 # Init starship prompt
-
 export STARSHIP_CONFIG="$HOME/.config/starship.toml"
 eval "$(starship init zsh)"
 
@@ -141,23 +131,16 @@ eval "$(zoxide init zsh)"
 alias python=python3
 alias pip=pip3
 # Created by `pipx` on 2023-12-28 22:32:53
-export PATH="$PATH:/Users/henryblack/.local/bin"
 
 # bun completions
 [ -s "/Users/henryblack/.bun/_bun" ] && source "/Users/henryblack/.bun/_bun"
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
 export EDITOR="cursor --wait"
-
-# Add my bin scripts to the PATH
-export PATH="$PATH:$HOME/bin/"
 
 # brew
 export HOMEBREW_NO_ENV_HINTS=1
 
+# Script Kit
 export PATH="$PATH:/Users/henryblack/.kenv/bin"
 export PATH="$PATH:/Users/henryblack/.kit/bin"
 
@@ -177,5 +160,3 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-
-# Set STOW_DIR (need to centralise this stuff and make it work across shells)

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Description: Universal print command for bash, zsh, and fish. Adds it to history for bash/zsh, copies to clipboard for zsh.
+
+# Record usage
+logx "$(basename "$0")"
+
+set -e # Exit on error
+set -u # Exit on undefined variable
+set -o pipefail # Exit on pipe error
+
+# Ensure at least one argument is provided
+if [ $# -eq 0 ]; then
+  echo "Usage: $0 <command>"
+  exit 1
+fi
+
+# Combine all arguments into a single command string
+command="$*"
+
+# Detect the current shell
+# Use $SHELL if set, otherwise fallback to ps
+current_shell="${SHELL:-$(ps -p $$ -o comm=)}"
+# Normalize shell name (e.g., /bin/bash -> bash)
+shell_name=$(basename "$current_shell" | sed 's/-//g')
+
+case "$shell_name" in
+  bash)
+    history -s "$command"
+    ;;
+  zsh)
+    print -s "$command"
+    ;;
+  fish)
+    echo "$command" | pbcopy
+    ;;
+  *)
+    echo "$command"
+    echo "Warning: Unknown shell '$shell_name', no history modification."
+    ;;
+esac

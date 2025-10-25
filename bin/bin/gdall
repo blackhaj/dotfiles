@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Description: Delete all local git branches except main
+
+# Record usage
+logx "$(basename "$0")"
+
+set -e # Exit on error
+set -o pipefail # Exit on pipe error
+
+git branch | grep -v ' main$' | xargs git branch -d

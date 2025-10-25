@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Description: Fuzzy find a git branch
+
+# Record usage
+logx "$(basename "$0")"
+
+set -e # Exit on error
+set -u # Exit on undefined variable
+set -o pipefail # Exit on pipe error
+
+
+git rev-parse HEAD >/dev/null 2>&1 || return
+
+# Fuzzy find git branch. Source: https://polothy.github.io/post/2019-08-19-fzf-git-checkout/
+git branch --color=always --sort=-committerdate |
+  grep -v HEAD |
+  fzf --height 50% --ansi --no-multi |
+  sed "s/.* //"
