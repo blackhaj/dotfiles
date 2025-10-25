@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Description: <ADD>
+
+# Record usage
+logx "$(basename "$0")"
+
+set -e # Exit on error
+set -u # Exit on undefined variable
+set -o pipefail # Exit on pipe error
+
+ffprobe -v error -select_streams a:0 -show_entries stream=bit_rate -of default=noprint_wrappers=1:nokey=1 "$1" | awk '{print $1/1000 " kbs"}'

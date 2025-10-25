@@ -119,7 +119,8 @@
 		"mksh": "shellscript",
 		"ggb": "shellscript",
 		"gdf": "shellscript",
-		"gcof": "shellscript"
+		"gcof": "shellscript",
+		"nato": "typescript"
 	},
 	"files.dialog.defaultPath": "/Users/henryblack/code",
 	"files.exclude": {

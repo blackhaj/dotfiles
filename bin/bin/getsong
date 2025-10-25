@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Description: <ADD>
+
+# Record usage
+logx "$(basename "$0")"
+
+set -e # Exit on error
+set -u # Exit on undefined variable
+set -o pipefail # Exit on pipe error
+
+# Seems to get a lower bitrate
+# exec yt-dlp \
+#     -f "bestaudio[ext=opus]/bestaudio[ext=m4a]/bestaudio" \
+#     --extract-audio \
+#     --audio-format alac \
+#     --embed-thumbnail \
+#     --add-metadata \
+#     --parse-metadata "title:%(title)s" \
+#     --parse-metadata "artist:%(uploader)s" \
+#     -o "${MUSIC_INBOX}/%(title)s.%(ext)s" \
+
+#  To improve this:
+# - [ ] support soundcloud too
+# Tools:
+# - https://codeberg.org/lucida/lucida
+#  - https://github.com/imputnet/cobalt/blob/main/api/src/processing/services/soundcloud.js
+# - Lucida seems to get better quality - https://lucida.to/
+
+yt-dlp -x \
+  --audio-format m4a \
+  --audio-quality 0 \
+  --embed-thumbnail \
+  --add-metadata \
+  --parse-metadata "title:%(title)s" \
+  --parse-metadata "artist:%(uploader)s" \
+  -o "${MUSIC_INBOX}/%(title)s.%(ext)s" \
+  "$@"

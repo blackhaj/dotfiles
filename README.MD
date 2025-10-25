@@ -24,6 +24,7 @@ ln -sf ~/dotfiles/code/Library/Application\ Support/Code/User/keybindings.json ~
 ln -sf ~/dotfiles/code/Library/Application\ Support/Code/User/settings.json ~/dotfiles/cursor/Library/Application\ Support/Cursor/User/settings.json
 ```
 
-## Notes:
+## Notes
 
 - This repo used to use Chezmoi but didn't like the flow so I moved to stow
+- Lots of ideas/commands stolen from https://evanhahn.com/scripts-i-wrote-that-i-use-all-the-time/
