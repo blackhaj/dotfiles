@@ -40,7 +40,7 @@
 		"editor.formatOnSave": true
 	},
 	"[shellscript]": {
-		"editor.defaultFormatter": "foxundermoon.shell-format"
+		"editor.defaultFormatter": "mkhl.shfmt"
 	},
 	"[terraform]": {
 		"editor.defaultFormatter": "hashicorp.terraform"

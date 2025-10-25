@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 # Description: Fuzzy find a git branch
 
-# Record usage
-logx "$(basename "$0")"
-
 set -e # Exit on error
 set -u # Exit on undefined variable
 set -o pipefail # Exit on pipe error
-
 
 git rev-parse HEAD >/dev/null 2>&1 || return
 

@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 # Description: <ADD>
 
-# Record usage
-logx "$(basename "$0")"
-
 set -e # Exit on error
 set -u # Exit on undefined variable
 set -o pipefail # Exit on pipe error

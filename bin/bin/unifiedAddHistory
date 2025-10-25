@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 # Description: Universal print command for bash, zsh, and fish. Adds it to history for bash/zsh, copies to clipboard for zsh.
 
-# Record usage
-logx "$(basename "$0")"
 
 set -e # Exit on error
 set -u # Exit on undefined variable

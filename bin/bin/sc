@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 # Description: Fuzzy find and run a package.json script with the correct package manager
 
-# Record usage
-logx "$(basename "$0")"
-
 set -e # Exit on error
 
 if [[ -f pnpm-lock.json ]]; then

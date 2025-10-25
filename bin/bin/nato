@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 // Description: Convert strings to NATO phonetic alphabet
-// Stolen from https://codeberg.org/EvanHahn/dotfiles/src/commit/843b9ee13d949d346a4a73ccee2a99351aed285b/home/bin/bin/nato
+// Stolen from https://codeberg.org/EvanHahn/dotfiles/src/commit/843b9ee13d949d346a4a73ccee2a99351aed285b/home/bin/bin/nato and converted to Bun
 
 const args = process.argv.slice(2);
 
