@@ -112,15 +112,7 @@
 		"*.json": "jsonc",
 		"*.mdx": "markdown",
 		"CODEOWNERS": "plaintext",
-		"*.prisma": "prisma",
-		"fzfb": "shellscript",
-		"logx": "shellscript",
-		"tslen": "shellscript",
-		"mksh": "shellscript",
-		"ggb": "shellscript",
-		"gdf": "shellscript",
-		"gcof": "shellscript",
-		"nato": "typescript"
+		"*.prisma": "prisma"
 	},
 	"files.dialog.defaultPath": "/Users/henryblack/code",
 	"files.exclude": {
@@ -286,5 +278,6 @@
 	"[prisma]": {
 		"editor.defaultFormatter": "Prisma.prisma"
 	},
-	"window.commandCenter": true
+	"window.commandCenter": true,
+	"svelte.enable-ts-plugin": true
 }

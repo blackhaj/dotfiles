@@ -116,7 +116,6 @@ source "$HOME/dotfiles/shared-shell/work-aliases.sh"
 
 export PATH="$PATH:/Users/henryblack/.local/bin"
 
-
 # Postgres tools like pg_dump
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
@@ -156,7 +155,7 @@ eval "$(mise activate zsh)"
 # pnpm
 export PNPM_HOME="/Users/henryblack/Library/pnpm"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+	*":$PNPM_HOME:"*) ;;
+	*) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end

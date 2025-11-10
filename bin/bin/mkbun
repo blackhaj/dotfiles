@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -e
+set -u
+set -o pipefail
+
+# Define the target directory
+TARGET_DIR="$HOME/dotfiles/bin/bin"
+
+# Check if the script received exactly one argument
+if [ ! $# -eq 1 ]; then
+  echo 'mksh takes one argument' 1>&2
+  exit 1
+fi
+
+# Create the full path for the new script
+SCRIPT_PATH="$TARGET_DIR/$1"
+
+# Check if the file already exists
+if [ -e "$SCRIPT_PATH" ]; then
+  echo "$SCRIPT_PATH already exists" 1>&2
+  exit 1
+fi
+
+# Create the new script
+# shellcheck disable=SC2016
+echo '#!/usr/bin/env bun
+# Description: <ADD>
+
+console.log("Hello, world!")
+' >"$SCRIPT_PATH"
+
+# Make the script executable
+chmod u+x "$SCRIPT_PATH"
+
+# Open the script in the editor
+bash -c "$EDITOR '$SCRIPT_PATH'"

@@ -1,0 +1,37 @@
+#!/usr/bin/env bun
+
+import chalk from "chalk";
+import { format, formatRelative, intlFormatDistance } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
+
+// Description: Convert a time string to a human readable format
+
+const args = process.argv.slice(2);
+
+const input = args[0];
+
+// Make sure the input is in epoch millis
+const parsedInput =
+	`${input}`.length === 10 ? Number(`${input}000`) : Number(input);
+
+const inputAsDate = new Date(parsedInput);
+const now = new Date();
+
+const asLocalTime = format(inputAsDate, "eeee d MMMM yyyy  h:mm:ss a XXXXX");
+const asUtc = formatInTimeZone(
+	inputAsDate,
+	"UTC",
+	"eeee d MMMM yyyy  h:mm:ss a XXXXX",
+);
+const asHuman = formatRelative(inputAsDate, now);
+const asRelative = intlFormatDistance(inputAsDate, now);
+
+console.log(`
+  ${chalk.bgHex("#5281EB").white("Local timezone:")}
+  ${asLocalTime}
+  ${chalk.bgHex("#5281EB").white("In UTC:")}
+  ${asUtc}
+  ${chalk.bgHex("#5281EB").white("Human:")}
+  ${asHuman[0].toUpperCase()}${asHuman.slice(1)}
+  ${chalk.bgHex("#5281EB").white("Relative:")}
+  ${asRelative}`);

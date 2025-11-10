@@ -1,0 +1,20 @@
+{
+	"editor.accessibilityPageSize": 500,
+	"files.associations": {
+		"fzfb": "shellscript",
+		"gcof": "shellscript",
+		"gdall": "shellscript",
+		"gdf": "shellscript",
+		"gdff": "shellscript",
+		"getbitrate": "shellscript",
+		"getsong": "shellscript",
+		"ggb": "shellscript",
+		"mkbun": "shellscript",
+		"mksh": "shellscript",
+		"nato": "typescript",
+		"nicetime": "typescript",
+		"sc": "shellscript",
+		"try": "typescript",
+		"unifiedAddHistory": "shellscript"
+	}
+}

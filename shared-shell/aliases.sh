@@ -24,7 +24,6 @@ alias hcg='cd $CODE_DIR/hcg'
 alias hv='cd $CODE_DIR/henryverse'
 alias henryverse='cd $CODE_DIR/henryverse'
 
-
 # PNPM
 alias p="pnpm"
 alias pd='pnpm dev'
@@ -45,4 +44,5 @@ alias yd='yarn dev'
 alias yi='yarn install'
 alias ytd='yarn install;yarn dev'
 
-
+# Other
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"

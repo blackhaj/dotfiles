@@ -1,0 +1,9 @@
+#!/usr/bin/env bun
+// Description: Fresh directory for trying out new things
+// Like Tobi's try but I couldn't get that to work - https://github.com/tobi/try
+
+import { $ } from "bun";
+
+const tryDirectory = (await $`echo $WHOOPS`.text()).trim() || "~/code/try";
+
+console.log("Does this have the env var?", tryDirectory);
