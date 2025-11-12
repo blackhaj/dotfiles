@@ -1,5 +1,5 @@
 {
-	"editor.accessibilityPageSize": 500,
+	// File Associations
 	"files.associations": {
 		"fzfb": "shellscript",
 		"gcof": "shellscript",
@@ -14,7 +14,18 @@
 		"nato": "typescript",
 		"nicetime": "typescript",
 		"sc": "shellscript",
-		"try": "typescript",
+		"try": "typescriptreact",
 		"unifiedAddHistory": "shellscript"
+	},
+
+	// Biome Linting / Formatting
+	"editor.defaultFormatter": "biomejs.biome",
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.biome": "always",
+		"source.sortMembers": "explicit",
+		"source.addMissingImports.ts": "explicit",
+		"source.removeUnusedImports": "explicit",
+		"source.organizeImports.biome": "explicit"
 	}
 }

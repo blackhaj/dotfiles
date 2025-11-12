@@ -1,0 +1,83 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+	"root": true,
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"correctness": {
+				"noUnusedVariables": {
+					"level": "error",
+					"fix": "unsafe"
+				},
+				"noUnusedImports": {
+					"level": "error",
+					"fix": "unsafe"
+				}
+			},
+			"style": {
+				"noParameterAssign": "error",
+				"useAsConstAssertion": "error",
+				"useDefaultParameterLast": "error",
+				"useEnumInitializers": "error",
+				"useSelfClosingElements": "error",
+				"useSingleVarDeclarator": "error",
+				"noUnusedTemplateLiteral": "error",
+				"useNumberNamespace": "error",
+				"noInferrableTypes": "error",
+				"noUselessElse": "error",
+				"useImportType": {
+					"fix": "safe"
+				}
+			}
+		}
+	},
+	"formatter": {
+		"enabled": true,
+		"formatWithErrors": true,
+		"indentStyle": "tab"
+	},
+
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
+
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	},
+	"json": {
+		"formatter": {
+			"enabled": true,
+			"trailingCommas": "none"
+		},
+		"parser": {
+			"allowComments": true,
+			"allowTrailingCommas": true
+		},
+		"linter": {
+			"enabled": true
+		}
+	},
+	"overrides": [],
+	"files": {
+		"includes": [
+			"**",
+			"!**/.alchemy",
+			"!**/worker-configuration.d.ts",
+			"!**/routeTree.gen.ts",
+			"!**/node_modules",
+			"!**/migrations/meta/*",
+			"!**/generated",
+			"!**/.wrangler",
+			"!**/.tanstack",
+			"!**/.output",
+			"!**/.nitro"
+		]
+	}
+}
