@@ -1,9 +1,108 @@
 #!/usr/bin/env bun
+
 // Description: Fresh directory for trying out new things
 // Like Tobi's try but I couldn't get that to work - https://github.com/tobi/try
 
+import { readdir, stat } from "node:fs/promises";
+import os from "node:os";
+import { join } from "node:path";
+import { createCliRenderer } from "@opentui/core";
+import { createRoot } from "@opentui/react";
 import { $ } from "bun";
+import Fuse from "fuse.js";
+import { useCallback, useState } from "react";
 
-const tryDirectory = (await $`echo $WHOOPS`.text()).trim() || "~/code/try";
+async function listDirectories(dirPath) {
+	try {
+		// Read all entries in the directory
+		const entries = await readdir(dirPath);
+		// Filter directories
+		const directories: string[] = [];
+		for (const entry of entries) {
+			const fullPath = join(dirPath, entry);
+			const stats = await stat(fullPath);
+			if (stats.isDirectory()) {
+				directories.push(entry);
+			}
+		}
+		return directories;
+	} catch (err) {
+		console.error(`Error reading directory ${dirPath}:`, err);
+		return [];
+	}
+}
 
-console.log("Does this have the env var?", tryDirectory);
+const homeDirectory = os.homedir();
+const tryDirectory =
+	(await $`echo $TRY_DIR`.text()).trim() || `${homeDirectory}/code/try`;
+
+const directories = await listDirectories(tryDirectory);
+
+// Input - user types
+// List below is filtered with most likely to match selected
+// User can toggle up and down to select
+// Hitting enter cd's to the directory
+// Create new shown at the bottom
+//  - newly created appends date YYYY-MM-DD and the name in kebab case
+
+const options = directories.map((directory) => ({
+	name: directory,
+	value: directory,
+}));
+
+const fzf = new Fuse(options, {
+	keys: ["name"],
+});
+
+console.log(options);
+
+export const App = () => {
+	const [input, setInput] = useState<string>("");
+	const [submitted, setSubmitted] = useState<boolean>(false);
+	const handleInputChange = useCallback((value: string) => {
+		setInput(value);
+	}, []);
+	const handleSubmit = useCallback(() => {
+		setSubmitted(true);
+	}, []);
+	const filteredOptions = fzf.search(input);
+	console.log("filteredOptions", filteredOptions);
+
+	return (
+		<box style={{ paddingLeft: 1, paddingRight: 1 }}>
+			<text>Input:</text>
+
+			<box
+				title="Username"
+				style={{ border: true, width: 40, height: 3, marginTop: 1 }}
+			>
+				<input
+					placeholder="Enter your username..."
+					onInput={handleInputChange}
+					onSubmit={handleSubmit}
+					focused={true}
+					style={{ focusedBackgroundColor: "#000000" }}
+				/>
+			</box>
+			<text>{input}</text>
+			<text>{submitted ? "Submitted" : "Not submitted"}</text>
+			<box
+				style={{
+					height: 8,
+					marginBottom: 1,
+					border: true,
+				}}
+			>
+				<select
+					onChange={(_, option) => setFont(option?.value)}
+					showScrollIndicator
+					options={filteredOptions}
+					style={{ flexGrow: 1 }}
+				/>
+			</box>
+		</box>
+	);
+};
+
+const renderer = await createCliRenderer();
+createRoot(renderer).render(<App />);
