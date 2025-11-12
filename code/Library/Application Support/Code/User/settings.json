@@ -237,7 +237,7 @@
 	"terminal.integrated.defaultProfile.osx": "fish",
 	"terminal.integrated.enableMultiLinePasteWarning": "never",
 	"terminal.integrated.enableVisualBell": true,
-	"terminal.integrated.fontFamily": "MesloLGS Nerd Font",
+	"terminal.integrated.fontFamily": "MesloLGS Nerd Font, MesloLGS NF",
 	"terminal.integrated.profiles.osx": {
 		"fish": {
 			"path": "/opt/homebrew/bin/fish"

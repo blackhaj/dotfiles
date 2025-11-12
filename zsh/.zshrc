@@ -113,6 +113,7 @@ export LANG=en_GB.UTF-8
 source "$HOME/dotfiles/shared-shell/aliases.sh"
 source "$HOME/dotfiles/shared-shell/vars.sh"
 source "$HOME/dotfiles/shared-shell/work-aliases.sh"
+source "$HOME/dotfiles/shared-shell/env.sh"
 
 export PATH="$PATH:/Users/henryblack/.local/bin"
 

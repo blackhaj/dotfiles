@@ -7,7 +7,7 @@ Example:
 Running this will create symlinks in your home directory for the files in the `git` directory.
 
 ```bash
-stow zsh
+stow git
 ```
 
 Prerequisites:
@@ -17,7 +17,7 @@ Prerequisites:
 
 ## Annoyances
 
-- Because I want to use the same settings.json and keybindings.json in both Cursor and Code, I have to have to manually add a symlink in the Cursor settings directory from the Code settings directory (Code is the source of truth).
+- Because I want to use the same settings.json and keybindings.json in both Cursor and Code, I have to have to manually add a symlink in the Cursor settings directory from the Code settings directory (Code is the source of truth). TODO: this seems broken but works on my mac mini.
 
 ```bash
 ln -sf ~/dotfiles/code/Library/Application\ Support/Code/User/keybindings.json ~/dotfiles/cursor/Library/Application\ Support/Cursor/User/keybindings.json
