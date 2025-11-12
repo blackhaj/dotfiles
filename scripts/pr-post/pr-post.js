@@ -7,7 +7,7 @@ const getLinearUrls = (comments) =>
 			?.flatMap(
 				(comment) =>
 					comment.body.match(
-						/https:\/\/(linear\.app)([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/g,
+						/https:\/\/(linear\.app)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/g,
 					) ?? [],
 			) ?? [],
 	);
@@ -15,7 +15,7 @@ const getLinearUrls = (comments) =>
 const getLoomUrls = (body) =>
 	removeDuplicates(
 		body.match(
-			/https:\/\/(www\.loom\.com)([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/g,
+			/https:\/\/(www\.loom\.com)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])/g,
 		) ?? [],
 	);
 
