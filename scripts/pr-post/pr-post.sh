@@ -5,17 +5,7 @@
 # - gh needs to be installed
 # - pr-post.js needs to be next to this script
 
-# Fuzzy find git branch. Mostly stolen from: https://polothy.github.io/post/2019-08-19-fzf-git-checkout/
-fzf-git-branch() {
-    git rev-parse HEAD > /dev/null 2>&1 || return
-
-    git branch --color=always --sort=-committerdate |
-        grep -v HEAD |
-        fzf --height 50% --ansi --no-multi |
-        sed "s/.* //"
-}
-
-branch=$(fzf-git-branch)
+branch=$(fzfb)
 
 if [[ "$branch" = "" ]]; then
     echo "No branches available. Run command from a valid github repo"

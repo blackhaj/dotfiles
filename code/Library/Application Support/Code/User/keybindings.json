@@ -133,11 +133,6 @@
 	},
 	{
 		"key": "shift+cmd+l",
-		"command": "-addCursorsAtSearchResults",
-		"when": "fileMatchOrMatchFocus && searchViewletVisible"
-	},
-	{
-		"key": "shift+cmd+l",
-		"command": "-aichat.insertselectionintochat"
+		"command": "-composer.newAgentChat"
 	}
 ]

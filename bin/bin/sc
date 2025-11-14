@@ -3,7 +3,10 @@
 
 set -e # Exit on error
 
-if [[ -f pnpm-lock.json ]]; then
+# TODO - need to handle monorepos where the lockfile is in the root
+if [[ -f pnpm-lock.yaml ]]; then
+  packageManager="pnpm"
+elif [[ -f pnpm-lock.json ]]; then
   packageManager="pnpm"
 elif [[ -f package-lock.json ]]; then
   packageManager="npm"

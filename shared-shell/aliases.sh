@@ -13,7 +13,7 @@ alias gpf="git push --force-with-lease"
 alias grc='git rebase --continue'
 alias gs='git status'
 alias gstr="git stash -u && git rebase main && git stash pop"
-alias prm='$HOME/scripts/pr-post/pr-post.sh'
+alias prm='$DOTFILES_DIR/scripts/pr-post/pr-post.sh'
 
 #Navigation
 alias cod='cd $CODE_DIR'

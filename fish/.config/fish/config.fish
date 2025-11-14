@@ -1,5 +1,5 @@
+source "$HOME/dotfiles/shared-shell/vars.sh" # need to be before other imports as e.g. aliases uses the vars
 source "$HOME/dotfiles/shared-shell/aliases.sh"
-source "$HOME/dotfiles/shared-shell/vars.sh"
 source "$HOME/dotfiles/shared-shell/work-aliases.sh"
 source "$HOME/dotfiles/shared-shell/env.sh"
 # Add my bin scripts to the PATH
