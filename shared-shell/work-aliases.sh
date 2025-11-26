@@ -7,6 +7,6 @@ alias omono="code -r ~/maze/maze-monorepo"
 alias omod="code -r ~/maze/maze-monorepo/services/service-moderated-testing"
 alias web="cd ~/maze/maze-monorepo/apps/maze-webapp"
 alias tu="tilt up"
-alias pipe="cd ~/maze/maze-monorepo/services/pipecat-ai-moderator"
+alias bot="cd ~/maze/maze-monorepo/services/pipecat-ai-moderator"
 
 alias pb="pnpm bootstrap"
