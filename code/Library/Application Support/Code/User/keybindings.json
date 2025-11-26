@@ -30,11 +30,6 @@
 		"key": "cmd+e"
 	},
 	{
-		"command": "workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup",
-		"key": "cmd+e",
-		"when": "!activeEditorGroupEmpty"
-	},
-	{
 		"command": "-workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup",
 		"key": "ctrl+tab",
 		"when": "!activeEditorGroupEmpty"
@@ -134,5 +129,31 @@
 	{
 		"key": "shift+cmd+l",
 		"command": "-composer.newAgentChat"
+	},
+	{
+		"key": "cmd+e",
+		"command": "-cursor.toggleAgentWindowIDEUnification",
+		"when": "cursor.agentIdeUnification.featureGate && workbenchState != 'empty'"
+	},
+	{
+		"key": "cmd+e",
+		"command": "-editor.action.toggleScreenReaderAccessibilityMode",
+		"when": "accessibilityHelpIsShown"
+	},
+	{
+		"key": "cmd+e",
+		"command": "workbench.action.nextEditorInGroup"
+	},
+	{
+		"key": "cmd+r alt+cmd+right",
+		"command": "-workbench.action.nextEditorInGroup"
+	},
+	{
+		"key": "shift+cmd+e",
+		"command": "workbench.action.previousEditorInGroup"
+	},
+	{
+		"key": "cmd+r alt+cmd+left",
+		"command": "-workbench.action.previousEditorInGroup"
 	}
 ]
