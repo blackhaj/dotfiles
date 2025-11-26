@@ -3,5 +3,5 @@
 		"type": "command",
 		"command": "npx -y @owloops/claude-powerline@latest --style=tokyo-night"
 	},
-	"preferredNotifChannel": "terminal_bell"
+	"model": "opus"
 }
