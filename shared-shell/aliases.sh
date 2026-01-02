@@ -9,6 +9,7 @@ alias code="cursor"
 # Git
 alias gco='git checkout'
 alias gcob='gco -b'
+alias gb='git branch'
 alias gpf="git push --force-with-lease"
 alias grc='git rebase --continue'
 alias gs='git status'
