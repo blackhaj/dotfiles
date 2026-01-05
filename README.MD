@@ -2,12 +2,22 @@
 
 Uses stow to manage the dotfiles.
 
-Example:
+## How to setup doc files from apps in this repo
 
 Running this will create symlinks in your home directory for the files in the `git` directory.
 
 ```bash
 stow git
+```
+
+## How to add any dotfile to this repo
+
+To add any dotfile to this repo (replace paths as needed):
+
+```bash
+mkdir -p <package>/<path/from/home>
+mv ~/<path/from/home>/<file> <package>/<path/from/home>/<file>
+stow <package>
 ```
 
 Prerequisites:
