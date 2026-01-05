@@ -1,7 +1,9 @@
 {
-	"statusLine": {
-		"type": "command",
-		"command": "npx -y @owloops/claude-powerline@latest --style=tokyo-night"
-	},
-	"model": "opus"
+  "includeCoAuthoredBy": false,
+  "model": "opus",
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y @owloops/claude-powerline@latest --style=tokyo-night"
+  },
+  "alwaysThinkingEnabled": true
 }
