@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Description: Kills all processes on Maze ports
+
+
+set -e # Exit on error
+set -o pipefail # Exit on pipe error
+
+PORTS=(3005 8000 8001 8080 3014 7860 16233)
+for PORT in "${PORTS[@]}"; do
+  PIDS=$(lsof -ti tcp:"$PORT" || true)
+  if [ -n "$PIDS" ]; then
+    echo "Killing processes on port $PORT: $PIDS"
+    kill -9 $PIDS
+  else
+    echo "No process running on port $PORT"
+  fi
+done
+
+echo "Done"

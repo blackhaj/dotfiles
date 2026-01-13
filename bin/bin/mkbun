@@ -24,7 +24,7 @@ fi
 # Create the new script
 # shellcheck disable=SC2016
 echo '#!/usr/bin/env bun
-# Description: <ADD>
+// Description: <ADD>
 
 console.log("Hello, world!")
 ' >"$SCRIPT_PATH"

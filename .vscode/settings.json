@@ -9,13 +9,17 @@
 		"getbitrate": "shellscript",
 		"getsong": "shellscript",
 		"ggb": "shellscript",
+		"kill-maze": "shellscript",
 		"mkbun": "shellscript",
 		"mksh": "shellscript",
 		"nato": "typescript",
 		"nicetime": "typescript",
+		"newId": "typescript",
+		"prs": "typescript",
 		"sc": "shellscript",
 		"try": "typescriptreact",
-		"unifiedAddHistory": "shellscript"
+		"unifiedAddHistory": "shellscript",
+		"work": "shellscript"
 	},
 
 	// Biome Linting / Formatting

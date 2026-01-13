@@ -1,0 +1,232 @@
+#!/usr/bin/env bun
+/**
+ * prs.ts
+ *
+ * Default: list closed PRs since the most recent Monday (inclusive).
+ *
+ * Time flags (use only one at a time):
+ *   -w <number>  1 = last Monday, 2 = two Mondays ago, ...
+ *   -m <number>  1 = first of current month, 2 = first of last month, ...
+ *   -y <number>  1 = Jan 1 of this year, 2 = Jan 1 of last year, ...
+ *
+ * Other flags:
+ *   -c, --count          Output only the total count of matching PRs (not paginated)
+ *   --repo <owner/name>  Optional. If omitted, tries to infer from git remote origin (for count mode)
+ */
+
+type Mode = "default" | "w" | "m" | "y";
+
+function usage(exitCode = 0) {
+	console.log(
+		`
+Usage:
+  prs
+  prs -w <n>
+  prs -m <n>
+  prs -y <n>
+  prs [time-flag] --count
+  prs [time-flag] --count --repo owner/name
+
+Examples:
+  prs
+  prs -c
+  prs -w 2 --count
+  prs -y 2 --count --repo mazedesignhq/maze-monorepo
+`.trim(),
+	);
+	process.exit(exitCode);
+}
+
+function parsePositiveInt(value: string | undefined, flag: string): number {
+	if (!value) {
+		console.error(`Missing value for ${flag}`);
+		usage(1);
+	}
+	const n = Number(value);
+	if (!Number.isInteger(n) || n <= 0) {
+		console.error(
+			`Invalid value for ${flag}: ${value}. Expected a positive integer.`,
+		);
+		usage(1);
+	}
+	return n;
+}
+
+function startOfDay(d: Date): Date {
+	return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+function formatYYYYMMDD(d: Date): string {
+	const y = d.getFullYear();
+	const m = String(d.getMonth() + 1).padStart(2, "0");
+	const day = String(d.getDate()).padStart(2, "0");
+	return `${y}-${m}-${day}`;
+}
+
+/**
+ * Most recent Monday (inclusive). If today is Monday, returns today.
+ * JS getDay(): 0=Sun,1=Mon,...6=Sat
+ */
+function mostRecentMonday(today = new Date()): Date {
+	const t = startOfDay(today);
+	const dow = t.getDay();
+	const diff = (dow + 6) % 7; // Mon->0, Tue->1, ... Sun->6
+	return new Date(t.getFullYear(), t.getMonth(), t.getDate() - diff);
+}
+
+function computeStartDate(mode: Mode, n?: number): Date {
+	const today = new Date();
+
+	if (mode === "default") return mostRecentMonday(today);
+
+	if (mode === "w") {
+		const base = mostRecentMonday(today);
+		return new Date(
+			base.getFullYear(),
+			base.getMonth(),
+			base.getDate() - (n! - 1) * 7,
+		);
+	}
+
+	if (mode === "m") {
+		const year = today.getFullYear();
+		const monthIndex = today.getMonth() - (n! - 1);
+		return new Date(year, monthIndex, 1);
+	}
+
+	// mode === "y"
+	const year = today.getFullYear() - (n! - 1);
+	return new Date(year, 0, 1);
+}
+
+function getFlagValue(args: string[], flag: string): string | undefined {
+	const i = args.indexOf(flag);
+	if (i === -1) return undefined;
+	return args[i + 1];
+}
+
+function run(
+	cmd: string[],
+	opts: { pipeStdout?: boolean; silentStderr?: boolean } = {},
+) {
+	const proc = Bun.spawnSync(cmd, {
+		stdout: opts.pipeStdout ? "pipe" : "inherit",
+		stderr: opts.silentStderr ? "ignore" : "inherit",
+	});
+	return proc;
+}
+
+function inferRepoFromGitRemote(): string | undefined {
+	const proc = run(["git", "remote", "get-url", "origin"], {
+		pipeStdout: true,
+		silentStderr: true,
+	});
+	if (proc.exitCode !== 0) return undefined;
+
+	const raw = new TextDecoder().decode(proc.stdout).trim();
+
+	const ssh = raw.match(/^git@github\.com:([^/]+)\/(.+?)(\.git)?$/);
+	if (ssh) return `${ssh[1]}/${ssh[2]}`;
+
+	const https = raw.match(/^https:\/\/github\.com\/([^/]+)\/(.+?)(\.git)?$/);
+	if (https) return `${https[1]}/${https[2]}`;
+
+	return undefined;
+}
+
+function main() {
+	const args = process.argv.slice(2);
+
+	if (args.includes("-h") || args.includes("--help")) usage(0);
+
+	const countOnly = args.includes("-c") || args.includes("--count");
+
+	const repoArg = getFlagValue(args, "--repo");
+	const repo = repoArg ?? (countOnly ? inferRepoFromGitRemote() : undefined);
+
+	let mode: Mode = "default";
+	let n: number | undefined;
+
+	const timeFlags = ["-w", "-m", "-y"] as const;
+	const usedTimeFlags = timeFlags.filter((f) => args.includes(f));
+
+	if (usedTimeFlags.length > 1) {
+		console.error(
+			`Use only one of -w, -m, -y at a time. You used: ${usedTimeFlags.join(", ")}`,
+		);
+		usage(1);
+	}
+
+	if (usedTimeFlags.length === 1) {
+		const f = usedTimeFlags[0];
+		const idx = args.indexOf(f);
+		const value = args[idx + 1];
+
+		if (f === "-w") {
+			mode = "w";
+			n = parsePositiveInt(value, "-w");
+		} else if (f === "-m") {
+			mode = "m";
+			n = parsePositiveInt(value, "-m");
+		} else if (f === "-y") {
+			mode = "y";
+			n = parsePositiveInt(value, "-y");
+		}
+	}
+
+	const start = computeStartDate(mode, n);
+	const startStr = formatYYYYMMDD(start);
+
+	// LIST MODE: keep using gh pr list
+	if (!countOnly) {
+		const cmd = [
+			"gh",
+			"pr",
+			"list",
+			"--author",
+			"@me",
+			"--state",
+			"closed",
+			"--search",
+			`closed:>=${startStr}`,
+		];
+		if (repoArg) cmd.push("--repo", repoArg);
+		const proc = run(cmd);
+		process.exit(proc.exitCode ?? 0);
+	}
+
+	// COUNT MODE: use GraphQL search.issueCount (not paginated)
+	// Build a GitHub search query string
+	// Note: use "is:pr is:closed" + closed:>=YYYY-MM-DD + author:@me + optional repo:
+	const qualifiers = [
+		"is:pr",
+		"is:closed",
+		`closed:>=${startStr}`,
+		"author:@me",
+	];
+	if (repo) qualifiers.push(`repo:${repo}`);
+	const q = qualifiers.join(" ");
+
+	const gql = `
+    query($q: String!) {
+      search(type: ISSUE, query: $q) {
+        issueCount
+      }
+    }
+  `.trim();
+
+	const proc = run(
+		["gh", "api", "graphql", "-f", `query=${gql}`, "-f", `q=${q}`],
+		{ pipeStdout: true },
+	);
+
+	if (proc.exitCode !== 0) process.exit(proc.exitCode ?? 1);
+
+	const out = new TextDecoder().decode(proc.stdout).trim();
+	const data = out ? JSON.parse(out) : null;
+
+	const count = Number(data?.data?.search?.issueCount ?? 0);
+	console.log(count);
+}
+
+main();

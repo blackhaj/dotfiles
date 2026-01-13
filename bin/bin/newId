@@ -1,0 +1,54 @@
+#!/usr/bin/env bun
+import chalk from "chalk";
+import clipboardy from "clipboardy";
+import meow from "meow";
+// Description: Generates a new unique id newId
+import { customAlphabet } from "nanoid";
+
+// Heavily inspired by https://www.unkey.com/blog/uuid-ux
+
+const nanoid = customAlphabet(
+	// Base 58 allows for a lot of characters, so we only need 16 chars to have the entropy of a v4 UUID
+	"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz",
+);
+
+const cli = meow(
+	`
+	Usage
+	  $ newId [options]
+
+	Options
+	  -l, --length  Length of the id (default: 16)
+	  -p, --prefix  Prefix to use
+`,
+	{
+		importMeta: import.meta,
+		flags: {
+			length: {
+				type: "number",
+				shortFlag: "l",
+				default: 16,
+			},
+			prefix: {
+				type: "string",
+				shortFlag: "p",
+			},
+		},
+	},
+);
+
+const length =
+	Number.isFinite(cli.flags.length) && cli.flags.length > 0
+		? cli.flags.length
+		: 16;
+const prefix = cli.flags.prefix;
+const id = nanoid(length);
+const output = prefix ? `${prefix}_${id}` : id;
+
+const whiteWithBlueBg = chalk.white.bgHex("#5281EB");
+
+console.log(whiteWithBlueBg(output));
+clipboardy.writeSync(output);
+console.log("Copied to clipboard");
+
+process.exit(0);
