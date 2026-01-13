@@ -24,6 +24,7 @@ alias rfp='cd $CODE_DIR/rfp'
 alias hcg='cd $CODE_DIR/hcg'
 alias hv='cd $CODE_DIR/henryverse'
 alias henryverse='cd $CODE_DIR/henryverse'
+alias yard='cd $CODE_DIR/yard'
 
 # PNPM
 alias p="pnpm"

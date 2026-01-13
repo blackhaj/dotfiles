@@ -3,3 +3,8 @@ font-size = 14
 font-feature = "-liga"
 theme = "Dracula"
 # quit-after-last-window-closed = true
+
+# Deletes word backwards
+keybind = option+backspace=text:\x17
+# Split window to right
+keybind = cmd+\=new_split:right

@@ -276,7 +276,8 @@
 	"cursor.composer.queueMessageDefaultBehavior": "stop-and-send",
 	"cursor.composer.usageSummaryDisplay": "always",
 	"cursorpyright.analysis.autoImportCompletions": true,
-	"explorer.fileNesting.enabled": true,
+	"typescript.tsserver.maxTsServerMemory": 4000,
+	"explorer.fileNesting.enabled": false,
 	"[prisma]": {
 		"editor.defaultFormatter": "Prisma.prisma"
 	},
