@@ -2,4 +2,4 @@ font-family = "MesloLGM Nerd Font Mono"
 font-size = 14
 font-feature = "-liga"
 theme = "Dracula"
-quit-after-last-window-closed = true
+# quit-after-last-window-closed = true
