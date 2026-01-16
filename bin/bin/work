@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+# Description: Takes a ticket id and completes the task
+
+
+set -e # Exit on error
+set -u # Exit on undefined variable
+set -o pipefail # Exit on pipe error
+
+if [ -z "$1" ]; then
+  echo "Usage: work <ticket-id>"
+  exit 1
+fi
+
+ticket_id="$1"
+
+codex --full-auto "
+STEP 1:
+Using the Linear MCP, get the context of the ticket with the id ${ticket_id}
+
+When STEP 1 is complete, immediately continue to STEP 2 without waiting for me.
+
+STEP 2:
+You need to create a plan for completing the ticket:
+
+Please do the following:
+  - digest the contents of the ticket
+  - understand exactly what needs to be done
+  - Check the existing codebase for any relevant code
+  - Check for any existing patterns that you can reuse
+  - Define any tests that you need to write 
+  - Make a comprehensive yet concise plan that you can follow step by step
+  - Return the plan in a markdown format.
+
+If at any point you need input from me, ask questions and WAIT for my response before continuing.
+
+When STEP 2 is complete, immediately continue to STEP 3 without waiting for me.
+
+STEP 3:
+If no worktree has been created for this ticket, create one:
+  - Branch name: <task_id>-short-slug (kebab-case, include task id)
+  - REQUIRED: ensure your are on main branch before creating the worktree
+  - REQUIRED: use the pnpm create-worktree command to create the worktree
+
+Navigate to the worktree and start the development process.
+
+When STEP 3 is complete, immediately continue to STEP 4 without waiting for me.
+
+STEP 4:
+
+Now start the development process and complete the plan.
+
+When you are done, run the following checks to ensure the ticket is complete:
+- Run pnpm lint:fix (you can filter it to the packages you have changed using pnpms filter command --filter=<package-name>)
+- Run pnpm type-check (you can filter it to the packages you have changed using pnpms filter command --filter=<package-name>)
+- Run any relevant tests for that package (if you experience issues running tests, skip this step)
+
+Fix and repeat the checks until the ticket is complete.
+
+When STEP 4 is complete, immediately continue to STEP 5 without waiting for me.
+
+STEP 5:
+Analyse the changes you made. Could you make any improvements? What could be done to make it more readable, maintainable, or efficient?
+
+Make these changes but don't go crazy changing everything.
+
+Check the code still acheieves the ticket's goals and passes all the checks.
+
+When STEP 5 is complete, immediately continue to STEP 6 without waiting for me.
+
+STEP 6:
+Perform a full code review of the changes you made. No nitpicks, just ensuring the code is quality.
+
+Implement any changes and ensure the code still passes all the checks.
+
+When STEP 6 is complete, immediately continue to STEP 7 without waiting for me.
+
+STEP 7:
+Commit the changes to the branch.
+
+Use conventional commit messages for the commit e.g.:
+
+feat(package-name): add new feature
+fix(package-name): fix bug
+refactor(package-name): refactor code
+test(package-name): add tests
+docs(package-name): add documentation
+chore(package-name): other changes
+
+Create a pull request for the changes you made. Make sure to follow the PR template found /Users/henryblack/maze/maze-monorepo/.github/pull_request_template.md
+
+For the description and testing steps, be very concise but information heavy. Provide context but don't be verbose. No walls of text.
+
+When STEP 7 is complete, immediately continue to STEP 8 without waiting for me.
+
+Delete the worktree but not the branch. Ping me to review the PR.
+"
