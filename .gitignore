@@ -32,9 +32,11 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # Finder (MacOS) folder config
 .DS_Store
+**/*.DS_Store
 
 # No need to track usage logs
 bin/bin/usage.txt
 
 # Environment variables
 shared-shell/env.sh
+
