@@ -26,8 +26,10 @@ worktree-path = "../{{ repo }}-worktrees/{{ branch | sanitize }}"
 # Install: pip install llm llm-anthropic
 command = "codex"
 args = [
+  "exec",
   "-p",
   "commit-message",
+  "-"
 ]
 template = """
 <instructions>
@@ -82,31 +84,32 @@ Just the commit message for the changes. No other text.
 
 [projects."github.com/mazedesignhq/maze-monorepo"]
 approved-commands = [
-  "./scripts/copy-env-to-worktree.sh {{ worktree_path }}",
-  "mise trust {{ worktree_path }}",
-  'ghostty --working-directory {{ worktree_path }} --command "codex"',
-  "{{ main_worktree_path }}/copy-env-to-worktree.sh {{ worktree_path }}",
-  "echo {{ main_worktree_path }}/copy-env-to-worktree.sh {{ worktree_path }} && {{ main_worktree_path }}/copy-env-to-worktree.sh {{ worktree_path }}",
-  "/Users/henryblack/maze/maze-monorepo/scripts/copy-env-to-worktree.sh {{ worktree_path }}",
-  "codex {{ worktree_path }}",
-  "echo {{ worktree_path }} | /Users/henryblack/Desktop/test.txt",
-  "pwd | /Users/henryblack/Desktop/test2.txt",
-  "code {{ worktree_path }}",
-  "echo {{ worktree_path }} > /Users/henryblack/Desktop/test.txt",
-  "pwd > /Users/henryblack/Desktop/test2.txt",
-  "cursor {{ worktree_path }}",
-  "bash ./scripts/copy-env-to-worktree.sh {{ worktree_path }}",
-  "bash {{ main_worktree_path }}/scripts/copy-env-to-worktree.sh {{ worktree_path }}",
-  "cd {{ main_worktree_path }} && bash ./scripts/copy-env-to-worktree.sh {{ worktree_path }}",
-  "{ echo 'Main: {{ main_worktree_path }}'; echo 'Worktree: {{ worktree_path }}'; ls -la {{ main_worktree_path }}/scripts/copy-env-to-worktree.sh; } > /Users/henryblack/Desktop/test.txt 2>&1",
-  "bash {{ main_worktree_path }}/scripts/copy-env-to-worktree.sh {{ worktree_path }} {{ main_worktree_path }} >> /Users/henryblack/Desktop/test.txt 2>&1",
-  """MAIN_WORKTREE=$(git worktree list --porcelain | grep -A2 'branch refs/heads/{{ default_branch }}' | grep '^worktree' | cut -d' ' -f2) && bash "$MAIN_WORKTREE/scripts/copy-env-to-worktree.sh" {{ worktree_path }} "$MAIN_WORKTREE"""",
-  "bash /Users/henryblack/maze/maze-monorepo/scripts/copy-env-to-worktree.sh {{ worktree_path }}",
-  "{ echo 'PWD:'; pwd; echo 'Git root:'; git rev-parse --show-toplevel; echo 'Worktree path: {{ worktree_path }}'; } > /Users/henryblack/Desktop/test.txt 2>&1",
-  "bash /Users/henryblack/maze/maze-monorepo/scripts/copy-env-to-worktree.sh {{ worktree_path }} > /Users/henryblack/Desktop/test.txt 2>&1",
-  "bash -lc 'cd {{ base_worktree_path }} && ./scripts/copy-env-to-worktree.sh {{ worktree_path }}'",
-  """bash -lc 'cd "{{ main_worktree_path }}" && ./scripts/copy-env-to-worktree.sh "{{ worktree_path }}"'""",
-  """bash -lc 'main="$(git rev-parse --git-common-dir)/.."; main="$(cd "$main" && pwd)"; cd "$main" && ./scripts/copy-env-to-worktree.sh "{{ worktree_path }}"'""",
+    "./scripts/copy-env-to-worktree.sh {{ worktree_path }}",
+    "mise trust {{ worktree_path }}",
+    'ghostty --working-directory {{ worktree_path }} --command "codex"',
+    "{{ main_worktree_path }}/copy-env-to-worktree.sh {{ worktree_path }}",
+    "echo {{ main_worktree_path }}/copy-env-to-worktree.sh {{ worktree_path }} && {{ main_worktree_path }}/copy-env-to-worktree.sh {{ worktree_path }}",
+    "/Users/henryblack/maze/maze-monorepo/scripts/copy-env-to-worktree.sh {{ worktree_path }}",
+    "codex {{ worktree_path }}",
+    "echo {{ worktree_path }} | /Users/henryblack/Desktop/test.txt",
+    "pwd | /Users/henryblack/Desktop/test2.txt",
+    "code {{ worktree_path }}",
+    "echo {{ worktree_path }} > /Users/henryblack/Desktop/test.txt",
+    "pwd > /Users/henryblack/Desktop/test2.txt",
+    "cursor {{ worktree_path }}",
+    "bash ./scripts/copy-env-to-worktree.sh {{ worktree_path }}",
+    "bash {{ main_worktree_path }}/scripts/copy-env-to-worktree.sh {{ worktree_path }}",
+    "cd {{ main_worktree_path }} && bash ./scripts/copy-env-to-worktree.sh {{ worktree_path }}",
+    "{ echo 'Main: {{ main_worktree_path }}'; echo 'Worktree: {{ worktree_path }}'; ls -la {{ main_worktree_path }}/scripts/copy-env-to-worktree.sh; } > /Users/henryblack/Desktop/test.txt 2>&1",
+    "bash {{ main_worktree_path }}/scripts/copy-env-to-worktree.sh {{ worktree_path }} {{ main_worktree_path }} >> /Users/henryblack/Desktop/test.txt 2>&1",
+    """MAIN_WORKTREE=$(git worktree list --porcelain | grep -A2 'branch refs/heads/{{ default_branch }}' | grep '^worktree' | cut -d' ' -f2) && bash "$MAIN_WORKTREE/scripts/copy-env-to-worktree.sh" {{ worktree_path }} "$MAIN_WORKTREE"""",
+    "bash /Users/henryblack/maze/maze-monorepo/scripts/copy-env-to-worktree.sh {{ worktree_path }}",
+    "{ echo 'PWD:'; pwd; echo 'Git root:'; git rev-parse --show-toplevel; echo 'Worktree path: {{ worktree_path }}'; } > /Users/henryblack/Desktop/test.txt 2>&1",
+    "bash /Users/henryblack/maze/maze-monorepo/scripts/copy-env-to-worktree.sh {{ worktree_path }} > /Users/henryblack/Desktop/test.txt 2>&1",
+    "bash -lc 'cd {{ base_worktree_path }} && ./scripts/copy-env-to-worktree.sh {{ worktree_path }}'",
+    """bash -lc 'cd "{{ main_worktree_path }}" && ./scripts/copy-env-to-worktree.sh "{{ worktree_path }}"'""",
+    """bash -lc 'main="$(git rev-parse --git-common-dir)/.."; main="$(cd "$main" && pwd)"; cd "$main" && ./scripts/copy-env-to-worktree.sh "{{ worktree_path }}"'""",
+    """bash -lc 'main="$(git rev-parse --git-common-dir)/.."; main="$(cd "$main" && pwd)"; cd "$main" && ./scripts/copy-env-to-worktree.sh'""",
 ]
 
 # Alternative: Inside repo (useful for bare repos)
