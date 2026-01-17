@@ -47,4 +47,3 @@ alias yi='yarn install'
 alias ytd='yarn install;yarn dev'
 
 # Other
-alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
