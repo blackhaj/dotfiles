@@ -1,10 +1,10 @@
 # Henry Black's Dotfiles
 
-Uses stow to manage the dotfiles.
+My dotfiles (and other things) repo.
 
 ## How to setup doc files from apps in this repo
 
-Running this will create symlinks in your home directory for the files in the `git` directory.
+I use stow to manage the dotfiles. Running the below command will create symlinks in your home directory for the files in the `git` directory.
 
 ```bash
 stow git
@@ -24,6 +24,16 @@ Prerequisites:
 
 - Need to install stow: `brew install stow`
 - Need this dotfiles repo to be in the home directory e.g. `~/dotfiles` as stow assumes 1) that you call stow from this repo and 2) that the dotfiles repo is in the home directory (as it creates the symlinks in the ../ directory).
+
+## Skills
+
+I store my agent's skills in the `skills/` directory. It includes skills I built (for example `read-it-later`) plus skills installed from other sources (for example [pi-skills](https://github.com/badlogic/pi-skills/)).
+
+### Install using the skills CLI from skills.sh
+
+```bash
+npx skills add https://github.com/blackhaj/dotfiles --skill read-it-later
+```
 
 ## Annoyances
 
