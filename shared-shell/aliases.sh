@@ -27,11 +27,12 @@ alias hcg='cd $CODE_DIR/hcg'
 alias hv='cd $CODE_DIR/henryverse'
 alias henryverse='cd $CODE_DIR/henryverse'
 alias yard='cd $CODE_DIR/yard'
+alias yardo='cursor $CODE_DIR/yard'
 
 # PNPM
 alias p="pnpm"
 alias pd='pnpm dev'
-alias pi='pnpm install'
+# alias pi='pnpm install'
 alias px="pnpm exec"
 
 # Bun

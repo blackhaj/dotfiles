@@ -5,11 +5,9 @@
 model = "gpt-5.2-codex"
 model_reasoning_effort = "high"   # minimal|low|medium|high|none
 model_verbosity = "medium"          # low|medium|high
-
 # Approval policy
 approval_policy = "on-request"       # untrusted|on-failure|on-request|never
 sandbox_mode   = "workspace-write"   # read-only|workspace-write|danger-full-access
-
 # Optional privacy & UX
 disable_response_storage = true     # zero-data-retention mode
 file_opener = "cursor"              # vscode|vscode-insiders|windsurf|cursor|none
@@ -29,11 +27,18 @@ network_access = true
 notifications = true
 scrollmode = "trackpad"
 
-[mcp_servers.linear]
-url = "https://mcp.linear.app/mcp"
+# [mcp_servers.linear]
+# url = "https://mcp.linear.app/mcp"
 
-[mcp_servers.datadog]
-url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
+# [mcp_servers.datadog]
+# url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
+
+# [mcp_servers.playwriter]
+# command = "npx"
+# args = ["-y", "playwriter@latest"]
+
+# [mcp_servers.fal]
+# url = "https://docs.fal.ai/mcp"
 
 [projects."/Users/henryblack/maze/maze-monorepo"]
 trust_level = "trusted"
@@ -44,6 +49,15 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/Users/henryblack/code/work"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/code/bin/better-t-cloudflare"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/code/yard"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/code/hub"]
 trust_level = "trusted"
 
 [profiles.commit-message]
