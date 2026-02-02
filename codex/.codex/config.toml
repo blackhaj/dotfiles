@@ -9,11 +9,10 @@ model_verbosity = "medium"          # low|medium|high
 approval_policy = "on-request"       # untrusted|on-failure|on-request|never
 sandbox_mode   = "workspace-write"   # read-only|workspace-write|danger-full-access
 # Optional privacy & UX
-disable_response_storage = true     # zero-data-retention mode
 file_opener = "cursor"              # vscode|vscode-insiders|windsurf|cursor|none
+web_search = "live"
 
 [features]
-web_search_request = true
 shell_snapshot = true
 undo = true
 
