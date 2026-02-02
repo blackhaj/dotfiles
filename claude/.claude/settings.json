@@ -19,7 +19,7 @@
 				"hooks": [
 					{
 						"type": "command",
-						"command": "afplay -v 5 /System/Library/Sounds/Hero.aiff"
+						"command": "afplay -v 3 /System/Library/Sounds/Hero.aiff"
 					}
 				]
 			}
