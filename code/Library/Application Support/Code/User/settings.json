@@ -287,5 +287,11 @@
 	"gitlens.plusFeatures.enabled": false,
 	"gitlens.virtualRepositories.enabled": false,
 	"gitlens.codeLens.enabled": false,
-	"scm.defaultViewMode": "tree"
+	"scm.defaultViewMode": "tree",
+  "search.useIgnoreFiles": false,
+  "search.exclude": {
+    "**/.build/*": true,
+    "**/.next/*": true,
+    "**/dist/*": true
+  }
 }
