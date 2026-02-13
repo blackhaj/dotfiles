@@ -293,5 +293,6 @@
     "**/.build/*": true,
     "**/.next/*": true,
     "**/dist/*": true
-  }
+  },
+  "terminal.integrated.initialHint": false
 }
