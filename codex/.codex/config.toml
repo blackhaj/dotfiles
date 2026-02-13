@@ -2,7 +2,7 @@
 # Core
 
 # Model
-model = "gpt-5.2-codex"
+model = "gpt-5.3-codex"
 model_reasoning_effort = "high"   # minimal|low|medium|high|none
 model_verbosity = "medium"          # low|medium|high
 # Approval policy
@@ -11,6 +11,7 @@ sandbox_mode   = "workspace-write"   # read-only|workspace-write|danger-full-acc
 # Optional privacy & UX
 file_opener = "cursor"              # vscode|vscode-insiders|windsurf|cursor|none
 web_search = "live"
+personality = "pragmatic"
 
 [features]
 shell_snapshot = true
