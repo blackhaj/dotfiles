@@ -4,9 +4,9 @@ alias tree='eza --group-directories-first --icons -x --hyperlink -I node_modules
 alias cat='bat'
 alias nid="bunx nanoid --alphabet 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwx
 yz0123456789' --size"
-alias code="cursor"
 # Ignore .DS_Store files when using stow
 alias stow='stow --ignore=\\.DS_Store\$'
+alias cc="IS_SANDBOX=1 claude --dangerously-skip-permissions"
 
 # Git
 alias gco='git checkout'

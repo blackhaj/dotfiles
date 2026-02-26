@@ -1,0 +1,161 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+	"ssh_connections": [
+		{
+			"host": "mm",
+			"args": [],
+			"projects": [
+				{
+					"paths": ["/Users/henryblack"]
+				},
+				{
+					"paths": ["/Users/henryblack/code/yard"]
+				}
+			]
+		}
+	],
+	"git_panel": {
+		"tree_view": true
+	},
+	"icon_theme": "Material Icon Theme",
+	"terminal": {
+		"font_family": "MesloLGS Nerd Font",
+		"font_fallbacks": ["MesloLGS NF"],
+		"max_scroll_history_lines": 1000000
+	},
+	"project_panel": {
+		"auto_fold_dirs": false
+	},
+	"base_keymap": "VSCode",
+	"sticky_scroll": {
+		"enabled": true
+	},
+	"minimap": {
+		"show": "never"
+	},
+	"file_types": {
+		"markdown": ["*.mdx"],
+		"prisma": ["*.prisma"],
+		"plaintext": ["CODEOWNERS"],
+		"css": ["*.css"],
+		"jsonc": ["*.json"]
+	},
+	"colorize_brackets": true,
+	"completions": {
+		"words": "disabled"
+	},
+	"linked_edits": true,
+	"show_whitespaces": "none",
+	"show_edit_predictions": true,
+	"soft_wrap": "editor_width",
+	"tab_size": 2,
+	"ui_font_size": 16,
+	"buffer_font_size": 15,
+	"theme": {
+		"mode": "system",
+		"light": "One Light",
+		"dark": "VSCode Dark Modern"
+	},
+	"format_on_save": "on",
+	"languages": {
+		"Astro": {
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"CSS": {
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"GraphQL": {
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"HTML": {
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"JSON": {
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"JSONC": {
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"JSX": {
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"JavaScript": {
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"Svelte": {
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"TSX": {
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"TypeScript": {
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"Vue.js": {
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		}
+	},
+	"lsp": {
+		"biome": {
+			"settings": {
+				// Only enable Biome when present
+				"require_config_file": true
+			}
+		}
+	}
+}

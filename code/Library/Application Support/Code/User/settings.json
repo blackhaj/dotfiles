@@ -122,6 +122,8 @@
 	"fish.path.fish": "/opt/homebrew/bin/fish",
 	"git.allowForcePush": true,
 	"git.allowNoVerifyCommit": true,
+	// Stop worktrees from showing up in the git explorer
+	"git.autoRepositoryDetection": false,
 	"git.autofetch": true,
 	"git.confirmSync": false,
 	"git.enableSmartCommit": true,
@@ -295,4 +297,13 @@
     "**/dist/*": true
   },
   "terminal.integrated.initialHint": false
+  "datadog.connection.notification.suppressSignInNotification": true,
+  "json.schemaDownload.trustedDomains": {
+    "https://schemastore.azurewebsites.net/": true,
+    "https://raw.githubusercontent.com/": true,
+    "https://www.schemastore.org/": true,
+    "https://json.schemastore.org/": true,
+    "https://json-schema.org/": true,
+    "https://biomejs.dev": true
+  }
 }

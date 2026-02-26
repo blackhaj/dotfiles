@@ -5,7 +5,30 @@
 set -e # Exit on error
 set -o pipefail # Exit on pipe error
 
-PORTS=(3005 8000 8001 8080 3014 7860 16233)
+PORTS=(
+  11700
+  11701
+  15025
+  16233 
+  3005
+  3006 
+  3007
+  3014 
+  3020
+  4000
+  6002
+  6003
+  6010
+  6060
+  7860 
+  8000 
+  8001 
+  8002
+  8003
+  8004 
+  8080 
+  9000
+)
 for PORT in "${PORTS[@]}"; do
   PIDS=$(lsof -ti tcp:"$PORT" || true)
   if [ -n "$PIDS" ]; then

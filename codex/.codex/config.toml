@@ -27,11 +27,11 @@ network_access = true
 notifications = true
 scrollmode = "trackpad"
 
-# [mcp_servers.linear]
-# url = "https://mcp.linear.app/mcp"
+[mcp_servers.linear]
+url = "https://mcp.linear.app/mcp"
 
-# [mcp_servers.datadog]
-# url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
+[mcp_servers.datadog]
+url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
 
 # [mcp_servers.playwriter]
 # command = "npx"

@@ -135,8 +135,6 @@ alias pip=pip3
 # bun completions
 [ -s "/Users/henryblack/.bun/_bun" ] && source "/Users/henryblack/.bun/_bun"
 
-export EDITOR="cursor --wait"
-
 # brew
 export HOMEBREW_NO_ENV_HINTS=1
 

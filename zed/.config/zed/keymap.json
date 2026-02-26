@@ -1,0 +1,86 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  // ---- Free cmd-e / cmd-shift-e from Zed UI contexts ----
+
+  // Keymap editor steals cmd-e -> open keymap file
+  {
+    "context": "KeymapEditor",
+    "use_key_equivalents": true,
+    "bindings": {
+      "cmd-e": null,
+    },
+  },
+
+  // Settings window steals cmd-shift-e -> toggles nav focus
+  {
+    "context": "SettingsWindow",
+    "use_key_equivalents": true,
+    "bindings": {
+      "cmd-shift-e": null,
+    },
+  },
+
+  // Editor steals cmd-e -> buffer search deploy (focus:false)
+  {
+    "context": "Editor && mode == full",
+    "use_key_equivalents": true,
+    "bindings": {
+      "cmd-e": null,
+    },
+  },
+
+  // Editor steals cmd-shift-e -> reveal in project panel
+  {
+    "context": "!ContextEditor > Editor && mode == full",
+    "use_key_equivalents": true,
+    "bindings": {
+      "cmd-shift-e": null,
+    },
+  },
+
+  // ---- Now bind what you want in normal work contexts ----
+  // Bind at Workspace level so it works regardless of whether focus is Editor/Pane/etc.
+  // Exclude SettingsWindow/KeymapEditor so the UI keeps its own navigation rules unless you override them above.
+  {
+    "context": "Workspace && !SettingsWindow && !KeymapEditor",
+    "use_key_equivalents": true,
+    "bindings": {
+      "cmd-e": "pane::ActivateNextItem",
+      "cmd-shift-e": "pane::ActivatePreviousItem",
+    },
+  },
+  {
+    "context": "ContextEditor > Editor",
+    "bindings": {
+      "cmd-g": null
+    }
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      "cmd-g": null
+    }
+  },
+  {
+    "bindings": {
+      "cmd-g": "git_panel::Toggle"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "cmd-b": null
+    }
+  },
+  {
+    "bindings": {
+      "cmd-e": "project_panel::Toggle"
+    }
+  }
+]

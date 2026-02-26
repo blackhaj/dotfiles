@@ -1,28 +1,29 @@
 {
-	"includeCoAuthoredBy": false,
-	"model": "opus",
-	"statusLine": {
-		"type": "command",
-		"command": "npx -y @owloops/claude-powerline@latest --style=tokyo-night"
-	},
-	"enabledPlugins": {
-		"code-review@claude-plugins-official": true,
-		"typescript-lsp@claude-plugins-official": true,
-		"linear@claude-plugins-official": true,
-		"ralph-loop@claude-plugins-official": true,
-		"code-simplifier@claude-plugins-official": true
-	},
-	"alwaysThinkingEnabled": true,
-	"hooks": {
-		"PermissionRequest": [
-			{
-				"hooks": [
-					{
-						"type": "command",
-						"command": "afplay -v 3 /System/Library/Sounds/Hero.aiff"
-					}
-				]
-			}
-		]
-	}
+  "includeCoAuthoredBy": false,
+  "model": "opus",
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay -v 3 /System/Library/Sounds/Hero.aiff"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y @owloops/claude-powerline@latest --style=tokyo-night"
+  },
+  "enabledPlugins": {
+    "code-review@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "linear@claude-plugins-official": true,
+    "ralph-loop@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "skipDangerousModePermissionPrompt": true
 }
