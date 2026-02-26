@@ -290,20 +290,21 @@
 	"gitlens.virtualRepositories.enabled": false,
 	"gitlens.codeLens.enabled": false,
 	"scm.defaultViewMode": "tree",
-  "search.useIgnoreFiles": false,
-  "search.exclude": {
-    "**/.build/*": true,
-    "**/.next/*": true,
-    "**/dist/*": true
-  },
-  "terminal.integrated.initialHint": false
-  "datadog.connection.notification.suppressSignInNotification": true,
-  "json.schemaDownload.trustedDomains": {
-    "https://schemastore.azurewebsites.net/": true,
-    "https://raw.githubusercontent.com/": true,
-    "https://www.schemastore.org/": true,
-    "https://json.schemastore.org/": true,
-    "https://json-schema.org/": true,
-    "https://biomejs.dev": true
-  }
+	"search.useIgnoreFiles": false,
+	"search.exclude": {
+		"**/.build/*": true,
+		"**/.next/*": true,
+		"**/dist/*": true
+	},
+	"datadog.connection.notification.suppressSignInNotification": true,
+	"json.schemaDownload.trustedDomains": {
+		"https://schemastore.azurewebsites.net/": true,
+		"https://raw.githubusercontent.com/": true,
+		"https://www.schemastore.org/": true,
+		"https://json.schemastore.org/": true,
+		"https://json-schema.org/": true,
+		"https://biomejs.dev": true
+	},
+	"workbench.secondarySideBar.defaultVisibility": "hidden",
+	"terminal.integrated.initialHint": false
 }
