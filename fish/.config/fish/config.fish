@@ -2,16 +2,15 @@
 # 1. SHELL SCRIPT IMPORTS (need to be before other imports)
 # ----------------------------------------------------------------------------
 source "$HOME/dotfiles/shared-shell/vars.sh" # need to be before other imports as e.g. aliases uses the vars
+bass source "$HOME/dotfiles/shared-shell/env.sh"
 source "$HOME/dotfiles/shared-shell/aliases.sh"
 source "$HOME/dotfiles/shared-shell/work-aliases.sh"
-bass source "$HOME/dotfiles/shared-shell/env.sh"
 
 # ----------------------------------------------------------------------------
 # 2. ENVIRONMENT VARIABLES
 # ----------------------------------------------------------------------------
 set -gx STARSHIP_CONFIG "$HOME/.config/starship.toml"
 set -gx HOMEBREW_NO_ENV_HINTS 1
-set -gx EDITOR "cursor --wait"
 set -gx DISABLE_ERD true # Disable ERD in monorepo
 set -gx PNPM_HOME /Users/henryblack/Library/pnpm
 
