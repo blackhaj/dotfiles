@@ -25,7 +25,6 @@ network_access = true
 
 [tui]
 notifications = true
-scrollmode = "trackpad"
 
 [mcp_servers.linear]
 url = "https://mcp.linear.app/mcp"
