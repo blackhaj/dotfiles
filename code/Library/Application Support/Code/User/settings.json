@@ -306,5 +306,6 @@
 		"https://biomejs.dev": true
 	},
 	"workbench.secondarySideBar.defaultVisibility": "hidden",
-	"terminal.integrated.initialHint": false
+	"terminal.integrated.initialHint": false,
+	"chat.agentsControl.enabled": false
 }
