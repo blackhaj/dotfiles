@@ -1,8 +1,11 @@
 {
-  "lastChangelogVersion": "0.52.8",
+  "lastChangelogVersion": "0.56.1",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.2-codex",
   "skills": [
     "~/dotfiles/skills"
+  ],
+  "packages": [
+    "https://github.com/nicobailon/visual-explainer"
   ]
 }
