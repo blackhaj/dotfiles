@@ -307,5 +307,6 @@
 	},
 	"workbench.secondarySideBar.defaultVisibility": "hidden",
 	"terminal.integrated.initialHint": false,
-	"chat.agentsControl.enabled": false
+	"chat.agentsControl.enabled": false,
+	"chat.agent.enabled": false
 }
