@@ -5,7 +5,8 @@ export HD2_DRIVE="/Volumes/HD2"
 export DOTFILES_DIR="$HOME/dotfiles"
 export CODE_DIR="$HOME/code"
 export STOW_DIR="$DOTFILES_DIR"
-export TRY_PATH="$CODE_DIR/try"
+export TRY_DIR="$CODE_DIR/try"
+export PROJECTS_DIR="$CODE_DIR/projects"
 
 # Music
 export MUSIC_INBOX="$HD2_DRIVE/Music/Media/Automatically Add to Music.localized"
