@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # Description: Create and navigate to git worktrees in ~/worktrees/ (or $WORKTREE_ROOT)
 #
-# Source: https://raw.githubusercontent.com/karlhepler/nixpkgs/refs/heads/main/modules/git/workout.bash
-# Stolen wholesale with gratitude from @karlhepler. Hat tip!
+# Source: https://github.com/karlhepler/nixpkgs/blob/main/modules/git/workout.bash
 #
 # - Creates worktree organized by org/repo/branch structure
 # - Reuses existing worktree if already created (idempotent)

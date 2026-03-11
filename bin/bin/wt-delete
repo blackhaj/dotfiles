@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 # Description: Delete a git worktree with confirmation (called from wt's fzf browser via Ctrl-D)
-#
 # Source: https://github.com/karlhepler/nixpkgs/blob/main/modules/git/workout-delete.bash
-# Stolen wholesale with gratitude from @karlhepler. Hat tip!
 
 path="$1"
 branch="$2"
