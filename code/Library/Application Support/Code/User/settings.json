@@ -113,7 +113,8 @@
 		"*.mdx": "markdown",
 		"CODEOWNERS": "plaintext",
 		"*.prisma": "prisma",
-		"wt": "shellscript"
+		"wt": "shellscript",
+		"wt-delete": "shellscript"
 	},
 	"files.dialog.defaultPath": "/Users/henryblack/code",
 	"files.exclude": {

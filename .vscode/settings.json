@@ -20,7 +20,8 @@
 		"try": "typescriptreact",
 		"unifiedAddHistory": "shellscript",
 		"work": "shellscript",
-		"wt": "shellscript"
+		"wt": "shellscript",
+		"wt-delete": "shellscript"
 	},
 
 	// Biome Linting / Formatting
