@@ -2,6 +2,10 @@
 # Description: Delete a git worktree with confirmation (called from wt's fzf browser via Ctrl-D)
 # Source: https://github.com/karlhepler/nixpkgs/blob/main/modules/git/workout-delete.bash
 
+set -e # Exit on error
+set -u # Exit on undefined variable
+set -o pipefail # Exit on pipe error
+
 path="$1"
 branch="$2"
 

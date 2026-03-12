@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Description: Create and navigate to git worktrees in ~/worktrees/ (or $WORKTREE_ROOT)
-#
 # Source: https://github.com/karlhepler/nixpkgs/blob/main/modules/git/workout.bash
 #
 # - Creates worktree organized by org/repo/branch structure
@@ -33,6 +32,10 @@
 #
 # This script outputs a cd command to stdout, which the wrapper evals to change directories.
 # The wrapper also saves the current location to a state file for the toggle feature (-).
+
+set -e # Exit on error
+set -u # Exit on undefined variable
+set -o pipefail # Exit on pipe error
 
 show_help() {
   echo "wt - Create and navigate git worktrees"
