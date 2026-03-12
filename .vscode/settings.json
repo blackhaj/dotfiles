@@ -17,7 +17,7 @@
 		"newId": "typescript",
 		"prs": "typescript",
 		"sc": "shellscript",
-		"try": "typescriptreact",
+		"try": "typescript",
 		"unifiedAddHistory": "shellscript",
 		"work": "shellscript"
 	},

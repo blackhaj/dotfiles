@@ -46,4 +46,11 @@ alias yd='yarn dev'
 alias yi='yarn install'
 alias ytd='yarn install;yarn dev'
 
+# try — fuzzy project directory navigator
+# Wraps the bun script so that `cd` works in the current shell session
+try() {
+  local dir
+  dir=$(command try "$@") && cd "$dir"
+}
+
 # Other

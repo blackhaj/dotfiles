@@ -1,0 +1,272 @@
+#!/usr/bin/env bun
+// Description: Fuzzy project directory navigator / creator
+//
+// Requires a shell wrapper to cd into the selected directory.
+// Add this to your ~/.zshrc or ~/.bashrc:
+//
+//   try() {
+//     local dir
+//     dir=$(command try "$@") && cd "$dir"
+//   }
+
+import { existsSync, mkdirSync, readdirSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
+import chalk from "chalk";
+import Fuse from "fuse.js";
+
+// Force chalk colours even when stdout is piped (TUI renders on stderr)
+const c = new chalk.Instance({ level: 3 });
+
+// ── Config ────────────────────────────────────────────────────────────────────
+
+interface Config {
+	postCreate?: string[];
+}
+
+async function loadConfig(): Promise<Config> {
+	const cfgPath = join(homedir(), ".config", "try", "settings.json");
+	try {
+		return JSON.parse(await Bun.file(cfgPath).text()) as Config;
+	} catch {
+		return {};
+	}
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+const TRY_DIR = process.env.TRY_DIR ?? join(homedir(), "try");
+
+function listDirs(): string[] {
+	if (!existsSync(TRY_DIR)) return [];
+	return readdirSync(TRY_DIR, { withFileTypes: true })
+		.filter((e) => e.isDirectory())
+		.map((e) => e.name)
+		.sort()
+		.reverse(); // newest first when dirs use YYYY-MM-DD prefix
+}
+
+function today(): string {
+	const d = new Date();
+	const y = d.getFullYear();
+	const m = String(d.getMonth() + 1).padStart(2, "0");
+	const day = String(d.getDate()).padStart(2, "0");
+	return `${y}-${m}-${day}`;
+}
+
+function slugify(text: string): string {
+	return text
+		.trim()
+		.toLowerCase()
+		.replace(/[^a-z0-9\s-]/g, "")
+		.replace(/[\s_]+/g, "-")
+		.replace(/-+/g, "-")
+		.replace(/^-|-$/g, "");
+}
+
+function newDirName(query: string): string {
+	const slug = slugify(query);
+	return slug ? `${today()}-${slug}` : today();
+}
+
+// ── Item types ────────────────────────────────────────────────────────────────
+
+type Item =
+	| { kind: "dir"; name: string }
+	| { kind: "new"; name: string };
+
+function getItems(allDirs: string[], query: string): Item[] {
+	let matched: string[];
+	if (!query.trim()) {
+		matched = allDirs;
+	} else {
+		const fuse = new Fuse(allDirs, { threshold: 0.45, includeScore: true });
+		matched = fuse.search(query).map((r) => r.item);
+	}
+	return [
+		...matched.map((name): Item => ({ kind: "dir", name })),
+		{ kind: "new", name: newDirName(query) },
+	];
+}
+
+// ── Rendering ─────────────────────────────────────────────────────────────────
+
+const MAX_VISIBLE = 10;
+const tty = process.stderr;
+const write = (s: string) => tty.write(s);
+
+const SEP = c.dim("  " + "─".repeat(52));
+
+function renderFrame(
+	query: string,
+	items: Item[],
+	sel: number,
+	prevLines: number,
+): number {
+	const lines: string[] = [];
+
+	// ── Header ────────────────────────────────────────────────────────────────
+	const dirDisplay = TRY_DIR.replace(homedir(), "~");
+	lines.push(
+		c.bold.cyan("  try") + c.dim("  ·  ") + c.dim(dirDisplay),
+	);
+	lines.push(SEP);
+	lines.push("");
+
+	// ── Search input ──────────────────────────────────────────────────────────
+	const inputText = query
+		? c.bold.white(query) + c.cyan("▌")
+		: c.dim("type to search…");
+	lines.push(c.cyan("  ❯ ") + inputText);
+	lines.push("");
+
+	// ── List ──────────────────────────────────────────────────────────────────
+	const visible = items.slice(0, MAX_VISIBLE);
+	const hasMore = items.length > MAX_VISIBLE;
+
+	for (let i = 0; i < visible.length; i++) {
+		const item = visible[i];
+		const isSel = i === sel;
+		const isNew = item.kind === "new";
+
+		if (isSel && isNew) {
+			lines.push(
+				c.bgHex("#0d2b0d")(
+					"  " + c.bold.green("✦ + new") + c.dim.green("  ·  ") + c.green(item.name) + "  ",
+				),
+			);
+		} else if (isSel) {
+			lines.push(
+				c.bgHex("#0d1f2b")(
+					"  " + c.bold.cyan("▸  ") + c.bold.white(item.name) + "  ",
+				),
+			);
+		} else if (isNew) {
+			lines.push(
+				"  " + c.dim.green("✦ + new") + c.dim("  ·  ") + c.dim(item.name),
+			);
+		} else {
+			lines.push("     " + c.white(item.name));
+		}
+	}
+
+	if (hasMore) {
+		lines.push(c.dim(`     … ${items.length - MAX_VISIBLE} more`));
+	}
+
+	// ── Footer ────────────────────────────────────────────────────────────────
+	lines.push("");
+	lines.push(SEP);
+	const dirCount = items.filter((i) => i.kind === "dir").length;
+	const matchLabel =
+		dirCount === 0
+			? c.dim.yellow("no matches")
+			: c.dim(`${dirCount} match${dirCount !== 1 ? "es" : ""}`);
+	lines.push(
+		c.dim("  ↑↓ navigate  ·  ↵ select  ·  esc cancel  ·  ") + matchLabel,
+	);
+
+	// ── Redraw ────────────────────────────────────────────────────────────────
+	const clearPrev = prevLines > 0 ? `\x1b[${prevLines}A\r\x1b[J` : "";
+	write(clearPrev + lines.join("\n") + "\n");
+	return lines.length;
+}
+
+// ── TUI loop ──────────────────────────────────────────────────────────────────
+
+async function runTUI(): Promise<{ path: string; isNew: boolean } | null> {
+	if (!process.stdin.isTTY) {
+		process.stderr.write("try: not a TTY\n");
+		return null;
+	}
+
+	const allDirs = listDirs();
+	let query = "";
+	let items = getItems(allDirs, query);
+	let sel = 0;
+	let prevLines = 0;
+
+	process.stdin.setRawMode(true);
+	process.stdin.resume();
+	write("\x1b[?25l"); // hide cursor
+
+	prevLines = renderFrame(query, items, sel, 0);
+
+	return new Promise((resolve) => {
+		function done(result: { path: string; isNew: boolean } | null) {
+			process.stdin.setRawMode(false);
+			process.stdin.pause();
+			write("\x1b[?25h\n"); // show cursor + newline
+			resolve(result);
+		}
+
+		process.stdin.on("data", (buf: Buffer) => {
+			const key = buf.toString("utf8");
+
+			if (buf[0] === 0x03) { done(null); return; }        // Ctrl-C
+			if (key === "\x1b" && buf.length === 1) { done(null); return; } // ESC
+
+			if (key === "\r" || key === "\n") {
+				const item = items[sel];
+				if (!item) { done(null); return; }
+				done({ path: join(TRY_DIR, item.name), isNew: item.kind === "new" });
+				return;
+			}
+
+			const isNavUp = key === "\x1b[A";
+			const isNavDown = key === "\x1b[B";
+
+			if (key === "\x7f" || key === "\b") {          // Backspace
+				if (query.length > 0) query = query.slice(0, -1);
+			} else if (isNavUp) {                          // Arrow up
+				sel = Math.max(0, sel - 1);
+			} else if (isNavDown) {                        // Arrow down
+				sel = Math.min(items.length - 1, sel + 1);
+			} else if (key === "\x15") {                   // Ctrl-U: clear input
+				query = "";
+			} else if (key.length === 1 && key >= " ") {  // Printable character
+				query += key;
+			} else {
+				return; // ignore unrecognised sequences
+			}
+
+			if (!isNavUp && !isNavDown) {
+				items = getItems(allDirs, query);
+				// Auto-select new when there are no directory matches
+				const hasDirMatch = items.some((i) => i.kind === "dir");
+				sel = hasDirMatch ? 0 : items.length - 1;
+			} else {
+				sel = Math.max(0, Math.min(items.length - 1, sel));
+			}
+
+			prevLines = renderFrame(query, items, sel, prevLines);
+		});
+	});
+}
+
+// ── Main ──────────────────────────────────────────────────────────────────────
+
+const config = await loadConfig();
+const result = await runTUI();
+
+if (!result) process.exit(1);
+
+if (result.isNew) {
+	mkdirSync(result.path, { recursive: true });
+	if (config.postCreate?.length) {
+		for (const cmd of config.postCreate) {
+			const proc = Bun.spawnSync(["sh", "-c", cmd], {
+				cwd: result.path,
+				stdout: "inherit",
+				stderr: "inherit",
+				stdin: "inherit",
+			});
+			if (proc.exitCode !== 0) {
+				process.stderr.write(`\ntry: postCreate failed → ${cmd}\n`);
+			}
+		}
+	}
+}
+
+// Output the chosen path to stdout so the shell wrapper can cd into it
+process.stdout.write(result.path + "\n");
