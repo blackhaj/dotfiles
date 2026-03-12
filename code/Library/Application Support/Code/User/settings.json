@@ -112,7 +112,9 @@
 		"*.json": "jsonc",
 		"*.mdx": "markdown",
 		"CODEOWNERS": "plaintext",
-		"*.prisma": "prisma"
+		"*.prisma": "prisma",
+		"wt": "shellscript",
+		"wt-delete": "shellscript"
 	},
 	"files.dialog.defaultPath": "/Users/henryblack/code",
 	"files.exclude": {
