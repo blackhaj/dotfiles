@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { spawn, execSync } from "node:child_process";
+import { execSync, spawn } from "node:child_process";
 import puppeteer from "puppeteer-core";
 
 const useProfile = process.argv[2] === "--profile";
@@ -8,7 +8,9 @@ const useProfile = process.argv[2] === "--profile";
 if (process.argv[2] && process.argv[2] !== "--profile") {
 	console.log("Usage: browser-start.js [--profile]");
 	console.log("\nOptions:");
-	console.log("  --profile  Copy your default Chrome profile (cookies, logins)");
+	console.log(
+		"  --profile  Copy your default Chrome profile (cookies, logins)",
+	);
 	process.exit(1);
 }
 
@@ -30,7 +32,10 @@ execSync(`mkdir -p "${SCRAPING_DIR}"`, { stdio: "ignore" });
 
 // Remove SingletonLock to allow new instance
 try {
-	execSync(`rm -f "${SCRAPING_DIR}/SingletonLock" "${SCRAPING_DIR}/SingletonSocket" "${SCRAPING_DIR}/SingletonCookie"`, { stdio: "ignore" });
+	execSync(
+		`rm -f "${SCRAPING_DIR}/SingletonLock" "${SCRAPING_DIR}/SingletonSocket" "${SCRAPING_DIR}/SingletonCookie"`,
+		{ stdio: "ignore" },
+	);
 } catch {}
 
 if (useProfile) {
@@ -83,4 +88,6 @@ if (!connected) {
 	process.exit(1);
 }
 
-console.log(`✓ Chrome started on :9222${useProfile ? " with your profile" : ""}`);
+console.log(
+	`✓ Chrome started on :9222${useProfile ? " with your profile" : ""}`,
+);

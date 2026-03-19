@@ -14,7 +14,7 @@ if (fetchContent) args.splice(contentIndex, 1);
 let numResults = 5;
 const nIndex = args.indexOf("-n");
 if (nIndex !== -1 && args[nIndex + 1]) {
-	numResults = parseInt(args[nIndex + 1], 10);
+	numResults = Number.parseInt(args[nIndex + 1], 10);
 	args.splice(nIndex, 2);
 }
 
@@ -37,12 +37,18 @@ if (freshnessIndex !== -1 && args[freshnessIndex + 1]) {
 const query = args.join(" ");
 
 if (!query) {
-	console.log("Usage: search.js <query> [-n <num>] [--content] [--country <code>] [--freshness <period>]");
+	console.log(
+		"Usage: search.js <query> [-n <num>] [--content] [--country <code>] [--freshness <period>]",
+	);
 	console.log("\nOptions:");
-	console.log("  -n <num>              Number of results (default: 5, max: 20)");
+	console.log(
+		"  -n <num>              Number of results (default: 5, max: 20)",
+	);
 	console.log("  --content             Fetch readable content as markdown");
 	console.log("  --country <code>      Country code for results (default: US)");
-	console.log("  --freshness <period>  Filter by time: pd (day), pw (week), pm (month), py (year)");
+	console.log(
+		"  --freshness <period>  Filter by time: pd (day), pw (week), pm (month), py (year)",
+	);
 	console.log("\nEnvironment:");
 	console.log("  BRAVE_API_KEY         Required. Your Brave Search API key.");
 	console.log("\nExamples:");
@@ -56,7 +62,9 @@ if (!query) {
 const apiKey = process.env.BRAVE_API_KEY;
 if (!apiKey) {
 	console.error("Error: BRAVE_API_KEY environment variable is required.");
-	console.error("Get your API key at: https://api-dashboard.search.brave.com/app/keys");
+	console.error(
+		"Get your API key at: https://api-dashboard.search.brave.com/app/keys",
+	);
 	process.exit(1);
 }
 
@@ -75,15 +83,17 @@ async function fetchBraveResults(query, numResults, country, freshness) {
 
 	const response = await fetch(url, {
 		headers: {
-			"Accept": "application/json",
+			Accept: "application/json",
 			"Accept-Encoding": "gzip",
 			"X-Subscription-Token": apiKey,
-		}
+		},
 	});
 
 	if (!response.ok) {
 		const errorText = await response.text();
-		throw new Error(`HTTP ${response.status}: ${response.statusText}\n${errorText}`);
+		throw new Error(
+			`HTTP ${response.status}: ${response.statusText}\n${errorText}`,
+		);
 	}
 
 	const data = await response.json();
@@ -108,7 +118,10 @@ async function fetchBraveResults(query, numResults, country, freshness) {
 }
 
 function htmlToMarkdown(html) {
-	const turndown = new TurndownService({ headingStyle: "atx", codeBlockStyle: "fenced" });
+	const turndown = new TurndownService({
+		headingStyle: "atx",
+		codeBlockStyle: "fenced",
+	});
 	turndown.use(gfm);
 	turndown.addRule("removeEmptyLinks", {
 		filter: (node) => node.nodeName === "A" && !node.textContent?.trim(),
@@ -128,8 +141,10 @@ async function fetchPageContent(url) {
 	try {
 		const response = await fetch(url, {
 			headers: {
-				"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-				"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+				"User-Agent":
+					"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+				Accept:
+					"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 			},
 			signal: AbortSignal.timeout(10000),
 		});
@@ -150,8 +165,12 @@ async function fetchPageContent(url) {
 		// Fallback: try to get main content
 		const fallbackDoc = new JSDOM(html, { url });
 		const body = fallbackDoc.window.document;
-		body.querySelectorAll("script, style, noscript, nav, header, footer, aside").forEach(el => el.remove());
-		const main = body.querySelector("main, article, [role='main'], .content, #content") || body.body;
+		body
+			.querySelectorAll("script, style, noscript, nav, header, footer, aside")
+			.forEach((el) => el.remove());
+		const main =
+			body.querySelector("main, article, [role='main'], .content, #content") ||
+			body.body;
 		const text = main?.textContent || "";
 
 		if (text.trim().length > 100) {
@@ -166,7 +185,12 @@ async function fetchPageContent(url) {
 
 // Main
 try {
-	const results = await fetchBraveResults(query, numResults, country, freshness);
+	const results = await fetchBraveResults(
+		query,
+		numResults,
+		country,
+		freshness,
+	);
 
 	if (results.length === 0) {
 		console.error("No results found.");
