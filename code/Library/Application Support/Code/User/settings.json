@@ -35,6 +35,9 @@
 		"editor.formatOnPaste": true,
 		"editor.formatOnSave": true
 	},
+	"[prisma]": {
+		"editor.defaultFormatter": "Prisma.prisma"
+	},
 	"[python]": {
 		"editor.defaultFormatter": "charliermarsh.ruff",
 		"editor.formatOnSave": true
@@ -58,15 +61,21 @@
 	// *** More speed optimization attempts
 	"biome_lsp.trace.server": "verbose",
 	"biome.requireConfiguration": false,
+	"chat.agent.enabled": false,
+	"chat.agentsControl.enabled": false,
 	"codestream.email": "blackhaj@gmail.com",
 	"cSpell.userWords": ["ariane", "mazeapp"],
+	"cursor.composer.queueMessageDefaultBehavior": "stop-and-send",
+	"cursor.composer.shouldChimeAfterChatFinishes": true,
+	"cursor.composer.usageSummaryDisplay": "always",
 	"cursor.cpp.disabledLanguages": ["scminput"],
 	"cursor.preferNotificationsSameAsChat": true,
-	"diffEditor": {
-		"diffAlgorithm": "advanced",
-		"experimental.showMoves": true,
-		"ignoreTrimWhitespace": false
-	},
+	"cursorpyright.analysis.autoImportCompletions": true,
+	"datadog.connection.notification.suppressSignInNotification": true,
+	"datadog.staticAnalysis.notification.suppressOnboarding": true,
+	"diffEditor.diffAlgorithm": "advanced",
+	"diffEditor.experimental.showMoves": true,
+	"diffEditor.ignoreTrimWhitespace": false,
 	"editor.accessibilitySupport": "off",
 	"editor.bracketPairColorization.enabled": true,
 	"editor.defaultFormatter": "biomejs.biome",
@@ -106,15 +115,14 @@
 	"explorer.confirmDelete": false,
 	"explorer.confirmDragAndDrop": false,
 	"explorer.confirmPasteNative": false,
+	"explorer.fileNesting.enabled": false,
 	"figma.assetExportDirectory": "apps/maze-webapp/src/assets",
 	"files.associations": {
 		"*.css": "css",
 		"*.json": "jsonc",
 		"*.mdx": "markdown",
-		"CODEOWNERS": "plaintext",
 		"*.prisma": "prisma",
-		"wt": "shellscript",
-		"wt-delete": "shellscript"
+		"CODEOWNERS": "plaintext"
 	},
 	"files.dialog.defaultPath": "/Users/henryblack/code",
 	"files.exclude": {
@@ -124,9 +132,9 @@
 	"fish.path.fish": "/opt/homebrew/bin/fish",
 	"git.allowForcePush": true,
 	"git.allowNoVerifyCommit": true,
+	"git.autofetch": true,
 	// Stop worktrees from showing up in the git explorer
 	"git.autoRepositoryDetection": false,
-	"git.autofetch": true,
 	"git.confirmSync": false,
 	"git.enableSmartCommit": true,
 	"git.ignoreLimitWarning": true,
@@ -148,10 +156,13 @@
 	},
 	"gitlens.ai.gitkraken.model": "gemini:gemini-2.0-flash",
 	"gitlens.ai.model": "gitkraken",
+	"gitlens.codeLens.enabled": false,
 	"gitlens.defaultDateFormat": "Do MMM, YYYY h:mma",
 	"gitlens.defaultDateShortFormat": "Do MMM, YYYY",
 	"gitlens.defaultTimeFormat": null,
 	"gitlens.launchpad.indicator.enabled": false,
+	"gitlens.plusFeatures.enabled": false,
+	"gitlens.showWhatsNewAfterUpgrades": false,
 	"gitlens.statusBar.enabled": false,
 	"gitlens.views.commits.files.layout": "tree",
 	"gitlens.views.scm.grouped.hiddenViews": {
@@ -167,19 +178,28 @@
 		"tags": true,
 		"worktrees": true
 	},
+	"gitlens.virtualRepositories.enabled": false,
 	"html.format.enable": false,
 	"javascript.inlayHints.parameterNames.enabled": "all",
 	"javascript.preferences.jsxAttributeCompletionStyle": "none",
 	"javascript.updateImportsOnFileMove.enabled": "always",
 	"jest.runMode": "on-demand",
 	"jsJsxSnippets.settings.importReactOnTop": false,
-	"json.validate.enable": true,
+	"json.schemaDownload.trustedDomains": {
+		"https://biomejs.dev": true,
+		"https://json-schema.org/": true,
+		"https://json.schemastore.org/": true,
+		"https://raw.githubusercontent.com/": true,
+		"https://schemastore.azurewebsites.net/": true,
+		"https://www.schemastore.org/": true
+	},
 	"json.schemas": [
 		{
 			"fileMatch": ["tsconfig.json", "tsconfig.*.json"],
 			"url": "https://json.schemastore.org/tsconfig"
 		}
 	],
+	"json.validate.enable": true,
 	"liveServer.settings.donotShowInfoMsg": true,
 	"markdownlint.config": {
 		"MD010": false,
@@ -205,8 +225,16 @@
 	"python.languageServer": "None",
 	"python.terminal.activateEnvironment": false,
 	"python.venvPath": "${workspaceFolder}/services/pipecat-ai-moderator",
+	"redhat.telemetry.enabled": false,
 	"scm.alwaysShowActions": true,
 	"scm.alwaysShowRepositories": true,
+	"scm.defaultViewMode": "tree",
+	"search.exclude": {
+		"**/.build/*": true,
+		"**/.next/*": true,
+		"**/dist/*": true
+	},
+	"search.useIgnoreFiles": false,
 	"security.promptForLocalFileProtocolHandling": false,
 	"security.workspace.trust.untrustedFiles": "open",
 	"semanticdiff.closeOriginalTab": true,
@@ -241,10 +269,11 @@
 	"spellright.language": ["en"],
 	"terminal.integrated.defaultProfile.osx": "fish",
 	"terminal.integrated.enableMultiLinePasteWarning": "never",
-	"terminal.integrated.enableVisualBell": true,
 	"terminal.integrated.enablePersistentSessions": true,
-	"terminal.integrated.persistentSessionReviveProcess": "onExit",
+	"terminal.integrated.enableVisualBell": true,
 	"terminal.integrated.fontFamily": "MesloLGS Nerd Font, MesloLGS NF",
+	"terminal.integrated.initialHint": false,
+	"terminal.integrated.persistentSessionReviveProcess": "onExit",
 	"terminal.integrated.profiles.osx": {
 		"fish": {
 			"path": "/opt/homebrew/bin/fish"
@@ -262,8 +291,10 @@
 	"typescript.preferences.jsxAttributeCompletionStyle": "none",
 	"typescript.suggest.autoImports": true,
 	"typescript.tsserver.log": "off",
+	"typescript.tsserver.maxTsServerMemory": 4000,
 	"typescript.updateImportsOnFileMove.enabled": "always",
 	"vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
+	"window.commandCenter": true,
 	"window.title": "${rootName}",
 	"window.zoomLevel": 1,
 	"workbench.colorTheme": "Default Dark Modern",
@@ -275,40 +306,5 @@
 	"workbench.panel.defaultLocation": "bottom",
 	"workbench.preferredDarkColorTheme": "Default Dark Modern",
 	"workbench.preferredLightColorTheme": "Default Light Modern",
-	"redhat.telemetry.enabled": false,
-	"cursor.composer.shouldChimeAfterChatFinishes": true,
-	"cursor.composer.queueMessageDefaultBehavior": "stop-and-send",
-	"cursor.composer.usageSummaryDisplay": "always",
-	"cursorpyright.analysis.autoImportCompletions": true,
-	"typescript.tsserver.maxTsServerMemory": 4000,
-	"explorer.fileNesting.enabled": false,
-	"[prisma]": {
-		"editor.defaultFormatter": "Prisma.prisma"
-	},
-	"window.commandCenter": true,
-	"datadog.staticAnalysis.notification.suppressOnboarding": true,
-	"gitlens.showWhatsNewAfterUpgrades": false,
-	"gitlens.plusFeatures.enabled": false,
-	"gitlens.virtualRepositories.enabled": false,
-	"gitlens.codeLens.enabled": false,
-	"scm.defaultViewMode": "tree",
-	"search.useIgnoreFiles": false,
-	"search.exclude": {
-		"**/.build/*": true,
-		"**/.next/*": true,
-		"**/dist/*": true
-	},
-	"datadog.connection.notification.suppressSignInNotification": true,
-	"json.schemaDownload.trustedDomains": {
-		"https://schemastore.azurewebsites.net/": true,
-		"https://raw.githubusercontent.com/": true,
-		"https://www.schemastore.org/": true,
-		"https://json.schemastore.org/": true,
-		"https://json-schema.org/": true,
-		"https://biomejs.dev": true
-	},
-	"workbench.secondarySideBar.defaultVisibility": "hidden",
-	"terminal.integrated.initialHint": false,
-	"chat.agentsControl.enabled": false,
-	"chat.agent.enabled": false
+	"workbench.secondarySideBar.defaultVisibility": "hidden"
 }
