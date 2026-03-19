@@ -2,7 +2,7 @@
 # Core
 
 # Model
-model = "gpt-5.3-codex"
+model = "gpt-5.4"
 model_reasoning_effort = "high"   # minimal|low|medium|high|none
 model_verbosity = "medium"          # low|medium|high
 # Approval policy
@@ -26,11 +26,14 @@ network_access = true
 [tui]
 notifications = true
 
-[mcp_servers.linear]
-url = "https://mcp.linear.app/mcp"
+[tui.model_availability_nux]
+"gpt-5.3-codex-spark" = 1
 
-[mcp_servers.datadog]
-url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
+# [mcp_servers.linear]
+# url = "https://mcp.linear.app/mcp"
+
+# [mcp_servers.datadog]
+# url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
 
 # [mcp_servers.playwriter]
 # command = "npx"
@@ -39,25 +42,16 @@ url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
 # [mcp_servers.fal]
 # url = "https://docs.fal.ai/mcp"
 
-[projects."/Users/henryblack/maze/maze-monorepo"]
-trust_level = "trusted"
 [projects."/Users/henryblack/dotfiles"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/maze"]
+[projects."/Users/henryblack/maze/*"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/code/work"]
+[projects."/Users/henryblack/code/*"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/code/bin/better-t-cloudflare"]
-trust_level = "trusted"
 
-[projects."/Users/henryblack/code/yard"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/code/hub"]
-trust_level = "trusted"
 
 [profiles.commit-message]
 model = "gpt-5.2-codex"
@@ -66,3 +60,4 @@ approval_policy = "on-request"
 
 [notice.model_migrations]
 "gpt-5.2-codex" = "gpt-5.3-codex"
+"gpt-5.3-codex" = "gpt-5.4"
