@@ -19,7 +19,9 @@
 		"sc": "shellscript",
 		"try": "typescript",
 		"unifiedAddHistory": "shellscript",
-		"work": "shellscript"
+		"work": "shellscript",
+		"wt": "shellscript",
+		"wt-delete": "shellscript"
 	},
 
 	// Biome Linting / Formatting
