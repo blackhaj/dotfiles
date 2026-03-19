@@ -2,7 +2,7 @@
 # Core
 
 # Model
-model = "gpt-5.4"
+model = "gpt-5.3-codex-spark"
 model_reasoning_effort = "high"   # minimal|low|medium|high|none
 model_verbosity = "medium"          # low|medium|high
 # Approval policy
@@ -27,7 +27,7 @@ network_access = true
 notifications = true
 
 [tui.model_availability_nux]
-"gpt-5.3-codex-spark" = 2
+"gpt-5.3-codex-spark" = 3
 
 # [mcp_servers.linear]
 # url = "https://mcp.linear.app/mcp"
@@ -45,10 +45,13 @@ notifications = true
 [projects."/Users/henryblack/dotfiles"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/maze/*"]
+[projects."/Users/henryblack/maze/maze-monorepo"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/code/*"]
+[projects."/Users/henryblack/code/projects/yard"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/code/projects/agent"]
 trust_level = "trusted"
 
 
