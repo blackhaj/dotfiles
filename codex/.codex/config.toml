@@ -27,7 +27,7 @@ network_access = true
 notifications = true
 
 [tui.model_availability_nux]
-"gpt-5.3-codex-spark" = 3
+"gpt-5.3-codex-spark" = 4
 
 # [mcp_servers.linear]
 # url = "https://mcp.linear.app/mcp"
