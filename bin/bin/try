@@ -12,11 +12,12 @@
 import { existsSync, mkdirSync, readdirSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import chalk from "chalk";
+import { emitKeypressEvents } from "node:readline";
+import { Chalk } from "chalk";
 import Fuse from "fuse.js";
 
 // Force chalk colours even when stdout is piped (TUI renders on stderr)
-const c = new chalk.Instance({ level: 3 });
+const c = new Chalk({ level: 3 });
 
 // ── Config ────────────────────────────────────────────────────────────────────
 
@@ -71,9 +72,7 @@ function newDirName(query: string): string {
 
 // ── Item types ────────────────────────────────────────────────────────────────
 
-type Item =
-	| { kind: "dir"; name: string }
-	| { kind: "new"; name: string };
+type Item = { kind: "dir"; name: string } | { kind: "new"; name: string };
 
 function getItems(allDirs: string[], query: string): Item[] {
 	let matched: string[];
@@ -107,9 +106,7 @@ function renderFrame(
 
 	// ── Header ────────────────────────────────────────────────────────────────
 	const dirDisplay = TRY_DIR.replace(homedir(), "~");
-	lines.push(
-		c.bold.cyan("  try") + c.dim("  ·  ") + c.dim(dirDisplay),
-	);
+	lines.push(c.bold.cyan("  try") + c.dim("  ·  ") + c.dim(dirDisplay));
 	lines.push(SEP);
 	lines.push("");
 
@@ -132,7 +129,11 @@ function renderFrame(
 		if (isSel && isNew) {
 			lines.push(
 				c.bgHex("#0d2b0d")(
-					"  " + c.bold.green("✦ + new") + c.dim.green("  ·  ") + c.green(item.name) + "  ",
+					"  " +
+						c.bold.green("✦ + new") +
+						c.dim.green("  ·  ") +
+						c.green(item.name) +
+						"  ",
 				),
 			);
 		} else if (isSel) {
@@ -186,6 +187,7 @@ async function runTUI(): Promise<{ path: string; isNew: boolean } | null> {
 	let sel = 0;
 	let prevLines = 0;
 
+	emitKeypressEvents(process.stdin);
 	process.stdin.setRawMode(true);
 	process.stdin.resume();
 	write("\x1b[?25l"); // hide cursor
@@ -193,44 +195,32 @@ async function runTUI(): Promise<{ path: string; isNew: boolean } | null> {
 	prevLines = renderFrame(query, items, sel, 0);
 
 	return new Promise((resolve) => {
-		function done(result: { path: string; isNew: boolean } | null) {
-			process.stdin.setRawMode(false);
+		let finished = false;
+		const onProcessExit = () => {
+			cleanup();
+		};
+
+		function cleanup() {
+			process.off("exit", onProcessExit);
+			process.stdin.off("keypress", onKeypress);
+			process.stdin.off("end", onEnd);
+			process.stdin.off("error", onError);
+			if (process.stdin.isRaw) {
+				process.stdin.setRawMode(false);
+			}
 			process.stdin.pause();
 			write("\x1b[?25h\n"); // show cursor + newline
+		}
+
+		function done(result: { path: string; isNew: boolean } | null) {
+			if (finished) return;
+			finished = true;
+			cleanup();
 			resolve(result);
 		}
 
-		process.stdin.on("data", (buf: Buffer) => {
-			const key = buf.toString("utf8");
-
-			if (buf[0] === 0x03) { done(null); return; }        // Ctrl-C
-			if (key === "\x1b" && buf.length === 1) { done(null); return; } // ESC
-
-			if (key === "\r" || key === "\n") {
-				const item = items[sel];
-				if (!item) { done(null); return; }
-				done({ path: join(TRY_DIR, item.name), isNew: item.kind === "new" });
-				return;
-			}
-
-			const isNavUp = key === "\x1b[A";
-			const isNavDown = key === "\x1b[B";
-
-			if (key === "\x7f" || key === "\b") {          // Backspace
-				if (query.length > 0) query = query.slice(0, -1);
-			} else if (isNavUp) {                          // Arrow up
-				sel = Math.max(0, sel - 1);
-			} else if (isNavDown) {                        // Arrow down
-				sel = Math.min(items.length - 1, sel + 1);
-			} else if (key === "\x15") {                   // Ctrl-U: clear input
-				query = "";
-			} else if (key.length === 1 && key >= " ") {  // Printable character
-				query += key;
-			} else {
-				return; // ignore unrecognised sequences
-			}
-
-			if (!isNavUp && !isNavDown) {
+		function refreshSelection(resetSelection: boolean) {
+			if (resetSelection) {
 				items = getItems(allDirs, query);
 				// Auto-select new when there are no directory matches
 				const hasDirMatch = items.some((i) => i.kind === "dir");
@@ -240,7 +230,76 @@ async function runTUI(): Promise<{ path: string; isNew: boolean } | null> {
 			}
 
 			prevLines = renderFrame(query, items, sel, prevLines);
-		});
+		}
+
+		function onEnd() {
+			done(null);
+		}
+
+		function onError() {
+			done(null);
+		}
+
+		function onKeypress(
+			str: string,
+			key: { ctrl?: boolean; meta?: boolean; name?: string; sequence?: string },
+		) {
+			if (key.ctrl && key.name === "c") {
+				done(null);
+				return;
+			}
+			if (key.name === "escape") {
+				done(null);
+				return;
+			}
+
+			if (key.name === "return" || key.name === "enter") {
+				const item = items[sel];
+				if (!item) {
+					done(null);
+					return;
+				}
+				done({ path: join(TRY_DIR, item.name), isNew: item.kind === "new" });
+				return;
+			}
+
+			if (key.name === "backspace") {
+				if (query.length > 0) query = query.slice(0, -1);
+				refreshSelection(true);
+				return;
+			}
+			if (key.name === "up") {
+				sel = Math.max(0, sel - 1);
+				refreshSelection(false);
+				return;
+			}
+			if (key.name === "down") {
+				sel = Math.min(items.length - 1, sel + 1);
+				refreshSelection(false);
+				return;
+			}
+			if (key.ctrl && key.name === "u") {
+				query = "";
+				refreshSelection(true);
+				return;
+			}
+
+			if (
+				str &&
+				!key.ctrl &&
+				!key.meta &&
+				key.sequence &&
+				key.sequence >= " "
+			) {
+				query += str;
+				refreshSelection(true);
+			}
+		}
+
+		process.once("exit", onProcessExit);
+		process.stdin.on("keypress", onKeypress);
+		process.stdin.on("end", onEnd);
+		process.stdin.on("error", onError);
 	});
 }
 
