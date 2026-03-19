@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import puppeteer from "puppeteer-core";
 import { Readability } from "@mozilla/readability";
 import { JSDOM } from "jsdom";
+import puppeteer from "puppeteer-core";
 import TurndownService from "turndown";
 import { gfm } from "turndown-plugin-gfm";
 
@@ -20,7 +20,9 @@ if (!url) {
 	console.log("\nExtracts readable content from a URL as markdown.");
 	console.log("\nExamples:");
 	console.log("  browser-content.js https://example.com");
-	console.log("  browser-content.js https://en.wikipedia.org/wiki/Rust_(programming_language)");
+	console.log(
+		"  browser-content.js https://en.wikipedia.org/wiki/Rust_(programming_language)",
+	);
 	process.exit(1);
 }
 
@@ -29,7 +31,9 @@ const b = await Promise.race([
 		browserURL: "http://localhost:9222",
 		defaultViewport: null,
 	}),
-	new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), 5000)),
+	new Promise((_, reject) =>
+		setTimeout(() => reject(new Error("timeout")), 5000),
+	),
 ]).catch((e) => {
 	console.error("✗ Could not connect to browser:", e.message);
 	console.error("  Run: browser-start.js");
@@ -49,8 +53,13 @@ await Promise.race([
 
 // Get HTML via CDP (works even with TrustedScriptURL restrictions)
 const client = await p.createCDPSession();
-const { root } = await client.send("DOM.getDocument", { depth: -1, pierce: true });
-const { outerHTML } = await client.send("DOM.getOuterHTML", { nodeId: root.nodeId });
+const { root } = await client.send("DOM.getDocument", {
+	depth: -1,
+	pierce: true,
+});
+const { outerHTML } = await client.send("DOM.getOuterHTML", {
+	nodeId: root.nodeId,
+});
 await client.detach();
 
 const finalUrl = p.url();
@@ -62,7 +71,10 @@ const article = reader.parse();
 
 // Convert to markdown
 function htmlToMarkdown(html) {
-	const turndown = new TurndownService({ headingStyle: "atx", codeBlockStyle: "fenced" });
+	const turndown = new TurndownService({
+		headingStyle: "atx",
+		codeBlockStyle: "fenced",
+	});
 	turndown.use(gfm);
 	turndown.addRule("removeEmptyLinks", {
 		filter: (node) => node.nodeName === "A" && !node.textContent?.trim(),
@@ -85,8 +97,13 @@ if (article && article.content) {
 	// Fallback
 	const fallbackDoc = new JSDOM(outerHTML, { url: finalUrl });
 	const fallbackBody = fallbackDoc.window.document;
-	fallbackBody.querySelectorAll("script, style, noscript, nav, header, footer, aside").forEach((el) => el.remove());
-	const main = fallbackBody.querySelector("main, article, [role='main'], .content, #content") || fallbackBody.body;
+	fallbackBody
+		.querySelectorAll("script, style, noscript, nav, header, footer, aside")
+		.forEach((el) => el.remove());
+	const main =
+		fallbackBody.querySelector(
+			"main, article, [role='main'], .content, #content",
+		) || fallbackBody.body;
 	const fallbackHtml = main?.innerHTML || "";
 	if (fallbackHtml.trim().length > 100) {
 		content = htmlToMarkdown(fallbackHtml);

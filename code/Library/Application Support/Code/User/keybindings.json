@@ -100,7 +100,7 @@
 		"command": "editor.cpp.disableenabled",
 		"key": "ctrl+shift+alt+cmd+d"
 	},
-  {
+	{
 		"args": {
 			"text": "\\\r\n"
 		},
@@ -151,9 +151,9 @@
 	{
 		"key": "cmd+r alt+cmd+left",
 		"command": "-workbench.action.previousEditorInGroup"
-  },
-  {
-    "key": "ctrl+shift+alt+cmd+e",
-    "command": "workbench.view.explorer"
-  }
+	},
+	{
+		"key": "ctrl+shift+alt+cmd+e",
+		"command": "workbench.view.explorer"
+	}
 ]

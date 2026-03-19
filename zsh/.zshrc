@@ -112,6 +112,13 @@ export LANG=en_GB.UTF-8
 
 source "$HOME/dotfiles/shared-shell/vars.sh" # need to be before other imports as e.g. aliases uses the vars
 source "$HOME/dotfiles/shared-shell/aliases.sh"
+
+# try — fuzzy project directory navigator
+# Wraps the bun script so that cd works in the current shell session
+try() {
+  local dir
+  dir=$(command try "$@") && cd "$dir"
+}
 source "$HOME/dotfiles/shared-shell/work-aliases.sh"
 source "$HOME/dotfiles/shared-shell/env.sh"
 

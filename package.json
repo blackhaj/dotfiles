@@ -11,7 +11,9 @@
 		"typescript": "^5"
 	},
 	"scripts": {
-		"test": "echo 'test'"
+		"test": "echo 'test'",
+		"type-check": "tsc --noEmit",
+		"check": "biome check --write"
 	},
 	"dependencies": {
 		"@opentui/core": "^0.1.39",
