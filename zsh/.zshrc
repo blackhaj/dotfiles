@@ -1,87 +1,177 @@
-export SHELL="$(command -v zsh)"
+# .zshrc
+#
+# Purpose:
+#   Central shell bootstrap for:
+#   - shared aliases/environment
+#   - plugin tooling
+#   - shell completions and interactive UX
+#
+# Notes:
+#   Keep this file intentionally lean; source long command-specific logic from
+#   $HOME/dotfiles/shared-shell/*.
 
-# source antidote
-if [[ -r "/opt/homebrew/opt/antidote/share/antidote/antidote.zsh" ]]; then
-	source "/opt/homebrew/opt/antidote/share/antidote/antidote.zsh"
-fi
+###############################################################################
+# Helpers
+###############################################################################
 
-if [[ -o interactive ]]; then
-	# completion system required by completion widgets like fzf-tab
-	zmodload zsh/complist
-	autoload -Uz compinit
-	compinit
-
-	# initialize plugins statically with ${ZDOTDIR:-~}/.zsh_plugins.txt
-	antidote load
-fi
-
-source "$HOME/dotfiles/shared-shell/vars.sh" # need to be before other imports as e.g. aliases uses the vars
-source "$HOME/dotfiles/shared-shell/aliases.sh"
-source "$HOME/dotfiles/shared-shell/work-aliases.sh"
-source "$HOME/dotfiles/shared-shell/env.sh"
-
-# try — fuzzy project directory navigator
-# Wraps the bun script so that cd works in the current shell session
-try() {
-	local dir
-	dir=$(command try "$@") && cd "$dir"
+command_exists() {
+	command -v "$1" >/dev/null 2>&1
 }
 
-if [[ -o interactive ]]; then
-	# Init starship prompt
-	export STARSHIP_CONFIG="$HOME/.config/starship.toml"
-	command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
+interactive_shell() {
+	[[ -o interactive ]]
+}
 
-	# Init zoxide
-	command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
+add_to_path_front() {
+	local directory=$1
 
-	# Ctrl+R fuzzy history search (fzf)
-	if command -v fzf >/dev/null 2>&1; then
-		source <(fzf --zsh)
+	[[ -d "$directory" ]] || return
+	case ":$PATH:" in
+		*":$directory:") ;;
+		*) export PATH="$directory:$PATH" ;;
+	esac
+}
+
+safe_eval_init() {
+	local init_cmd=$1
+	command_exists "$init_cmd" && eval "$($2)"
+}
+
+pnpm_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+pnpm_completion_file="$pnpm_cache_dir/pnpm-completion.zsh"
+
+setup_pnpm_completion() {
+	mkdir -p "$pnpm_cache_dir"
+	# Rebuild when cache is missing or older than the pnpm executable.
+	if [[ ! -s "$pnpm_completion_file" || "$pnpm_completion_file" -ot "$(command -v pnpm)" ]]; then
+		pnpm completion zsh >"$pnpm_completion_file" 2>/dev/null
 	fi
+	source "$pnpm_completion_file"
+}
 
-	# bun completions
-	if command -v bun >/dev/null 2>&1 && [ -s "/Users/henryblack/.bun/_bun" ]; then
-		source "/Users/henryblack/.bun/_bun"
-	fi
+###############################################################################
+# Core shell settings
+###############################################################################
 
-	# pnpm completion (zsh)
-	if command -v pnpm >/dev/null 2>&1; then
-		pnpm_completion_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/pnpm-completion.zsh"
-		mkdir -p "${pnpm_completion_cache%/*}"
-		if [[ ! -s "$pnpm_completion_cache" || "$pnpm_completion_cache" -ot "$(command -v pnpm)" ]]; then
-			pnpm completion zsh >"$pnpm_completion_cache" 2>/dev/null
-		fi
-		source "$pnpm_completion_cache"
-	fi
-
-	command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh)"
-fi
-
-# brew
+export SHELL="$(command -v zsh)"
 export HOMEBREW_NO_ENV_HINTS=1
-
-# Script Kit
-export PATH="$PATH:/Users/henryblack/.kenv/bin"
-export PATH="$PATH:/Users/henryblack/.kit/bin"
 
 export SAVEHIST=100000
 export HISTSIZE=100000
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_ALL_DUPS
+# Allow comments in interactive command lines.
+setopt INTERACTIVE_COMMENTS
+# Complete inside words, and place completion text at word end.
+setopt COMPLETE_IN_WORD
+setopt ALWAYS_TO_END
 HIST_STAMPS="dd.mm.yyyy"
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/henryblack/.lmstudio/bin"
-# End of LM Studio CLI section
+export PNPM_HOME="$HOME/Library/pnpm"
+add_to_path_front "$PNPM_HOME"
 
-# pnpm
-export PNPM_HOME="/Users/henryblack/Library/pnpm"
-if command -v pnpm >/dev/null 2>&1; then
-	case ":$PATH:" in
-		*":$PNPM_HOME:") ;;
-		*) export PATH="$PNPM_HOME:$PATH" ;;
-	esac
+# Script Kit + tooling bins
+add_to_path_front "$HOME/.kenv/bin"
+add_to_path_front "$HOME/.kit/bin"
+add_to_path_front "$HOME/.lmstudio/bin"
+
+###############################################################################
+# Plugin manager bootstrap (Antidote)
+###############################################################################
+
+ANTIDOTE_PATH="/opt/homebrew/opt/antidote/share/antidote/antidote.zsh"
+if [[ -r "$ANTIDOTE_PATH" ]]; then
+	source "$ANTIDOTE_PATH"
 fi
-# pnpm end
+
+if interactive_shell; then
+	# Completion widgets/tools from plugins (e.g. fzf-tab) depend on zsh/complist.
+	zmodload zsh/complist
+	autoload -Uz compinit
+	compinit
+
+	# Completion behavior tweaks for accuracy and readability.
+	# Keep completion case-insensitive and colorized,
+	# allow approximate matches, and dim completion headers.
+	zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+	zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+	zstyle ':completion:*' completer _complete _approximate
+	zstyle ':completion:*' format $'\e[2mCompleting %d\e[m'
+
+	# Initialize plugins from .zsh_plugins.txt.
+	antidote load
+fi
+
+###############################################################################
+# Shared shell configuration
+###############################################################################
+
+# Need this before alias/env imports because aliases may reference shared variables.
+source "$HOME/dotfiles/shared-shell/vars.sh"
+source "$HOME/dotfiles/shared-shell/aliases.sh"
+source "$HOME/dotfiles/shared-shell/work-aliases.sh"
+source "$HOME/dotfiles/shared-shell/env.sh"
+
+# zsh wrapper for `wt` so directory changes happen in the parent shell.
+# The `wt` binary prints `cd ...` commands, which can only take effect
+# when executed by a shell function (not when running as a plain external command).
+wt() {
+	local worktree_root="${WORKTREE_ROOT:-$HOME/worktrees}"
+	local wt_binary="${WT_BACKEND:-${HOME}/bin/wt}"
+	local wt_output wt_exit_code
+
+	if [[ ! -x "$wt_binary" ]]; then
+		print -u2 -- "wt: backend binary not found or not executable"
+		return 127
+	fi
+
+	if [[ "$PWD" == "$worktree_root"/* ]]; then
+		mkdir -p "$worktree_root"
+		echo "$PWD" >"$worktree_root/.workout_prev"
+	fi
+
+	wt_output="$("$wt_binary" "$@")"
+	wt_exit_code=$?
+	if (( wt_exit_code == 0 )); then
+		if [[ "$wt_output" == cd\ * ]]; then
+			eval -- "$wt_output"
+		else
+		print -r -- "$wt_output"
+		fi
+	fi
+	return "$wt_exit_code"
+}
+
+# try — fuzzy project directory navigator.
+# Wraps the bun `try` script so `cd` happens in the current shell.
+try() {
+	local dir
+	dir=$(command try "$@") && cd "$dir"
+}
+
+###############################################################################
+# Interactive-only tooling
+###############################################################################
+
+if interactive_shell; then
+	export STARSHIP_CONFIG="$HOME/.config/starship.toml"
+
+	command_exists starship && eval "$(starship init zsh)"
+	command_exists zoxide && eval "$(zoxide init zsh)"
+
+	# Ctrl+R fuzzy history search (fzf).
+	command_exists fzf && source <(fzf --zsh)
+
+	# bun completions.
+	if command_exists bun && [[ -s "$HOME/.bun/_bun" ]]; then
+		source "$HOME/.bun/_bun"
+	fi
+
+	# pnpm completions, cached for startup speed.
+	if command_exists pnpm; then
+		setup_pnpm_completion
+	fi
+
+	command_exists mise && eval "$(mise activate zsh)"
+fi
