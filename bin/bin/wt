@@ -14,23 +14,34 @@
 # - With branch name: creates/uses worktree for that branch (creates branch if needed)
 #
 # NOTE: Requires shell wrapper function to change directory in parent shell.
-# The wrapper function is defined in ~/.config/fish/conf.d/wt.fish:
+# The wrapper function is defined in ~/.zshrc:
 #
-#   wt() {
-#     local result
-#     result="$(${homeDirectory}/.nix-profile/bin/workout "$@")"
-#     local exit_code=$?
-#     if [ $exit_code -eq 0 ]; then
-#       # Save current location to global state file if we're in a worktree
-#       local worktree_root="${WORKTREE_ROOT:-$HOME/worktrees}"
-#       if [[ "$PWD" =~ ^$worktree_root/ ]]; then
-#         mkdir -p "$worktree_root"
-#         echo "$PWD" > "$worktree_root/.workout_prev"
-#       fi
-#       eval "$result"
-#     fi
-#     return $exit_code
-#   }
+# wt() {
+# 	local worktree_root="${WORKTREE_ROOT:-$HOME/worktrees}"
+# 	local wt_binary="${WT_BACKEND:-${HOME}/bin/wt}"
+# 	local wt_output wt_exit_code
+
+# 	if [[ ! -x "$wt_binary" ]]; then
+# 		print -u2 -- "wt: backend binary not found or not executable"
+# 		return 127
+# 	fi
+
+# 	if [[ "$PWD" == "$worktree_root"/* ]]; then
+# 		mkdir -p "$worktree_root"
+# 		echo "$PWD" >"$worktree_root/.workout_prev"
+# 	fi
+
+# 	wt_output="$("$wt_binary" "$@")"
+# 	wt_exit_code=$?
+# 	if (( wt_exit_code == 0 )); then
+# 		if [[ "$wt_output" == cd\ * ]]; then
+# 			eval -- "$wt_output"
+# 		else
+# 		print -r -- "$wt_output"
+# 		fi
+# 	fi
+# 	return "$wt_exit_code"
+# }
 #
 # This script outputs a cd command to stdout, which the wrapper evals to change directories.
 # The wrapper also saves the current location to a state file for the toggle feature (-).
