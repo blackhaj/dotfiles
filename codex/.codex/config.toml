@@ -2,7 +2,7 @@
 # Core
 
 # Model
-model = "gpt-5.3-codex-spark"
+model = "gpt-5.4"
 model_reasoning_effort = "high"   # minimal|low|medium|high|none
 model_verbosity = "medium"          # low|medium|high
 # Approval policy
@@ -64,3 +64,6 @@ approval_policy = "on-request"
 [notice.model_migrations]
 "gpt-5.2-codex" = "gpt-5.3-codex"
 "gpt-5.3-codex" = "gpt-5.4"
+
+[plugins."github@openai-curated"]
+enabled = true
