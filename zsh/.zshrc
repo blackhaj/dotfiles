@@ -70,11 +70,15 @@ HIST_STAMPS="dd.mm.yyyy"
 
 export PNPM_HOME="$HOME/Library/pnpm"
 add_to_path_front "$PNPM_HOME"
+add_to_path_front "$HOME/bin"
 
 # Script Kit + tooling bins
 add_to_path_front "$HOME/.kenv/bin"
 add_to_path_front "$HOME/.kit/bin"
 add_to_path_front "$HOME/.lmstudio/bin"
+
+# Vite+ CLI + shell wrapper.
+. "$HOME/.vite-plus/env"
 
 ###############################################################################
 # Plugin manager bootstrap (Antidote)
