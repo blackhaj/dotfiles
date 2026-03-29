@@ -75,6 +75,7 @@
 	"datadog.staticAnalysis.notification.suppressOnboarding": true,
 	"diffEditor.diffAlgorithm": "advanced",
 	"diffEditor.experimental.showMoves": true,
+	"diffEditor.hideUnchangedRegions.enabled": true,
 	"diffEditor.ignoreTrimWhitespace": false,
 	"editor.accessibilitySupport": "off",
 	"editor.bracketPairColorization.enabled": true,
@@ -290,6 +291,7 @@
 		}
 	},
 	"terminal.integrated.scrollback": 1000000,
+	"terminal.integrated.showEnvironmentContributions": false,
 	"terminal.integrated.tabs.title": "${cwdFolder}",
 	"typescript.preferences.importModuleSpecifierGranularity": "directory",
 	"typescript.preferences.importModuleSpecifierStyle": "short",
@@ -297,14 +299,14 @@
 	"window.commandCenter": true,
 	"window.title": "${rootName}",
 	"window.zoomLevel": 1,
-	"workbench.colorTheme": "Default Dark Modern",
+	"workbench.colorTheme": "Dark Modern",
 	"workbench.editor.labelFormat": "short",
 	"workbench.iconTheme": "material-icon-theme",
 	"workbench.localHistory.exclude": {
 		"node_modules/": true
 	},
 	"workbench.panel.defaultLocation": "bottom",
-	"workbench.preferredDarkColorTheme": "Default Dark Modern",
-	"workbench.preferredLightColorTheme": "Default Light Modern",
+	"workbench.preferredDarkColorTheme": "Dark Modern",
+	"workbench.preferredLightColorTheme": "Light Modern",
 	"workbench.secondarySideBar.defaultVisibility": "hidden"
 }
