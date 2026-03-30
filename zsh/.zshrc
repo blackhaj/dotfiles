@@ -67,6 +67,8 @@ setopt INTERACTIVE_COMMENTS
 setopt COMPLETE_IN_WORD
 setopt ALWAYS_TO_END
 HIST_STAMPS="dd.mm.yyyy"
+# Keep pasted text on normal syntax highlighting instead of standout background.
+zle_highlight+=(paste:none)
 
 export PNPM_HOME="$HOME/Library/pnpm"
 add_to_path_front "$PNPM_HOME"
