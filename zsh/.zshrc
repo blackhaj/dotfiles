@@ -39,6 +39,9 @@ safe_eval_init() {
 
 pnpm_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 pnpm_completion_file="$pnpm_cache_dir/pnpm-completion.zsh"
+gcloud_sdk_root="$HOME/google-cloud-sdk"
+gcloud_path_init="$gcloud_sdk_root/path.zsh.inc"
+gcloud_completion_init="$gcloud_sdk_root/completion.zsh.inc"
 
 setup_pnpm_completion() {
 	mkdir -p "$pnpm_cache_dir"
@@ -78,6 +81,10 @@ add_to_path_front "$HOME/bin"
 add_to_path_front "$HOME/.kenv/bin"
 add_to_path_front "$HOME/.kit/bin"
 add_to_path_front "$HOME/.lmstudio/bin"
+
+if [[ -r "$gcloud_path_init" ]]; then
+	source "$gcloud_path_init"
+fi
 
 # Vite+ CLI + shell wrapper.
 . "$HOME/.vite-plus/env"
@@ -177,6 +184,10 @@ if interactive_shell; then
 	# pnpm completions, cached for startup speed.
 	if command_exists pnpm; then
 		setup_pnpm_completion
+	fi
+
+	if [[ -r "$gcloud_completion_init" ]]; then
+		source "$gcloud_completion_init"
 	fi
 
 	command_exists mise && eval "$(mise activate zsh)"
