@@ -37,6 +37,16 @@ safe_eval_init() {
 	command_exists "$init_cmd" && eval "$($2)"
 }
 
+detect_homebrew_bin() {
+	if [[ -x /opt/homebrew/bin/brew ]]; then
+		print -r -- /opt/homebrew/bin/brew
+	elif [[ -x /usr/local/bin/brew ]]; then
+		print -r -- /usr/local/bin/brew
+	elif command_exists brew; then
+		command -v brew
+	fi
+}
+
 pnpm_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 pnpm_completion_file="$pnpm_cache_dir/pnpm-completion.zsh"
 gcloud_sdk_root="$HOME/google-cloud-sdk"
@@ -58,6 +68,13 @@ setup_pnpm_completion() {
 
 export SHELL="$(command -v zsh)"
 export HOMEBREW_NO_ENV_HINTS=1
+
+homebrew_bin="$(detect_homebrew_bin)"
+if [[ -n "$homebrew_bin" ]]; then
+	# Load Homebrew's environment early so brewed tools outrank macOS system binaries.
+	eval "$("$homebrew_bin" shellenv)"
+fi
+unset homebrew_bin
 
 export SAVEHIST=100000
 export HISTSIZE=100000
