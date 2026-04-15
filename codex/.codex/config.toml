@@ -66,6 +66,12 @@ trust_level = "trusted"
 [projects."/Users/henryblack/code/projects/complaints"]
 trust_level = "trusted"
 
+[projects."/Users/henryblack/code/try/openclaw"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/code/projects/media"]
+trust_level = "trusted"
+
 
 
 [profiles.commit-message]

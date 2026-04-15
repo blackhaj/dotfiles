@@ -3,5 +3,8 @@
 	"defaultProvider": "openai-codex",
 	"defaultModel": "gpt-5.2-codex",
 	"skills": ["~/dotfiles/skills"],
-	"packages": ["https://github.com/nicobailon/visual-explainer"]
+	"packages": [
+		"https://github.com/nicobailon/visual-explainer",
+		"npm:@plannotator/pi-extension"
+	]
 }
