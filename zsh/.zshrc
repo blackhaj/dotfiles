@@ -139,46 +139,10 @@ fi
 
 # Need this before alias/env imports because aliases may reference shared variables.
 source "$HOME/dotfiles/shared-shell/vars.sh"
+source "$HOME/dotfiles/shared-shell/functions.sh"
 source "$HOME/dotfiles/shared-shell/aliases.sh"
 source "$HOME/dotfiles/shared-shell/work-aliases.sh"
 source "$HOME/dotfiles/shared-shell/env.sh"
-
-# zsh wrapper for `wt` so directory changes happen in the parent shell.
-# The `wt` binary prints `cd ...` commands, which can only take effect
-# when executed by a shell function (not when running as a plain external command).
-wt() {
-	local worktree_root="${WORKTREE_ROOT:-$HOME/worktrees}"
-	local wt_binary="${WT_BACKEND:-${HOME}/bin/wt}"
-	local wt_output wt_exit_code
-
-	if [[ ! -x "$wt_binary" ]]; then
-		print -u2 -- "wt: backend binary not found or not executable"
-		return 127
-	fi
-
-	if [[ "$PWD" == "$worktree_root"/* ]]; then
-		mkdir -p "$worktree_root"
-		echo "$PWD" >"$worktree_root/.workout_prev"
-	fi
-
-	wt_output="$("$wt_binary" "$@")"
-	wt_exit_code=$?
-	if (( wt_exit_code == 0 )); then
-		if [[ "$wt_output" == cd\ * ]]; then
-			eval -- "$wt_output"
-		else
-		print -r -- "$wt_output"
-		fi
-	fi
-	return "$wt_exit_code"
-}
-
-# try — fuzzy project directory navigator.
-# Wraps the bun `try` script so `cd` happens in the current shell.
-try() {
-	local dir
-	dir=$(command try "$@") && cd "$dir"
-}
 
 ###############################################################################
 # Interactive-only tooling

@@ -1,15 +1,6 @@
 {
 	// File Associations
 	"files.associations": {
-		"fzfb": "shellscript",
-		"gcof": "shellscript",
-		"gdall": "shellscript",
-		"gdf": "shellscript",
-		"gdff": "shellscript",
-		"getbitrate": "shellscript",
-		"getsong": "shellscript",
-		"ggb": "shellscript",
-		"kill-maze": "shellscript",
 		"mkbun": "shellscript",
 		"mksh": "shellscript",
 		"nato": "typescript",
@@ -19,7 +10,6 @@
 		"sc": "shellscript",
 		"try": "typescript",
 		"true-bitrate": "shellscript",
-		"unifiedAddHistory": "shellscript",
 		"work": "shellscript",
 		"wt": "shellscript",
 		"wt-delete": "shellscript"
