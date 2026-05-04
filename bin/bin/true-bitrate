@@ -1,0 +1,152 @@
+#!/usr/bin/env bash
+# true-bitrate — Estimate the true encoding quality of an audio file
+#
+# Usage: true-bitrate <audio-file>
+#
+# Reports the encoded (container) bitrate then uses spectral analysis to
+# estimate the original source quality. Measures energy in 1 kHz bands
+# from 14-21 kHz and compares to a 2-6 kHz reference band. The frequency
+# where energy drops off is the fingerprint left by the original encoder.
+#
+# Requires: ffmpeg, ffprobe
+
+set -euo pipefail
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: $0 <audio-file>"
+  exit 1
+fi
+
+FILE="$1"
+
+if [[ ! -f "$FILE" ]]; then
+  echo "Error: File not found: $FILE"
+  exit 1
+fi
+
+# --- File metadata ---
+
+ENCODED_BR=$(ffprobe -v error -select_streams a:0 \
+  -show_entries stream=bit_rate -of default=noprint_wrappers=1:nokey=1 "$FILE" 2>/dev/null || echo "")
+
+SAMPLE_RATE=$(ffprobe -v error -select_streams a:0 \
+  -show_entries stream=sample_rate -of default=noprint_wrappers=1:nokey=1 "$FILE" 2>/dev/null || echo "44100")
+
+CODEC=$(ffprobe -v error -select_streams a:0 \
+  -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 "$FILE" 2>/dev/null || echo "unknown")
+
+DURATION=$(ffprobe -v error -show_entries format=duration \
+  -of default=noprint_wrappers=1:nokey=1 "$FILE" 2>/dev/null || echo "0")
+
+if [[ -z "$ENCODED_BR" || "$ENCODED_BR" == "N/A" ]]; then
+  FILE_SIZE=$(stat -f%z "$FILE" 2>/dev/null || stat -c%s "$FILE" 2>/dev/null)
+  ENCODED_BR=$(awk "BEGIN { printf \"%d\", $FILE_SIZE * 8 / $DURATION }")
+fi
+
+ENCODED_KBPS=$(awk "BEGIN { printf \"%d\", $ENCODED_BR / 1000 }")
+
+# --- Spectral analysis ---
+# Sample 20 seconds from the middle of the track
+
+MIDPOINT=$(awk "BEGIN { x = $DURATION / 2 - 10; printf \"%.1f\", (x > 0 ? x : 0) }")
+
+# Measure RMS dB for a bandpass-filtered slice of audio
+rms_db() {
+  local lo="$1" hi="$2"
+  ffmpeg -nostdin -ss "$MIDPOINT" -t 20 -i "$FILE" \
+    -af "highpass=f=${lo},lowpass=f=${hi},astats=metadata=1:reset=0" \
+    -f null - 2>&1 \
+    | grep "RMS level dB" | tail -1 | awk -F: '{gsub(/ /,"",$2); print $2}'
+}
+
+# Reference band: 2-6 kHz
+REF_DB=$(rms_db 2000 6000)
+
+if [[ -z "$REF_DB" ]]; then
+  echo "Error: Could not analyse audio (is the file valid?)"
+  exit 1
+fi
+
+# Probe 1 kHz bands from 14 kHz to 21 kHz
+FREQS=(14000 15000 16000 17000 18000 19000 20000)
+DBS=()
+
+for f in "${FREQS[@]}"; do
+  db=$(rms_db "$f" "$((f + 1000))")
+  DBS+=("${db:--120}")
+done
+
+# --- Find the cutoff ---
+# Two detectors, whichever fires first (lowest frequency) wins:
+#   1. Absolute: band drops > 20 dB below reference
+#   2. Cliff:    consecutive bands drop > 8 dB between them
+
+NYQUIST=$((SAMPLE_RATE / 2))
+CUTOFF=$NYQUIST
+
+# Absolute drop from reference
+for i in "${!FREQS[@]}"; do
+  drop=$(awk "BEGIN { printf \"%.1f\", ($REF_DB) - (${DBS[$i]}) }")
+  past=$(awk "BEGIN { print ($drop > 20) ? 1 : 0 }")
+  if [[ "$past" == "1" && ${FREQS[$i]} -lt $CUTOFF ]]; then
+    CUTOFF=${FREQS[$i]}
+    break
+  fi
+done
+
+# Cliff between consecutive bands
+for i in $(seq 1 $((${#FREQS[@]} - 1))); do
+  prev=$((i - 1))
+  cliff=$(awk "BEGIN { printf \"%.1f\", (${DBS[$prev]}) - (${DBS[$i]}) }")
+  steep=$(awk "BEGIN { print ($cliff > 8) ? 1 : 0 }")
+  if [[ "$steep" == "1" && ${FREQS[$i]} -lt $CUTOFF ]]; then
+    CUTOFF=${FREQS[$i]}
+    break
+  fi
+done
+
+# --- Map cutoff to estimated quality ---
+
+if [[ $CUTOFF -ge 20000 ]]; then
+  EST="Lossless / 320 kbps"
+  EST_KBPS=320
+elif [[ $CUTOFF -ge 19000 ]]; then
+  EST="~256-320 kbps"
+  EST_KBPS=288
+elif [[ $CUTOFF -ge 18000 ]]; then
+  EST="~192-256 kbps"
+  EST_KBPS=224
+elif [[ $CUTOFF -ge 17000 ]]; then
+  EST="~160-192 kbps"
+  EST_KBPS=176
+elif [[ $CUTOFF -ge 16000 ]]; then
+  EST="~128-160 kbps"
+  EST_KBPS=144
+elif [[ $CUTOFF -ge 14000 ]]; then
+  EST="~96-128 kbps"
+  EST_KBPS=112
+else
+  EST="< 96 kbps"
+  EST_KBPS=64
+fi
+
+CUTOFF_KHZ=$(awk "BEGIN { printf \"%.0f\", $CUTOFF / 1000 }")
+UPSCALED=$(awk "BEGIN { print ($EST_KBPS < $ENCODED_KBPS * 0.85) ? 1 : 0 }")
+
+# --- Output ---
+
+echo ""
+echo "  File:               $(basename "$FILE")"
+echo "  Codec:              $CODEC"
+echo "  Sample rate:        $SAMPLE_RATE Hz"
+echo "  Encoded bitrate:    $ENCODED_KBPS kbps"
+echo "  Frequency cutoff:   ~${CUTOFF_KHZ} kHz"
+echo "  Estimated quality:  $EST"
+echo ""
+if [[ "$UPSCALED" == "1" ]]; then
+  echo "  ⚠ Likely upscaled — encoded at $ENCODED_KBPS kbps"
+  echo "    but spectral content suggests the source was $EST"
+else
+  echo "  ✓ Bitrate appears genuine"
+fi
+echo ""

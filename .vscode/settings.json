@@ -18,6 +18,7 @@
 		"prs": "typescript",
 		"sc": "shellscript",
 		"try": "typescript",
+		"true-bitrate": "shellscript",
 		"unifiedAddHistory": "shellscript",
 		"work": "shellscript",
 		"wt": "shellscript",
