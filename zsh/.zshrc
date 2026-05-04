@@ -104,16 +104,16 @@ if [[ -r "$gcloud_path_init" ]]; then
 fi
 
 # Vite+ CLI + shell wrapper.
-. "$HOME/.vite-plus/env"
+if [[ -r "$HOME/.vite-plus/env" ]]; then
+	source "$HOME/.vite-plus/env"
+fi
 
 ###############################################################################
 # Plugin manager bootstrap (Antidote)
 ###############################################################################
 
-ANTIDOTE_PATH="/opt/homebrew/opt/antidote/share/antidote/antidote.zsh"
-if [[ -r "$ANTIDOTE_PATH" ]]; then
-	source "$ANTIDOTE_PATH"
-fi
+ANTIDOTE_PATH="${HOMEBREW_PREFIX:-/opt/homebrew}/opt/antidote/share/antidote/antidote.zsh"
+source "$ANTIDOTE_PATH"
 
 if interactive_shell; then
 	# Completion widgets/tools from plugins (e.g. fzf-tab) depend on zsh/complist.
