@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # true-bitrate — Estimate the true encoding quality of an audio file
 #
 # Usage: true-bitrate <audio-file>

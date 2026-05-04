@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # Description: Fuzzy find and run a package.json script with the correct package manager
 
 set -e # Exit on error

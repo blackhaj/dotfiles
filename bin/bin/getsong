@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # Description: Get a song from YouTube and save it to the music inbox
 
 set -e # Exit on error

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # Description: Fuzzy find and copy a git branch to clipboard
 
 set -e # Exit on error

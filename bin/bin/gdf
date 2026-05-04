@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # Description: Fuzzy find and delete a git branch
 
 set -e # Exit on error

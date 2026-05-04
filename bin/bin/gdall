@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # Description: Delete all local git branches except main
 
 set -e # Exit on error

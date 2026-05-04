@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # Description: Create and navigate to git worktrees in ~/worktrees/ (or $WORKTREE_ROOT)
 # Source: https://github.com/karlhepler/nixpkgs/blob/main/modules/git/workout.bash
 #

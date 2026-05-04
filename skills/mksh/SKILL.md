@@ -22,7 +22,7 @@ mksh <scriptname>
 This creates `~/dotfiles/bin/bin/<scriptname>` with:
 
 ```bash
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # Description: <ADD>
 
 
@@ -38,7 +38,7 @@ And makes it executable.
 Fill in the `# Description:` line. If the script is copied from an external source, add a `# Source:` line immediately after:
 
 ```bash
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # Description: One-line description of what the script does
 # Source: https://github.com/example/repo/blob/main/path/to/script.sh
 
@@ -70,7 +70,7 @@ This is how `wt` and `wt-delete` were added from @karlhepler's nixpkgs:
 mksh wt
 
 # Then edit the file to have:
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # Description: Create and navigate to git worktrees in ~/worktrees/ (or $WORKTREE_ROOT)
 # Source: https://github.com/karlhepler/nixpkgs/blob/main/modules/git/workout.bash
 
