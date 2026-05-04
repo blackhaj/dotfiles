@@ -1,10 +1,11 @@
 {
-	"lastChangelogVersion": "0.56.1",
+	"lastChangelogVersion": "0.70.2",
 	"defaultProvider": "openai-codex",
-	"defaultModel": "gpt-5.2-codex",
+	"defaultModel": "gpt-5.5",
 	"skills": ["~/dotfiles/skills"],
 	"packages": [
 		"https://github.com/nicobailon/visual-explainer",
 		"npm:@plannotator/pi-extension"
-	]
+	],
+	"defaultThinkingLevel": "medium"
 }

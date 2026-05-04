@@ -2,8 +2,8 @@
 # Core
 
 # Model
-model = "gpt-5.4"
-model_reasoning_effort = "high"   # minimal|low|medium|high|none
+model = "gpt-5.5"
+model_reasoning_effort = "medium"   # minimal|low|medium|high|none
 model_verbosity = "medium"          # low|medium|high
 # Approval policy
 approval_policy = "on-request"       # untrusted|on-failure|on-request|never
@@ -28,6 +28,7 @@ notifications = true
 
 [tui.model_availability_nux]
 "gpt-5.3-codex-spark" = 4
+"gpt-5.5" = 1
 
 # [mcp_servers.linear]
 # url = "https://mcp.linear.app/mcp"
@@ -72,6 +73,15 @@ trust_level = "trusted"
 [projects."/Users/henryblack/code/projects/media"]
 trust_level = "trusted"
 
+[projects."/Users/henryblack/code/try/2026-04-21-fin-data"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/code/cloned/pi-mono"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Desktop/vaults"]
+trust_level = "trusted"
+
 
 
 [profiles.commit-message]
@@ -85,3 +95,25 @@ approval_policy = "on-request"
 
 [plugins."github@openai-curated"]
 enabled = true
+
+[plugins."browser-use@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[marketplaces.openai-bundled]
+last_updated = "2026-05-03T15:53:17Z"
+source_type = "local"
+source = "/Users/henryblack/.codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[marketplaces.openai-primary-runtime]
+last_updated = "2026-05-03T15:53:33Z"
+source_type = "local"
+source = "/Users/henryblack/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
