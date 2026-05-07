@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 # Description: Create and navigate to git worktrees in ~/worktrees/ (or $WORKTREE_ROOT)
 # Source: https://github.com/karlhepler/nixpkgs/blob/main/modules/git/workout.bash
 #
@@ -480,7 +480,7 @@ preview_worktree() {
 				printf "   %s (%s)\n" "$file" "$change_type"
 				;;
 			esac
-		done then
+		done; then
 			# Show summary if diff succeeded
 			local summary
 			summary=$(timeout 2 git diff --shortstat "$trunk_branch"...HEAD 2>/dev/null || echo "")

@@ -3,7 +3,7 @@
 
 # Model
 model = "gpt-5.5"
-model_reasoning_effort = "medium"   # minimal|low|medium|high|none
+model_reasoning_effort = "low"   # minimal|low|medium|high|none
 model_verbosity = "medium"          # low|medium|high
 # Approval policy
 approval_policy = "on-request"       # untrusted|on-failure|on-request|never
