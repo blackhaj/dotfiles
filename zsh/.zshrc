@@ -129,6 +129,18 @@ if interactive_shell; then
 	zstyle ':completion:*' completer _complete _approximate
 	zstyle ':completion:*' format $'\e[2mCompleting %d\e[m'
 
+	# Fish-style prefix history search: type part of a command, then press
+	# Up/Down to cycle through history entries that start with that text.
+	autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+	zle -N up-line-or-beginning-search
+	zle -N down-line-or-beginning-search
+	for keymap in emacs viins; do
+		[[ -n "${terminfo[kcuu1]}" ]] && bindkey -M "$keymap" "${terminfo[kcuu1]}" up-line-or-beginning-search
+		[[ -n "${terminfo[kcud1]}" ]] && bindkey -M "$keymap" "${terminfo[kcud1]}" down-line-or-beginning-search
+		bindkey -M "$keymap" '^[[A' up-line-or-beginning-search
+		bindkey -M "$keymap" '^[[B' down-line-or-beginning-search
+	done
+
 	# Initialize plugins from .zsh_plugins.txt.
 	antidote load
 fi
