@@ -73,8 +73,7 @@
 	"cursor.cpp.disabledLanguages": ["scminput"],
 	"cursor.preferNotificationsSameAsChat": true,
 	"cursorpyright.analysis.autoImportCompletions": true,
-	"datadog.connection.notification.suppressSignInNotification": true,
-	"datadog.staticAnalysis.notification.suppressOnboarding": true,
+  "datadog.connection.notification.suppressSignInNotification": true,
 	"diffEditor.diffAlgorithm": "advanced",
 	"diffEditor.experimental.showMoves": true,
 	"diffEditor.ignoreTrimWhitespace": false,
@@ -309,5 +308,8 @@
 	"workbench.panel.defaultLocation": "bottom",
 	"workbench.preferredDarkColorTheme": "Dark Modern",
 	"workbench.preferredLightColorTheme": "Light Modern",
-	"workbench.secondarySideBar.defaultVisibility": "hidden"
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "terminal.integrated.mouseWheelScrollSensitivity": 3,
+    "datadog.codeSecurity.notification.suppressOnboarding": true,
+    "datadog.cursor.notification.suppressMcpMigrationMessage": true
 }

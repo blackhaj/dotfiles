@@ -96,9 +96,6 @@ approval_policy = "on-request"
 [plugins."github@openai-curated"]
 enabled = true
 
-[plugins."browser-use@openai-bundled"]
-enabled = true
-
 [plugins."documents@openai-primary-runtime"]
 enabled = true
 
@@ -108,12 +105,21 @@ enabled = true
 [plugins."presentations@openai-primary-runtime"]
 enabled = true
 
+[plugins."slack@openai-curated"]
+enabled = true
+
+[plugins."linear@openai-curated"]
+enabled = true
+
+[plugins."browser-use@openai-bundled"]
+enabled = true
+
 [marketplaces.openai-bundled]
-last_updated = "2026-05-03T15:53:17Z"
+last_updated = "2026-05-11T13:35:06Z"
 source_type = "local"
 source = "/Users/henryblack/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-05-03T15:53:33Z"
+last_updated = "2026-05-07T19:19:48Z"
 source_type = "local"
 source = "/Users/henryblack/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"

@@ -32,5 +32,7 @@
 		"typescript-lsp@claude-plugins-official": true
 	},
 	"alwaysThinkingEnabled": true,
-	"skipDangerousModePermissionPrompt": true
+	"effortLevel": "high",
+	"skipDangerousModePermissionPrompt": true,
+	"theme": "dark"
 }
