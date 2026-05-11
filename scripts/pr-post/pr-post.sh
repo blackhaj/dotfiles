@@ -5,6 +5,8 @@
 # - gh needs to be installed
 # - pr-post.js needs to be next to this script
 
+source "${DOTFILES_DIR:-$HOME/dotfiles}/shared-shell/functions.sh"
+
 branch=$(fzfb)
 
 if [[ "$branch" = "" ]]; then
