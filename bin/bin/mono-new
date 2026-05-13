@@ -1,0 +1,160 @@
+#!/usr/bin/env zsh
+# Description: Create a Maze monorepo worktree and open it in a two-pane cmux workspace
+
+set -e # Exit on error
+set -u # Exit on undefined variable
+set -o pipefail # Exit on pipe error
+
+usage() {
+	echo "Usage: mono-new [--base <base-branch>] <branch-name>" >&2
+}
+
+require_command() {
+	local command_name="$1"
+
+	if ! command -v "$command_name" >/dev/null 2>&1; then
+		echo "mono-new: missing required command: $command_name" >&2
+		exit 127
+	fi
+}
+
+create_worktree() {
+	local branch_name="$1"
+	local base_branch="${2:-}"
+	local worktree_root="${WORKTREE_ROOT:-$HOME/worktrees}"
+	local existing_worktree org_repo remote_url worktree_path
+
+	remote_url="$(git remote get-url origin)"
+	org_repo="$(print -r -- "$remote_url" | sed -E 's#.*[:/]([^/]+/[^/]+)\.git$#\1#')"
+
+	if [[ -z "$org_repo" || "$org_repo" == "$remote_url" ]]; then
+		echo "mono-new: could not extract org/repo from remote URL: $remote_url" >&2
+		exit 1
+	fi
+
+	if [[ "$org_repo" == *".."* || "$branch_name" == *".."* ]]; then
+		echo "mono-new: refusing path containing '..'" >&2
+		exit 1
+	fi
+
+	existing_worktree="$(git worktree list --porcelain | awk -v branch="refs/heads/$branch_name" '
+		/^worktree / { path = substr($0, 10) }
+		/^branch / && $0 == "branch " branch { print path; exit }
+	')"
+
+	if [[ -n "$existing_worktree" ]]; then
+		print -r -- "$existing_worktree"
+		return
+	fi
+
+	worktree_path="$worktree_root/$org_repo/$branch_name"
+
+	if [[ -d "$worktree_path" ]]; then
+		print -r -- "$worktree_path"
+		return
+	fi
+
+	mkdir -p "$(dirname "$worktree_path")"
+
+	if git show-ref --verify --quiet "refs/heads/$branch_name"; then
+		git worktree add "$worktree_path" "$branch_name" >&2
+	elif [[ -n "$base_branch" ]]; then
+		git worktree add -b "$branch_name" "$worktree_path" "$base_branch" >&2
+	else
+		git worktree add -b "$branch_name" "$worktree_path" >&2
+	fi
+
+	print -r -- "$worktree_path"
+}
+
+build_layout_json() {
+	local setup_command setup_steps
+
+	setup_steps='mise trust && bash ~/maze/maze-monorepo/scripts/copy-env-to-worktree.sh "$(pwd)" && mise install && eval "$(mise env -s zsh)" && pnpm bootstrap; exec "${SHELL:-/bin/zsh}" -l'
+	setup_command="zsh -lc ${(q)setup_steps}"
+
+	jq -n --arg setup_command "$setup_command" '{
+		direction: "horizontal",
+		split: 0.5,
+		children: [
+			{
+				pane: {
+					surfaces: [
+						{
+							type: "terminal",
+							name: "Setup",
+							command: $setup_command,
+							focus: true
+						}
+					]
+				}
+			},
+			{
+				pane: {
+					surfaces: [
+						{
+							type: "terminal",
+							name: "Shell"
+						}
+					]
+				}
+			}
+		]
+	}'
+}
+
+main() {
+	local base_branch="" branch_name worktree_path layout_json
+
+	while [[ $# -gt 0 ]]; do
+		case "$1" in
+		--base)
+			if [[ $# -lt 2 ]]; then
+				usage
+				exit 1
+			fi
+
+			base_branch="$2"
+			shift 2
+			;;
+		-h | --help)
+			usage
+			exit 0
+			;;
+		-*)
+			echo "mono-new: unknown option: $1" >&2
+			usage
+			exit 1
+			;;
+		*)
+			if [[ -n "${branch_name:-}" ]]; then
+				usage
+				exit 1
+			fi
+
+			branch_name="$1"
+			shift
+			;;
+		esac
+	done
+
+	if [[ -z "${branch_name:-}" ]]; then
+		usage
+		exit 1
+	fi
+
+	require_command cmux
+	require_command jq
+	require_command git
+
+	worktree_path="$(create_worktree "$branch_name" "$base_branch")"
+	layout_json="$(build_layout_json)"
+
+	cmux new-workspace \
+		--name "$branch_name" \
+		--cwd "$worktree_path" \
+		--layout "$layout_json" \
+		--focus true
+}
+
+main "$@"
