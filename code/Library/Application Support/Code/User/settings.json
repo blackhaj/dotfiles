@@ -19,18 +19,18 @@
 		"editor.defaultFormatter": "biomejs.biome"
 	},
 	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome",
 		"editor.quickSuggestions": {
 			"strings": true
 		},
-		"editor.suggest.insertMode": "replace",
-		"editor.defaultFormatter": "biomejs.biome"
+		"editor.suggest.insertMode": "replace"
 	},
 	"[jsonc]": {
+		"editor.defaultFormatter": "biomejs.biome",
 		"editor.quickSuggestions": {
 			"strings": true
 		},
-		"editor.suggest.insertMode": "replace",
-		"editor.defaultFormatter": "biomejs.biome"
+		"editor.suggest.insertMode": "replace"
 	},
 	"[markdown]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -73,7 +73,9 @@
 	"cursor.cpp.disabledLanguages": ["scminput"],
 	"cursor.preferNotificationsSameAsChat": true,
 	"cursorpyright.analysis.autoImportCompletions": true,
-  "datadog.connection.notification.suppressSignInNotification": true,
+	"datadog.codeSecurity.notification.suppressOnboarding": true,
+	"datadog.connection.notification.suppressSignInNotification": true,
+	"datadog.cursor.notification.suppressMcpMigrationMessage": true,
 	"diffEditor.diffAlgorithm": "advanced",
 	"diffEditor.experimental.showMoves": true,
 	"diffEditor.ignoreTrimWhitespace": false,
@@ -117,6 +119,7 @@
 	"explorer.confirmDragAndDrop": false,
 	"explorer.confirmPasteNative": false,
 	"explorer.fileNesting.enabled": false,
+	"extensions.ignoreRecommendations": true,
 	"figma.assetExportDirectory": "apps/maze-webapp/src/assets",
 	"files.associations": {
 		"*.css": "css",
@@ -284,6 +287,7 @@
 	"terminal.integrated.enableVisualBell": true,
 	"terminal.integrated.fontFamily": "MesloLGS Nerd Font, MesloLGS NF",
 	"terminal.integrated.initialHint": false,
+	"terminal.integrated.mouseWheelScrollSensitivity": 3,
 	"terminal.integrated.persistentSessionReviveProcess": "onExit",
 	"terminal.integrated.profiles.osx": {
 		"fish": {
@@ -296,6 +300,7 @@
 	"typescript.preferences.importModuleSpecifierGranularity": "directory",
 	"typescript.preferences.importModuleSpecifierStyle": "short",
 	"vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
+	"window.autoDetectColorScheme": false,
 	"window.commandCenter": true,
 	"window.title": "${rootName}",
 	"window.zoomLevel": 1,
@@ -308,8 +313,5 @@
 	"workbench.panel.defaultLocation": "bottom",
 	"workbench.preferredDarkColorTheme": "Dark Modern",
 	"workbench.preferredLightColorTheme": "Light Modern",
-    "workbench.secondarySideBar.defaultVisibility": "hidden",
-    "terminal.integrated.mouseWheelScrollSensitivity": 3,
-    "datadog.codeSecurity.notification.suppressOnboarding": true,
-    "datadog.cursor.notification.suppressMcpMigrationMessage": true
+	"workbench.secondarySideBar.defaultVisibility": "hidden"
 }
