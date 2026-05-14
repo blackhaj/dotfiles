@@ -1,8 +1,10 @@
 #!/usr/bin/env bun
+/// <reference types="node" />
+/// <reference types="bun" />
 /**
  * prs.ts
  *
- * Default: list closed PRs since the most recent Monday (inclusive).
+ * Default: list merged PRs since the most recent Monday (inclusive).
  *
  * Time flags (use only one at a time):
  *   -w <number>  1 = last Monday, 2 = two Mondays ago, ...
@@ -186,9 +188,9 @@ function main() {
 			"--author",
 			"@me",
 			"--state",
-			"closed",
+			"merged",
 			"--search",
-			`closed:>=${startStr}`,
+			`merged:>=${startStr}`,
 		];
 		if (repoArg) cmd.push("--repo", repoArg);
 		const proc = run(cmd);
@@ -197,11 +199,11 @@ function main() {
 
 	// COUNT MODE: use GraphQL search.issueCount (not paginated)
 	// Build a GitHub search query string
-	// Note: use "is:pr is:closed" + closed:>=YYYY-MM-DD + author:@me + optional repo:
+	// Note: use "is:pr is:merged" + merged:>=YYYY-MM-DD + author:@me + optional repo:
 	const qualifiers = [
 		"is:pr",
-		"is:closed",
-		`closed:>=${startStr}`,
+		"is:merged",
+		`merged:>=${startStr}`,
 		"author:@me",
 	];
 	if (repo) qualifiers.push(`repo:${repo}`);
