@@ -144,11 +144,13 @@ main() {
 	fi
 
 	require_command cmux
-	require_command jq
-	require_command git
+		require_command jq
+		require_command git
+		require_command mise
 
-	worktree_path="$(create_worktree "$branch_name" "$base_branch")"
-	layout_json="$(build_layout_json)"
+		worktree_path="$(create_worktree "$branch_name" "$base_branch")"
+		(cd "$worktree_path" && mise trust)
+		layout_json="$(build_layout_json)"
 
 	cmux new-workspace \
 		--name "$branch_name" \
