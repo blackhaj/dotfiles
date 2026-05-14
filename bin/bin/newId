@@ -1,4 +1,6 @@
 #!/usr/bin/env bun
+/// <reference types="node" />
+/// <reference types="bun" />
 import chalk from "chalk";
 import clipboardy from "clipboardy";
 import meow from "meow";

@@ -1,4 +1,6 @@
 #!/usr/bin/env bun
+/// <reference types="node" />
+/// <reference types="bun" />
 // Description: Fuzzy project directory navigator / creator
 //
 // Requires a shell wrapper to cd into the selected directory.

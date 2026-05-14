@@ -24,6 +24,8 @@ fi
 # Create the new script
 # shellcheck disable=SC2016
 echo '#!/usr/bin/env bun
+/// <reference types="node" />
+/// <reference types="bun" />
 // Description: <ADD>
 
 console.log("Hello, world!")
