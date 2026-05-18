@@ -1,0 +1,15 @@
+{
+	"hooks": {
+		"Stop": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "bash -c 'printf \"{\\\"systemMessage\\\":\\\"%s turn complete\\\"}\\n\" \"$(date \"+%Y-%m-%d %H:%M:%S\")\"'",
+						"timeout": 30
+					}
+				]
+			}
+		]
+	}
+}

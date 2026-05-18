@@ -16,6 +16,9 @@ personality = "pragmatic"
 [features]
 shell_snapshot = true
 undo = true
+terminal_resize_reflow = true
+goals = true
+hooks = true
 
 # Extra settings that only apply when `sandbox = "workspace-write"`.
 [sandbox_workspace_write]
@@ -25,13 +28,14 @@ network_access = true
 
 [tui]
 notifications = true
+session_picker_view = "comfortable"
 
 [tui.model_availability_nux]
 "gpt-5.3-codex-spark" = 4
 "gpt-5.5" = 4
 
-# [mcp_servers.linear]
-# url = "https://mcp.linear.app/mcp"
+[mcp_servers.linear]
+url = "https://mcp.linear.app/mcp"
 
 # [mcp_servers.datadog]
 # url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
@@ -118,11 +122,17 @@ enabled = true
 enabled = true
 
 [marketplaces.openai-bundled]
-last_updated = "2026-05-11T19:18:53Z"
+last_updated = "2026-05-18T17:59:35Z"
 source_type = "local"
 source = "/Users/henryblack/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-05-07T19:19:48Z"
+last_updated = "2026-05-18T18:10:23Z"
 source_type = "local"
 source = "/Users/henryblack/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
+[hooks.state]
+
+[hooks.state."/Users/henryblack/.codex/hooks.json:stop:0:0"]
+enabled = true
+trusted_hash = "sha256:81c17df8961a3d6ef9b12030c91402f898430b1495ff00cd2e624c6806be6205"
