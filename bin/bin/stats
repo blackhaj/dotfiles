@@ -1,0 +1,799 @@
+#!/usr/bin/env bun
+/// <reference types="node" />
+/// <reference types="bun" />
+// Description: Show weekly GitHub PR and review stats for Maze
+
+import {
+	existsSync,
+	mkdirSync,
+	readFileSync,
+	rmSync,
+	writeFileSync,
+} from "node:fs";
+import { homedir } from "node:os";
+import { dirname, join } from "node:path";
+
+const ORG = process.env.GITHUB_ORG_NAME ?? "";
+const TEAM_USERNAMES = (process.env.GITHUB_TEAM_USERNAMES ?? "")
+	.split(",")
+	.map((name) => name.trim().toLowerCase())
+	.filter(Boolean);
+
+type WeekStats = {
+	label: string;
+	start: Date;
+	end: Date;
+	opened: number;
+	closed: number;
+	merged: number;
+	teamReviews: number;
+	orgReviews: number;
+};
+
+type GhResult = {
+	exitCode: number | null;
+	stdout: Uint8Array;
+	stderr: Uint8Array;
+};
+
+type CacheWeekStats = Omit<WeekStats, "start" | "end"> & {
+	start: string;
+	end: string;
+};
+
+type CacheEntry = {
+	fetchedAt: string;
+	stats: CacheWeekStats;
+	sets?: CacheSets;
+};
+
+type Cache = Record<string, CacheEntry>;
+
+type CacheSets = {
+	opened: string[];
+	closed: string[];
+	merged: string[];
+	teamReviews: string[];
+	orgReviews: string[];
+};
+
+type MutableSets = {
+	opened: Set<string>;
+	closed: Set<string>;
+	merged: Set<string>;
+	teamReviews: Set<string>;
+	orgReviews: Set<string>;
+};
+
+const CACHE_PATH =
+	process.env.STATS_CACHE_PATH ??
+	join(homedir(), ".cache", "stats", "github-pr-stats.json");
+const COMPLETED_WEEK_CACHE_MS = 30 * 24 * 60 * 60 * 1000;
+
+function usage(exitCode = 0): never {
+	console.log(
+		`
+Usage:
+  stats
+  stats --no-cache
+  stats --clear-cache
+
+Environment:
+  GITHUB_ORG_NAME        GitHub organization to query (required)
+  GITHUB_TEAM_USERNAMES  Comma-separated GitHub usernames for team review split (required)
+  STATS_CACHE_PATH       Cache file path (default: ${CACHE_PATH})
+
+Notes:
+  Requires the GitHub CLI to be installed and authenticated.
+  "PRs Closed" counts PRs closed without merge. Merged PRs are counted separately.
+  "4 week average" is the average of the current week and the previous 3 weeks.
+  Completed weeks are cached for 30 days. The current week fetches only changed PRs since the previous run.
+`.trim(),
+	);
+	process.exit(exitCode);
+}
+
+function assertRequiredEnv() {
+	const missing: string[] = [];
+	if (!ORG) missing.push("GITHUB_ORG_NAME");
+	if (TEAM_USERNAMES.length === 0) missing.push("GITHUB_TEAM_USERNAMES");
+	if (missing.length === 0) return;
+
+	console.error(
+		`Missing required environment variable(s): ${missing.join(", ")}`,
+	);
+	console.error("Set them in shared-shell/env.sh, then reload your shell.");
+	process.exit(1);
+}
+
+function runGh(args: string[]): GhResult {
+	return Bun.spawnSync(["gh", ...args], {
+		stdout: "pipe",
+		stderr: "pipe",
+	});
+}
+
+function assertGhAvailable() {
+	const proc = runGh(["auth", "status"]);
+	if (proc.exitCode !== 0) {
+		const stderr = new TextDecoder().decode(proc.stderr).trim();
+		console.error(stderr || "GitHub CLI is not authenticated.");
+		process.exit(proc.exitCode ?? 1);
+	}
+}
+
+function formatISODate(d: Date): string {
+	const y = d.getFullYear();
+	const m = String(d.getMonth() + 1).padStart(2, "0");
+	const day = String(d.getDate()).padStart(2, "0");
+	return `${y}-${m}-${day}`;
+}
+
+function formatISODateTime(d: Date): string {
+	return `${formatISODate(d)}T00:00:00Z`;
+}
+
+function startOfDay(d: Date): Date {
+	return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+function startOfWeek(d = new Date()): Date {
+	const today = startOfDay(d);
+	const daysSinceMonday = (today.getDay() + 6) % 7;
+	return new Date(
+		today.getFullYear(),
+		today.getMonth(),
+		today.getDate() - daysSinceMonday,
+	);
+}
+
+function addDays(d: Date, days: number): Date {
+	return new Date(d.getFullYear(), d.getMonth(), d.getDate() + days);
+}
+
+function ordinal(day: number): string {
+	if (day >= 11 && day <= 13) return `${day}th`;
+	const suffix = ["th", "st", "nd", "rd"][day % 10] ?? "th";
+	return `${day}${suffix}`;
+}
+
+function formatWeekLabel(d: Date): string {
+	return `${ordinal(d.getDate())} ${d.toLocaleString("en-GB", {
+		month: "short",
+	})}`;
+}
+
+function readCache(): Cache {
+	if (!existsSync(CACHE_PATH)) return {};
+
+	try {
+		return JSON.parse(readFileSync(CACHE_PATH, "utf8")) as Cache;
+	} catch {
+		return {};
+	}
+}
+
+function writeCache(cache: Cache) {
+	mkdirSync(dirname(CACHE_PATH), { recursive: true });
+	writeFileSync(CACHE_PATH, `${JSON.stringify(cache, null, 2)}\n`);
+}
+
+function clearCache() {
+	if (existsSync(CACHE_PATH)) rmSync(CACHE_PATH);
+}
+
+function cacheKey(login: string, week: Date) {
+	const team = [...TEAM_USERNAMES].sort().join(",");
+	return [
+		ORG.toLowerCase(),
+		login.toLowerCase(),
+		team,
+		formatISODate(week),
+	].join("|");
+}
+
+function toCacheStats(stats: WeekStats): CacheWeekStats {
+	return {
+		...stats,
+		start: formatISODate(stats.start),
+		end: formatISODate(stats.end),
+	};
+}
+
+function fromCacheStats(stats: CacheWeekStats): WeekStats {
+	const parseLocalDate = (value: string) => {
+		const [year, month, day] = value.split("-").map(Number);
+		return new Date(year, month - 1, day);
+	};
+
+	return {
+		...stats,
+		start: parseLocalDate(stats.start),
+		end: parseLocalDate(stats.end),
+	};
+}
+
+function getCachedWeekStats(
+	cache: Cache,
+	login: string,
+	week: Date,
+	currentWeek: Date,
+): WeekStats | undefined {
+	const entry = cache[cacheKey(login, week)];
+	if (!entry) return undefined;
+
+	const fetchedAt = new Date(entry.fetchedAt).getTime();
+	if (Number.isNaN(fetchedAt)) return undefined;
+
+	if (formatISODate(week) === formatISODate(currentWeek)) return undefined;
+
+	if (Date.now() - fetchedAt > COMPLETED_WEEK_CACHE_MS) return undefined;
+	return fromCacheStats(entry.stats);
+}
+
+function setCachedWeekStats(
+	cache: Cache,
+	login: string,
+	stats: WeekStats,
+	sets?: MutableSets,
+) {
+	cache[cacheKey(login, stats.start)] = {
+		fetchedAt: new Date().toISOString(),
+		stats: toCacheStats(stats),
+		sets: sets ? serializeSets(sets) : undefined,
+	};
+}
+
+function emptySets(): MutableSets {
+	return {
+		opened: new Set(),
+		closed: new Set(),
+		merged: new Set(),
+		teamReviews: new Set(),
+		orgReviews: new Set(),
+	};
+}
+
+function serializeSets(sets: MutableSets): CacheSets {
+	return {
+		opened: [...sets.opened].sort(),
+		closed: [...sets.closed].sort(),
+		merged: [...sets.merged].sort(),
+		teamReviews: [...sets.teamReviews].sort(),
+		orgReviews: [...sets.orgReviews].sort(),
+	};
+}
+
+function hydrateSets(sets?: CacheSets): MutableSets {
+	return {
+		opened: new Set(sets?.opened ?? []),
+		closed: new Set(sets?.closed ?? []),
+		merged: new Set(sets?.merged ?? []),
+		teamReviews: new Set(sets?.teamReviews ?? []),
+		orgReviews: new Set(sets?.orgReviews ?? []),
+	};
+}
+
+function statsFromSets(
+	label: string,
+	week: Date,
+	sets: MutableSets,
+): WeekStats {
+	return {
+		label,
+		start: week,
+		end: addDays(week, 7),
+		opened: sets.opened.size,
+		closed: sets.closed.size,
+		merged: sets.merged.size,
+		teamReviews: sets.teamReviews.size,
+		orgReviews: sets.orgReviews.size,
+	};
+}
+
+function ghGraphql<T>(query: string, fields: Record<string, string>): T {
+	const args = ["api", "graphql", "-f", `query=${query}`];
+	for (const [key, value] of Object.entries(fields)) {
+		args.push("-f", `${key}=${value}`);
+	}
+
+	const proc = runGh(args);
+	if (proc.exitCode !== 0) {
+		const stderr = new TextDecoder().decode(proc.stderr).trim();
+		throw new Error(stderr || "gh api graphql failed");
+	}
+
+	const raw = new TextDecoder().decode(proc.stdout).trim();
+	return JSON.parse(raw) as T;
+}
+
+function getViewerLogin(): string {
+	const query = "query { viewer { login } }";
+	const data = ghGraphql<{ data?: { viewer?: { login?: string } } }>(query, {});
+	const login = data.data?.viewer?.login;
+	if (!login) throw new Error("Could not read GitHub viewer login.");
+	return login;
+}
+
+function searchCount(q: string): number {
+	const query = `
+		query($q: String!) {
+			search(type: ISSUE, query: $q) {
+				issueCount
+			}
+		}
+	`.trim();
+	const data = ghGraphql<{ data?: { search?: { issueCount?: number } } }>(
+		query,
+		{ q },
+	);
+	return Number(data.data?.search?.issueCount ?? 0);
+}
+
+function countPrs(
+	kind: "opened" | "closed" | "merged",
+	login: string,
+	week: Date,
+) {
+	const start = formatISODate(week);
+	const end = formatISODate(addDays(week, 6));
+	const base = [`org:${ORG}`, "is:pr", `author:${login}`];
+
+	if (kind === "opened") base.push(`created:${start}..${end}`);
+	if (kind === "merged") base.push("is:merged", `merged:${start}..${end}`);
+	if (kind === "closed") {
+		base.push("is:closed", "-is:merged", `closed:${start}..${end}`);
+	}
+
+	return searchCount(base.join(" "));
+}
+
+async function countReviews(
+	week: Date,
+	login: string,
+): Promise<{
+	teamReviews: number;
+	orgReviews: number;
+}> {
+	const reviewedPrs = new Map<string, string | undefined>();
+	let cursor: string | undefined;
+	const from = addDays(week, 0).getTime();
+	const to = addDays(week, 7).getTime();
+
+	while (true) {
+		const query = `
+			query($q: String!, $login: String!, $cursor: String) {
+				search(type: ISSUE, first: 100, after: $cursor, query: $q) {
+					pageInfo {
+						hasNextPage
+						endCursor
+					}
+					nodes {
+						... on PullRequest {
+							number
+							author {
+								login
+							}
+							repository {
+								nameWithOwner
+								owner {
+									login
+								}
+							}
+							reviews(first: 100, author: $login) {
+								nodes {
+									submittedAt
+								}
+							}
+						}
+					}
+				}
+			}
+		`.trim();
+
+		const data = ghGraphql<{
+			data?: {
+				search?: {
+					pageInfo?: {
+						hasNextPage?: boolean;
+						endCursor?: string;
+					};
+					nodes?: {
+						number?: number;
+						author?: { login?: string };
+						repository?: {
+							nameWithOwner?: string;
+							owner?: { login?: string };
+						};
+						reviews?: { nodes?: { submittedAt?: string }[] };
+					}[];
+				};
+			};
+		}>(query, {
+			q: [
+				`org:${ORG}`,
+				"is:pr",
+				`reviewed-by:${login}`,
+				`updated:>=${formatISODate(week)}`,
+			].join(" "),
+			login,
+			cursor: cursor ?? "",
+		});
+
+		const connection = data.data?.search;
+		for (const pr of connection?.nodes ?? []) {
+			if (!pr?.repository?.nameWithOwner || !pr.number) continue;
+			if (pr.repository.owner?.login?.toLowerCase() !== ORG.toLowerCase()) {
+				continue;
+			}
+			const reviewedThisWeek = (pr.reviews?.nodes ?? []).some((review) => {
+				if (!review.submittedAt) return false;
+				const submittedAt = new Date(review.submittedAt).getTime();
+				return submittedAt >= from && submittedAt < to;
+			});
+			if (!reviewedThisWeek) continue;
+
+			reviewedPrs.set(
+				`${pr.repository.nameWithOwner}#${pr.number}`,
+				pr.author?.login?.toLowerCase(),
+			);
+		}
+
+		if (!connection?.pageInfo?.hasNextPage) break;
+		cursor = connection.pageInfo.endCursor;
+	}
+
+	let teamReviews = 0;
+	let orgReviews = 0;
+	for (const author of reviewedPrs.values()) {
+		if (author && TEAM_USERNAMES.includes(author)) {
+			teamReviews += 1;
+		} else {
+			orgReviews += 1;
+		}
+	}
+
+	return { teamReviews, orgReviews };
+}
+
+function prKey(pr: {
+	number?: number;
+	repository?: { nameWithOwner?: string };
+}) {
+	if (!pr.repository?.nameWithOwner || !pr.number) return undefined;
+	return `${pr.repository.nameWithOwner}#${pr.number}`;
+}
+
+function isInWeek(value: string | undefined, week: Date) {
+	if (!value) return false;
+	const time = new Date(value).getTime();
+	return time >= week.getTime() && time < addDays(week, 7).getTime();
+}
+
+function searchUpdatedSinceDate(week: Date, since?: string) {
+	if (!since) return formatISODate(week);
+
+	const sinceDate = new Date(since);
+	if (Number.isNaN(sinceDate.getTime())) return formatISODate(week);
+
+	const weekDate = formatISODate(week);
+	const fetchedDate = formatISODate(sinceDate);
+	return fetchedDate > weekDate ? fetchedDate : weekDate;
+}
+
+async function mergeAuthoredPrEvents(
+	sets: MutableSets,
+	week: Date,
+	login: string,
+	since?: string,
+) {
+	let cursor: string | undefined;
+	while (true) {
+		const query = `
+			query($q: String!, $cursor: String) {
+				search(type: ISSUE, first: 100, after: $cursor, query: $q) {
+					pageInfo {
+						hasNextPage
+						endCursor
+					}
+					nodes {
+						... on PullRequest {
+							number
+							createdAt
+							closedAt
+							mergedAt
+							repository {
+								nameWithOwner
+							}
+						}
+					}
+				}
+			}
+		`.trim();
+
+		const data = ghGraphql<{
+			data?: {
+				search?: {
+					pageInfo?: {
+						hasNextPage?: boolean;
+						endCursor?: string;
+					};
+					nodes?: {
+						number?: number;
+						createdAt?: string;
+						closedAt?: string;
+						mergedAt?: string;
+						repository?: { nameWithOwner?: string };
+					}[];
+				};
+			};
+		}>(query, {
+			q: [
+				`org:${ORG}`,
+				"is:pr",
+				`author:${login}`,
+				`updated:>=${searchUpdatedSinceDate(week, since)}`,
+			].join(" "),
+			cursor: cursor ?? "",
+		});
+
+		const connection = data.data?.search;
+		for (const pr of connection?.nodes ?? []) {
+			const key = prKey(pr);
+			if (!key) continue;
+
+			if (isInWeek(pr.createdAt, week)) sets.opened.add(key);
+			if (isInWeek(pr.mergedAt, week)) sets.merged.add(key);
+			if (isInWeek(pr.closedAt, week) && !pr.mergedAt) sets.closed.add(key);
+		}
+
+		if (!connection?.pageInfo?.hasNextPage) break;
+		cursor = connection.pageInfo.endCursor;
+	}
+}
+
+async function mergeReviewEvents(
+	sets: MutableSets,
+	week: Date,
+	login: string,
+	since?: string,
+) {
+	let cursor: string | undefined;
+	while (true) {
+		const query = `
+			query($q: String!, $login: String!, $cursor: String) {
+				search(type: ISSUE, first: 100, after: $cursor, query: $q) {
+					pageInfo {
+						hasNextPage
+						endCursor
+					}
+					nodes {
+						... on PullRequest {
+							number
+							author {
+								login
+							}
+							repository {
+								nameWithOwner
+							}
+							reviews(first: 100, author: $login) {
+								nodes {
+									submittedAt
+								}
+							}
+						}
+					}
+				}
+			}
+		`.trim();
+
+		const data = ghGraphql<{
+			data?: {
+				search?: {
+					pageInfo?: {
+						hasNextPage?: boolean;
+						endCursor?: string;
+					};
+					nodes?: {
+						number?: number;
+						author?: { login?: string };
+						repository?: { nameWithOwner?: string };
+						reviews?: { nodes?: { submittedAt?: string }[] };
+					}[];
+				};
+			};
+		}>(query, {
+			q: [
+				`org:${ORG}`,
+				"is:pr",
+				`reviewed-by:${login}`,
+				`updated:>=${searchUpdatedSinceDate(week, since)}`,
+			].join(" "),
+			login,
+			cursor: cursor ?? "",
+		});
+
+		const connection = data.data?.search;
+		for (const pr of connection?.nodes ?? []) {
+			const key = prKey(pr);
+			if (!key) continue;
+
+			const reviewedThisWeek = (pr.reviews?.nodes ?? []).some((review) =>
+				isInWeek(review.submittedAt, week),
+			);
+			if (!reviewedThisWeek) continue;
+
+			if (
+				pr.author?.login &&
+				TEAM_USERNAMES.includes(pr.author.login.toLowerCase())
+			) {
+				sets.teamReviews.add(key);
+			} else {
+				sets.orgReviews.add(key);
+			}
+		}
+
+		if (!connection?.pageInfo?.hasNextPage) break;
+		cursor = connection.pageInfo.endCursor;
+	}
+}
+
+async function getIncrementalCurrentWeekStats(
+	cache: Cache,
+	label: string,
+	week: Date,
+	login: string,
+): Promise<WeekStats> {
+	const entry = cache[cacheKey(login, week)];
+	const sets = hydrateSets(entry?.sets);
+	const since = entry?.fetchedAt;
+
+	await Promise.all([
+		mergeAuthoredPrEvents(sets, week, login, since),
+		mergeReviewEvents(sets, week, login, since),
+	]);
+
+	const stats = statsFromSets(label, week, sets);
+	setCachedWeekStats(cache, login, stats, sets);
+	return stats;
+}
+
+async function getWeekStats(
+	label: string,
+	week: Date,
+	login: string,
+): Promise<WeekStats> {
+	const [opened, closed, merged, reviews] = await Promise.all([
+		Promise.resolve(countPrs("opened", login, week)),
+		Promise.resolve(countPrs("closed", login, week)),
+		Promise.resolve(countPrs("merged", login, week)),
+		countReviews(week, login),
+	]);
+
+	return {
+		label,
+		start: week,
+		end: addDays(week, 7),
+		opened,
+		closed,
+		merged,
+		teamReviews: reviews.teamReviews,
+		orgReviews: reviews.orgReviews,
+	};
+}
+
+function averageStats(label: string, weeks: WeekStats[]): WeekStats {
+	const avg = (
+		field: keyof Pick<
+			WeekStats,
+			"opened" | "closed" | "merged" | "teamReviews" | "orgReviews"
+		>,
+	) =>
+		Math.round(
+			(weeks.reduce((sum, week) => sum + week[field], 0) / weeks.length) * 10,
+		) / 10;
+
+	return {
+		label,
+		start: weeks[weeks.length - 1].start,
+		end: weeks[0].end,
+		opened: avg("opened"),
+		closed: avg("closed"),
+		merged: avg("merged"),
+		teamReviews: avg("teamReviews"),
+		orgReviews: avg("orgReviews"),
+	};
+}
+
+function pad(value: string | number, width: number) {
+	return String(value).padEnd(width, " ");
+}
+
+function formatNumber(n: number) {
+	return Number.isInteger(n) ? String(n) : n.toFixed(1);
+}
+
+function printTable(rows: WeekStats[]) {
+	const headers = [
+		"Week starting",
+		"PRs opened",
+		"PRs Closed",
+		"PRs merged",
+		"Team Reviews",
+		"Org Reviews",
+	];
+	const body = rows.map((row) => [
+		row.label,
+		formatNumber(row.opened),
+		formatNumber(row.closed),
+		formatNumber(row.merged),
+		formatNumber(row.teamReviews),
+		formatNumber(row.orgReviews),
+	]);
+
+	const widths = headers.map((header, i) =>
+		Math.max(header.length, ...body.map((row) => row[i].length)),
+	);
+	const line = (cells: string[]) =>
+		cells.map((cell, i) => pad(cell, widths[i])).join(" | ");
+
+	console.log(line(headers));
+	console.log(widths.map((width) => "-".repeat(width)).join("-|-"));
+	for (const row of body) console.log(line(row));
+}
+
+async function main() {
+	const args = process.argv.slice(2);
+	if (args.includes("-h") || args.includes("--help")) usage(0);
+	const noCache = args.includes("--no-cache");
+	const shouldClearCache = args.includes("--clear-cache");
+
+	if (shouldClearCache) {
+		clearCache();
+		if (args.length === 1) return;
+	}
+
+	assertRequiredEnv();
+	assertGhAvailable();
+
+	const login = getViewerLogin();
+	const currentWeek = startOfWeek();
+	const weekStarts = [0, 1, 2, 3].map((n) => addDays(currentWeek, n * -7));
+	const cache = noCache ? {} : readCache();
+
+	const weeks = await Promise.all(
+		weekStarts.map(async (week) => {
+			const isCurrentWeek = formatISODate(week) === formatISODate(currentWeek);
+			if (isCurrentWeek && !noCache) {
+				return getIncrementalCurrentWeekStats(
+					cache,
+					formatWeekLabel(week),
+					week,
+					login,
+				);
+			}
+
+			const cached = noCache
+				? undefined
+				: getCachedWeekStats(cache, login, week, currentWeek);
+			if (cached) return cached;
+
+			const stats = await getWeekStats(formatWeekLabel(week), week, login);
+			if (!noCache) setCachedWeekStats(cache, login, stats);
+			return stats;
+		}),
+	);
+
+	if (!noCache) writeCache(cache);
+
+	printTable([
+		weeks[0],
+		{ ...weeks[1], label: formatWeekLabel(weeks[1].start) },
+		averageStats("4 week average", weeks),
+	]);
+}
+
+main().catch((error) => {
+	console.error(error instanceof Error ? error.message : error);
+	process.exit(1);
+});
