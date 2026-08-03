@@ -137,6 +137,22 @@ kill-maze() {
 }
 
 # Fuzzy find and run a package.json script with the correct package manager.
+package_json_scripts() {
+	local directory="$PWD"
+	local package_json_path
+
+	while [[ "$directory" != "/" ]]; do
+		package_json_path="$directory/package.json"
+		if [[ -f "$package_json_path" ]]; then
+			jq -r '.scripts | keys[]?' "$package_json_path" 2>/dev/null
+			return
+		fi
+		directory="${directory:h}"
+	done
+
+	return 1
+}
+
 sc() {
 	local repo_root package_manager selected_script
 
@@ -154,7 +170,7 @@ sc() {
 		package_manager="yarn"
 	fi
 
-	selected_script=$(jq '.scripts | keys[]' package.json | tr -d '"' | fzf) || return
+	selected_script=$(package_json_scripts | fzf) || return
 
 	unifiedAddHistory "$package_manager run $selected_script"
 	"$package_manager" run "$selected_script"

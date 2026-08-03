@@ -69,7 +69,11 @@ setup_pnpm_completion() {
 export SHELL="$(command -v zsh)"
 export HOMEBREW_NO_ENV_HINTS=1
 
-homebrew_bin="$(detect_homebrew_bin)"
+if [[ -z "${HOMEBREW_PREFIX:-}" ]]; then
+	homebrew_bin="$(detect_homebrew_bin)"
+else
+	homebrew_bin=""
+fi
 if [[ -n "$homebrew_bin" ]]; then
 	# Load Homebrew's environment early so brewed tools outrank macOS system binaries.
 	eval "$("$homebrew_bin" shellenv)"
@@ -119,14 +123,20 @@ if interactive_shell; then
 	# Completion widgets/tools from plugins (e.g. fzf-tab) depend on zsh/complist.
 	zmodload zsh/complist
 	autoload -Uz compinit
-	compinit
+	zcompdump_file="${ZDOTDIR:-$HOME}/.zcompdump"
+	if [[ -s "$zcompdump_file" && "$zcompdump_file" -nt "$HOME/dotfiles/zsh/.zsh_plugins.txt" ]]; then
+		compinit -C -d "$zcompdump_file"
+	else
+		compinit -d "$zcompdump_file"
+	fi
+	unset zcompdump_file
 
 	# Completion behavior tweaks for accuracy and readability.
 	# Keep completion case-insensitive and colorized,
-	# allow approximate matches, and dim completion headers.
+	# and dim completion headers.
 	zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 	zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-	zstyle ':completion:*' completer _complete _approximate
+	zstyle ':completion:*' completer _complete
 	zstyle ':completion:*' format $'\e[2mCompleting %d\e[m'
 
 	# Fish-style prefix history search: type part of a command, then press
@@ -177,6 +187,28 @@ if interactive_shell; then
 	# pnpm completions, cached for startup speed.
 	if command_exists pnpm; then
 		setup_pnpm_completion
+		_pnpm_with_package_scripts() {
+			local -a scripts
+			local ret=1
+
+			scripts=("${(@f)$(package_json_scripts)}")
+
+			if (( CURRENT == 3 )) && [[ "${words[2]}" == run || "${words[2]}" == run-script ]]; then
+				if (( ${#scripts} )); then
+					_describe -t scripts 'package scripts' scripts
+					return
+				fi
+			fi
+
+			if (( CURRENT == 2 )) && (( ${#scripts} )); then
+				_describe -t scripts 'package scripts' scripts && ret=0
+				_pnpm_completion && ret=0
+				return ret
+			fi
+
+			_pnpm_completion
+		}
+		compdef _pnpm_with_package_scripts pnpm
 	fi
 
 	if [[ -r "$gcloud_completion_init" ]]; then
@@ -185,3 +217,12 @@ if interactive_shell; then
 
 	command_exists mise && eval "$(mise activate zsh)"
 fi
+
+# pnpm
+export PNPM_HOME="/Users/henryblack/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
+export PATH="$HOME/.local/bin:$PATH"

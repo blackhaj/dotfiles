@@ -158,14 +158,21 @@
 		"suppressCommitHasNoPreviousCommitWarning": true,
 		"suppressGitMissingWarning": true
 	},
+	// Remove the commercial/cloud/AI layer
+	"gitlens.ai.enabled": false,
 	"gitlens.ai.gitkraken.model": "gemini:gemini-2.0-flash",
 	"gitlens.ai.model": "gitkraken",
+	"gitlens.cloudIntegrations.enabled": false,
 	"gitlens.codeLens.enabled": false,
 	"gitlens.defaultDateFormat": "Do MMM, YYYY h:mma",
 	"gitlens.defaultDateShortFormat": "Do MMM, YYYY",
 	"gitlens.defaultTimeFormat": null,
+	"gitlens.integrations.enabled": false,
+	// Remove keyboard and automatic UI interference
+	"gitlens.keymap": "none",
 	"gitlens.launchpad.indicator.enabled": false,
 	"gitlens.plusFeatures.enabled": false,
+	"gitlens.rebaseEditor.openOnPausedRebase": false,
 	"gitlens.showWhatsNewAfterUpgrades": false,
 	"gitlens.statusBar.enabled": false,
 	"gitlens.views.commits.files.layout": "tree",
@@ -304,7 +311,7 @@
 	"window.commandCenter": true,
 	"window.title": "${rootName}",
 	"window.zoomLevel": 1,
-	"workbench.colorTheme": "Dark Modern",
+	"workbench.colorTheme": "Light+",
 	"workbench.editor.labelFormat": "short",
 	"workbench.iconTheme": "material-icon-theme",
 	"workbench.localHistory.exclude": {

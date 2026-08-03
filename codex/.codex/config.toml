@@ -2,9 +2,9 @@
 # Core
 
 # Model
-model = "gpt-5.5"
+model = "gpt-5.6-sol"
 model_reasoning_effort = "low"   # minimal|low|medium|high|none
-model_verbosity = "medium"          # low|medium|high
+model_verbosity = "low"          # low|medium|high
 # Approval policy
 approval_policy = "on-request"       # untrusted|on-failure|on-request|never
 sandbox_mode   = "workspace-write"   # read-only|workspace-write|danger-full-access
@@ -136,3 +136,7 @@ source = "/Users/henryblack/.cache/codex-runtimes/codex-primary-runtime/plugins/
 [hooks.state."/Users/henryblack/.codex/hooks.json:stop:0:0"]
 enabled = true
 trusted_hash = "sha256:81c17df8961a3d6ef9b12030c91402f898430b1495ff00cd2e624c6806be6205"
+[desktop]
+followUpQueueMode = "queue"
+git-branch-prefix = ""
+dock-icon-preference = "codex-system"
