@@ -62,6 +62,18 @@ setup_pnpm_completion() {
 	source "$pnpm_completion_file"
 }
 
+setup_pnpm_shell_completion_plugin() {
+	local plugin_dir
+
+	plugin_dir="$(antidote path g-plane/pnpm-shell-completion 2>/dev/null)" || return
+	if [[ ! -x "$plugin_dir/pnpm-shell-completion" ]]; then
+		(
+			cd "$plugin_dir" || return
+			./zplug.zsh
+		)
+	fi
+}
+
 ###############################################################################
 # Core shell settings
 ###############################################################################
@@ -122,9 +134,14 @@ source "$ANTIDOTE_PATH"
 if interactive_shell; then
 	# Completion widgets/tools from plugins (e.g. fzf-tab) depend on zsh/complist.
 	zmodload zsh/complist
+	# Completion definitions must be added to fpath before compinit scans it.
+	antidote load "$HOME/dotfiles/zsh/.zsh_completion_plugins.txt" \
+		"${ZDOTDIR:-$HOME}/.zsh_completion_plugins.zsh"
 	autoload -Uz compinit
 	zcompdump_file="${ZDOTDIR:-$HOME}/.zcompdump"
-	if [[ -s "$zcompdump_file" && "$zcompdump_file" -nt "$HOME/dotfiles/zsh/.zsh_plugins.txt" ]]; then
+	if [[ -s "$zcompdump_file" \
+		&& "$zcompdump_file" -nt "$HOME/dotfiles/zsh/.zsh_plugins.txt" \
+		&& "$zcompdump_file" -nt "$HOME/dotfiles/zsh/.zsh_completion_plugins.txt" ]]; then
 		compinit -C -d "$zcompdump_file"
 	else
 		compinit -d "$zcompdump_file"
@@ -138,9 +155,17 @@ if interactive_shell; then
 	zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 	zstyle ':completion:*' completer _complete
 	zstyle ':completion:*' format $'\e[2mCompleting %d\e[m'
+	# Hide internal dot-prefixed executables (for example ImageMagick shims)
+	# from command-name completion.
+	zstyle ':completion:*:*:-command-:*:commands' ignored-patterns '.*'
+
+	# Use editor-like word boundaries: only alphanumeric characters form words,
+	# so Option-Delete/Ctrl-W stops at path separators and punctuation.
+	autoload -Uz select-word-style
+	select-word-style bash
 
 	# Fish-style prefix history search: type part of a command, then press
-	# Up/Down to cycle through history entries that start with that text.
+	# Up/Down to cycle through matching history without opening a search UI.
 	autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 	zle -N up-line-or-beginning-search
 	zle -N down-line-or-beginning-search
@@ -152,6 +177,8 @@ if interactive_shell; then
 	done
 
 	# Initialize plugins from .zsh_plugins.txt.
+	# Prefer history, then fall back to Zsh completion for paths and CLI options.
+	ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 	antidote load
 fi
 
@@ -187,28 +214,14 @@ if interactive_shell; then
 	# pnpm completions, cached for startup speed.
 	if command_exists pnpm; then
 		setup_pnpm_completion
-		_pnpm_with_package_scripts() {
-			local -a scripts
-			local ret=1
 
-			scripts=("${(@f)$(package_json_scripts)}")
-
-			if (( CURRENT == 3 )) && [[ "${words[2]}" == run || "${words[2]}" == run-script ]]; then
-				if (( ${#scripts} )); then
-					_describe -t scripts 'package scripts' scripts
-					return
-				fi
-			fi
-
-			if (( CURRENT == 2 )) && (( ${#scripts} )); then
-				_describe -t scripts 'package scripts' scripts && ret=0
-				_pnpm_completion && ret=0
-				return ret
-			fi
-
-			_pnpm_completion
-		}
-		compdef _pnpm_with_package_scripts pnpm
+		# Add workspace packages, dependencies, and package.json scripts. Load
+		# after pnpm's native completion because this plugin registers _pnpm.
+		pnpm_completion_plugin_dir="$(antidote path g-plane/pnpm-shell-completion 2>/dev/null)"
+		if [[ -x "$pnpm_completion_plugin_dir/pnpm-shell-completion" ]]; then
+			source "$pnpm_completion_plugin_dir/pnpm-shell-completion.plugin.zsh"
+		fi
+		unset pnpm_completion_plugin_dir
 	fi
 
 	if [[ -r "$gcloud_completion_init" ]]; then
@@ -216,6 +229,15 @@ if interactive_shell; then
 	fi
 
 	command_exists mise && eval "$(mise activate zsh)"
+
+	# Atuin records contextual history and owns Ctrl+R. Native Zsh widgets keep
+	# Up/Down as quiet Fish-style prefix history cycling.
+	if [[ -r "$HOME/.atuin/bin/env" ]]; then
+		source "$HOME/.atuin/bin/env"
+	fi
+	if command_exists atuin; then
+		eval "$(atuin init zsh --disable-up-arrow)"
+	fi
 fi
 
 # pnpm

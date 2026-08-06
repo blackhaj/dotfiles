@@ -320,5 +320,7 @@
 	"workbench.panel.defaultLocation": "bottom",
 	"workbench.preferredDarkColorTheme": "Dark Modern",
 	"workbench.preferredLightColorTheme": "Light Modern",
-	"workbench.secondarySideBar.defaultVisibility": "hidden"
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "simpleBrowser.focusLockIndicator.enabled": false,
+  "workbench.browser.openLocalhostLinks": false
 }

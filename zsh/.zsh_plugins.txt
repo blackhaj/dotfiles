@@ -1,3 +1,4 @@
 zsh-users/zsh-autosuggestions
 Aloxaf/fzf-tab
+g-plane/pnpm-shell-completion post:setup_pnpm_shell_completion_plugin
 zdharma-continuum/fast-syntax-highlighting
