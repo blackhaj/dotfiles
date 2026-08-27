@@ -124,10 +124,15 @@ kill-maze() {
 	local PORT PIDS
 
 	for PORT in "${PORTS[@]}"; do
-		PIDS=$(lsof -ti tcp:"$PORT" || true)
+		# -sTCP:LISTEN keeps this to servers. Without it lsof also reports the client end of a
+		# connection, so an open browser tab on a port makes it look occupied and turns the
+		# browser into a kill target.
+		PIDS=$(lsof -ti tcp:"$PORT" -sTCP:LISTEN || true)
 		if [ -n "$PIDS" ]; then
-			echo "Killing processes on port $PORT: $PIDS"
-			kill -9 $PIDS
+			echo "Killing processes on port $PORT: ${PIDS//$'\n'/ }"
+			# Via xargs because zsh does not word-split unquoted expansions: `kill -9 $PIDS` passes
+			# a multi-PID list as a single argument and fails with "illegal pid".
+			printf '%s\n' "$PIDS" | xargs kill -9
 		else
 			echo "No process running on port $PORT"
 		fi
