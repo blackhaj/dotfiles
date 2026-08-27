@@ -6,9 +6,6 @@
 	"[dotenv]": {
 		"editor.defaultFormatter": "foxundermoon.shell-format"
 	},
-	"[fish]": {
-		"editor.defaultFormatter": "bmalehorn.vscode-fish"
-	},
 	"[html]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
@@ -40,15 +37,8 @@
 	"[prisma]": {
 		"editor.defaultFormatter": "Prisma.prisma"
 	},
-	"[python]": {
-		"editor.defaultFormatter": "charliermarsh.ruff",
-		"editor.formatOnSave": true
-	},
 	"[shellscript]": {
 		"editor.defaultFormatter": "mkhl.shfmt"
-	},
-	"[terraform]": {
-		"editor.defaultFormatter": "hashicorp.terraform"
 	},
 	"[toml]": {
 		"editor.defaultFormatter": "tamasfe.even-better-toml",
@@ -61,21 +51,9 @@
 		"sound": "on"
 	},
 	// *** More speed optimization attempts
-	"biome_lsp.trace.server": "verbose",
 	"biome.requireConfiguration": false,
 	"chat.agent.enabled": false,
 	"chat.agentsControl.enabled": false,
-	"codestream.email": "blackhaj@gmail.com",
-	"cSpell.userWords": [],
-	"cursor.composer.queueMessageDefaultBehavior": "stop-and-send",
-	"cursor.composer.shouldChimeAfterChatFinishes": true,
-	"cursor.composer.usageSummaryDisplay": "always",
-	"cursor.cpp.disabledLanguages": ["scminput"],
-	"cursor.preferNotificationsSameAsChat": true,
-	"cursorpyright.analysis.autoImportCompletions": true,
-	"datadog.codeSecurity.notification.suppressOnboarding": true,
-	"datadog.connection.notification.suppressSignInNotification": true,
-	"datadog.cursor.notification.suppressMcpMigrationMessage": true,
 	"diffEditor.diffAlgorithm": "advanced",
 	"diffEditor.experimental.showMoves": true,
 	"diffEditor.ignoreTrimWhitespace": false,
@@ -120,7 +98,6 @@
 	"explorer.confirmPasteNative": false,
 	"explorer.fileNesting.enabled": false,
 	"extensions.ignoreRecommendations": true,
-	"figma.assetExportDirectory": "apps/maze-webapp/src/assets",
 	"files.associations": {
 		"*.css": "css",
 		"*.json": "jsonc",
@@ -132,8 +109,6 @@
 	"files.exclude": {
 		"**/.git": false
 	},
-	"find-it-faster.general.killTerminalAfterUse": true,
-	"fish.path.fish": "/opt/homebrew/bin/fish",
 	"git.allowForcePush": true,
 	"git.allowNoVerifyCommit": true,
 	"git.autofetch": true,
@@ -144,13 +119,6 @@
 	"git.ignoreLimitWarning": true,
 	"git.openRepositoryInParentFolders": "never",
 	"git.showUnpublishedCommitsButton": "always",
-	"github.copilot.editor.enableAutoCompletions": true,
-	"github.copilot.enable": {
-		"*": true,
-		"plaintext": true,
-		"scminput": false,
-		"yaml": true
-	},
 	"githubPullRequests.createOnPublishBranch": "never",
 	"githubPullRequests.fileListLayout": "tree",
 	"githubPullRequests.pullBranch": "never",
@@ -191,20 +159,6 @@
 	},
 	"gitlens.virtualRepositories.enabled": false,
 	"html.format.enable": false,
-	"jest.runMode": "on-demand",
-	"js./ts.preferences.includePackageJsonAutoImports": "on",
-	"js./ts.preferences.jsxAttributeCompletionStyle": "none",
-	"js./ts.suggest.autoImports": true,
-	"js./ts.tsserver.log": "off",
-	"js./ts.tsserver.maxTsServerMemory": 4000,
-	"js./ts.updateImportsOnFileMove.enabled": "always",
-	"js/ts.experimental.useTsgo": false,
-	"js/ts.inlayHints.parameterNames.enabled": "all",
-	"js/ts.preferences.importModuleSpecifier": "non-relative",
-	"js/ts.preferences.importModuleSpecifierEnding": "minimal",
-	"js/ts.preferences.jsxAttributeCompletionStyle": "none",
-	"js/ts.updateImportsOnFileMove.enabled": "always",
-	"jsJsxSnippets.settings.importReactOnTop": false,
 	"json.schemaDownload.trustedDomains": {
 		"https://biomejs.dev": true,
 		"https://json-schema.org/": true,
@@ -220,7 +174,6 @@
 		}
 	],
 	"json.validate.enable": true,
-	"liveServer.settings.donotShowInfoMsg": true,
 	"markdownlint.config": {
 		"MD010": false,
 		"md029": false,
@@ -238,13 +191,7 @@
 	"pasteImage.defaultName": "${imageFileName}",
 	"pasteImage.filePathConfirmInputBoxMode": "onlyName",
 	"pasteImage.showFilePathConfirmInputBox": true,
-	"playwright.reuseBrowser": false,
-	"playwright.showTrace": true,
 	"prisma.showPrismaDataPlatformNotification": false,
-	"python.analysis.autoImportCompletions": true,
-	"python.languageServer": "None",
-	"python.terminal.activateEnvironment": false,
-	"python.venvPath": "${workspaceFolder}/services/pipecat-ai-moderator",
 	"redhat.telemetry.enabled": false,
 	"scm.alwaysShowActions": true,
 	"scm.alwaysShowRepositories": true,
@@ -257,9 +204,6 @@
 	"search.useIgnoreFiles": false,
 	"security.promptForLocalFileProtocolHandling": false,
 	"security.workspace.trust.untrustedFiles": "open",
-	"semanticdiff.closeOriginalTab": true,
-	"semanticdiff.defaultDiffViewer": true,
-	"semanticdiff.diff.contextLines": 1000000,
 	// Makes shellcheck work with zsh files
 	"shellcheck.customArgs": ["--shell=bash"],
 	"shellcheck.ignorePatterns": {
@@ -287,7 +231,6 @@
 		"**/zshrc": true
 	},
 	"shellformat.flag": "-ln=zsh",
-	"spellright.language": ["en"],
 	"terminal.integrated.defaultProfile.osx": "zsh",
 	"terminal.integrated.enableMultiLinePasteWarning": "never",
 	"terminal.integrated.enablePersistentSessions": true,
@@ -306,7 +249,6 @@
 	"terminal.integrated.tabs.title": "${cwdFolder}",
 	"typescript.preferences.importModuleSpecifierGranularity": "directory",
 	"typescript.preferences.importModuleSpecifierStyle": "short",
-	"vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
 	"window.autoDetectColorScheme": false,
 	"window.commandCenter": true,
 	"window.title": "${rootName}",

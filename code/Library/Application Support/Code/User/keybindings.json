@@ -97,10 +97,6 @@
 		"when": "workbench.scm.active && !gitlens:disabled && config.gitlens.keymap == 'chorded'"
 	},
 	{
-		"command": "editor.cpp.disableenabled",
-		"key": "ctrl+shift+alt+cmd+d"
-	},
-	{
 		"args": {
 			"text": "\\\r\n"
 		},
@@ -112,24 +108,6 @@
 		"command": "-workbench.view.explorer",
 		"key": "shift+cmd+e",
 		"when": "viewContainer.workbench.view.explorer.enabled"
-	},
-	{
-		"key": "cmd+i",
-		"command": "composerMode.agent"
-	},
-	{
-		"key": "shift+cmd+k",
-		"command": "-aipopup.action.modal.generate",
-		"when": "editorFocus && !composerBarIsVisible"
-	},
-	{
-		"key": "shift+cmd+l",
-		"command": "-composer.newAgentChat"
-	},
-	{
-		"key": "cmd+e",
-		"command": "-cursor.toggleAgentWindowIDEUnification",
-		"when": "cursor.agentIdeUnification.featureGate && workbenchState != 'empty'"
 	},
 	{
 		"key": "cmd+e",
