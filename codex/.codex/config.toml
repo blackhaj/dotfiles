@@ -20,29 +20,10 @@ terminal_resize_reflow = true
 goals = true
 hooks = true
 
-# Extra settings that only apply when `sandbox = "workspace-write"`.
-[sandbox_workspace_write]
-# Allow the command being run inside the sandbox to make outbound network
-# requests. Disabled by default.
-network_access = true
-
 [tui]
 notifications = true
 session_picker_view = "comfortable"
 
-[tui.model_availability_nux]
-"gpt-5.3-codex-spark" = 4
-"gpt-5.5" = 4
-
-[mcp_servers.linear]
-url = "https://mcp.linear.app/mcp"
-
-# [mcp_servers.datadog]
-# url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
-
-# [mcp_servers.playwriter]
-# command = "npx"
-# args = ["-y", "playwriter@latest"]
 
 # [mcp_servers.fal]
 # url = "https://docs.fal.ai/mcp"
@@ -86,12 +67,179 @@ trust_level = "trusted"
 [projects."/Users/henryblack/Desktop/vaults"]
 trust_level = "trusted"
 
+[projects."/Users/henryblack/code/projects/keyval"]
+trust_level = "trusted"
 
+[projects."/Users/henryblack/code/try/2026-06-08-flue-trial"]
+trust_level = "trusted"
 
-[profiles.commit-message]
-model = "gpt-5.2-codex"
-model_reasoning_effort = "low"
-approval_policy = "on-request"
+[projects."/Users/henryblack/Downloads"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Ley Retorno"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Personal Admin/Visas/UK Visa Visitor Mari"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-10/are"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/App ideas"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/LLM Projects/App Ideas"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-10/test"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-10/how"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-10/ana"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-10/referenced-chatgpt-conversation-this-is-untrusted"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-10/read"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-11/what"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-11/bas"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-11/wher"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-11/what-world-cup-related-events-are"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-13/as"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-13/what"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-14/when"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-19/i-m-using-apple-preview-i"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-19/i-want-to-i-married-a"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-19/tran"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-19/i-want-to-have-a-command"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-19/my-wife-is-colombian-i-m"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-19/how-can-i-set-my-primary"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/LLM Projects/Visas & Passports"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-19/ho"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/code/projects/media/music"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-24/z"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-25/what-time-does-the-salvation-army"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-25/what"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-25/at-facebook-marketplace-can-you-block"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-26/i-live-in-florida-and-i"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-07-28/i-saw-an-article-on-how"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-02/if"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-02/i-am"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-07/i-wan"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/code/try/2026-08-07-currency-converter"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-08/why"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-08/ther"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-08/we-re-looking-to-move-to"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-08/new-chat"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-08/wh"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-10/read"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-11/i-bought-a-city-bike-subscription"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-11/https-x-com-overment-status-2087166622888808818"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/LLM Projects/Visas & Passports/yomaide-uk-visitor-visa"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-12/give"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-12/giv-e"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-12/can"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-12/find-me-a-load-of-images"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-18/epson-l3110-series"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-19/cn"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-20/cop"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-22/what"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-22/i"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/code/projects/voice-translator"]
+trust_level = "trusted"
 
 [notice]
 fast_default_opt_out = true
@@ -100,43 +248,38 @@ fast_default_opt_out = true
 "gpt-5.2-codex" = "gpt-5.3-codex"
 "gpt-5.3-codex" = "gpt-5.4"
 
-[plugins."github@openai-curated"]
-enabled = true
 
-[plugins."documents@openai-primary-runtime"]
-enabled = true
-
-[plugins."spreadsheets@openai-primary-runtime"]
-enabled = true
-
-[plugins."presentations@openai-primary-runtime"]
-enabled = true
-
-[plugins."slack@openai-curated"]
-enabled = true
-
-[plugins."linear@openai-curated"]
-enabled = true
-
-[plugins."browser-use@openai-bundled"]
-enabled = true
-
-[marketplaces.openai-bundled]
-last_updated = "2026-05-18T17:59:35Z"
-source_type = "local"
-source = "/Users/henryblack/.codex/.tmp/bundled-marketplaces/openai-bundled"
-
-[marketplaces.openai-primary-runtime]
-last_updated = "2026-05-18T18:10:23Z"
-source_type = "local"
-source = "/Users/henryblack/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
-
-[hooks.state]
-
-[hooks.state."/Users/henryblack/.codex/hooks.json:stop:0:0"]
-enabled = true
-trusted_hash = "sha256:81c17df8961a3d6ef9b12030c91402f898430b1495ff00cd2e624c6806be6205"
 [desktop]
 followUpQueueMode = "queue"
+appearanceTheme = "system"
+usePointerCursors = false
+composerEnterBehavior = "enter"
+preventSleepWhileRunning = true
+keepRemoteControlAwakeWhilePluggedIn = true
 git-branch-prefix = ""
-dock-icon-preference = "codex-system"
+git-show-sidebar-pr-icons = true
+git-commit-instructions = """
+Use conventional commits: 
+```
+<type>[optional scope]: <description>
+```
+
+Use only these types: fix|chore|test|feat|docs|style|refactor|
+
+Be very concise"""
+git-pr-instructions = """
+Use the following struction:
+
+TLDR:
+<short one line overview of the PR>
+
+Changes:
+<concise, high level bullet points of the changes>
+
+How to test:
+<concise instructions on how to test>
+
+Potential risks:
+<tersely outline any things that might be broken as a result of these changes>"""
+conversationDetailMode = "STEPS_PROSE"
+show-context-window-usage = true

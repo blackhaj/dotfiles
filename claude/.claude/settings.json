@@ -1,39 +1,23 @@
 {
+	"alwaysThinkingEnabled": true,
 	"attribution": {
 		"commit": "",
 		"pr": ""
 	},
+	"effortLevel": "high",
+	"enabledPlugins": {
+		"typescript-lsp@claude-plugins-official": true
+	},
+	"hooks": {},
 	"includeCoAuthoredBy": false,
 	"permissions": {
 		"defaultMode": "auto"
 	},
-	"model": "opus[1m]",
-	"hooks": {
-		"PermissionRequest": [
-			{
-				"hooks": [
-					{
-						"type": "command",
-						"command": "afplay -v 3 /System/Library/Sounds/Hero.aiff"
-					}
-				]
-			}
-		]
-	},
-	"statusLine": {
-		"type": "command",
-		"command": "npx -y @owloops/claude-powerline@latest --style=tokyo-night"
-	},
-	"enabledPlugins": {
-		"code-review@claude-plugins-official": true,
-		"code-simplifier@claude-plugins-official": true,
-		"linear@claude-plugins-official": true,
-		"ralph-loop@claude-plugins-official": true,
-		"typescript-lsp@claude-plugins-official": true
-	},
-	"alwaysThinkingEnabled": true,
-	"effortLevel": "high",
+	"skipAutoPermissionPrompt": true,
 	"skipDangerousModePermissionPrompt": true,
-	"theme": "dark",
-	"skipAutoPermissionPrompt": true
+	"statusLine": {
+		"command": "npx -y @owloops/claude-powerline@latest --style=tokyo-night",
+		"type": "command"
+	},
+	"theme": "dark"
 }

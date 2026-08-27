@@ -134,13 +134,19 @@ if interactive_shell; then
 	unset zcompdump_file
 
 	# Completion behavior tweaks for accuracy and readability.
-	# Keep completion case-insensitive and colorized,
-	# and dim completion headers.
 	zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 	if [[ -n "${LS_COLORS:-}" ]]; then
 		zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 	fi
-	zstyle ':completion:*' format $'\e[2mCompleting %d\e[m'
+
+	# Keep completion types in separate groups for fzf-tab. Zsh still needs the
+	# description metadata for correct screen accounting; fzf-tab hides it.
+	zstyle ':completion:*' menu no
+	zstyle ':completion:*' group-name ''
+	zstyle ':completion:*:descriptions' format '%d'
+	zstyle ':fzf-tab:*' show-group quiet
+	zstyle ':fzf-tab:*' single-group color
+	zstyle ':fzf-tab:*' switch-group '<' '>'
 
 	# Use editor-like word boundaries: only alphanumeric characters form words,
 	# so Option-Delete/Ctrl-W stops at path separators and punctuation.
