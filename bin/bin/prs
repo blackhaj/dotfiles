@@ -33,7 +33,7 @@ Examples:
   prs
   prs -c
   prs -w 2 --count
-  prs -y 2 --count --repo mazedesignhq/maze-monorepo
+  prs -y 2 --count --repo org-name/repo-name
 `.trim(),
 	);
 	process.exit(exitCode);

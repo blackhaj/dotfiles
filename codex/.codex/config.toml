@@ -31,9 +31,6 @@ session_picker_view = "comfortable"
 [projects."/Users/henryblack/dotfiles"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/maze/maze-monorepo"]
-trust_level = "trusted"
-
 [projects."/Users/henryblack/code/projects/yard"]
 trust_level = "trusted"
 
@@ -239,6 +236,12 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/Users/henryblack/code/projects/voice-translator"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-27/j"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-27/i-ne"]
 trust_level = "trusted"
 
 [notice]

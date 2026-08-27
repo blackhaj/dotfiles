@@ -94,53 +94,6 @@ getsong() {
 		"$@"
 }
 
-# Kills all processes on Maze ports.
-kill-maze() {
-	local -a PORTS=(
-		11700
-		11701
-		15025
-		16233
-		3005
-		3006
-		3007
-		3014
-		3020
-		4000
-		6002
-		6003
-		6010
-		6060
-		7860
-		8000
-		8001
-		8002
-		8003
-		8004
-		8080
-		9000
-	)
-
-	local PORT PIDS
-
-	for PORT in "${PORTS[@]}"; do
-		# -sTCP:LISTEN keeps this to servers. Without it lsof also reports the client end of a
-		# connection, so an open browser tab on a port makes it look occupied and turns the
-		# browser into a kill target.
-		PIDS=$(lsof -ti tcp:"$PORT" -sTCP:LISTEN || true)
-		if [ -n "$PIDS" ]; then
-			echo "Killing processes on port $PORT: ${PIDS//$'\n'/ }"
-			# Via xargs because zsh does not word-split unquoted expansions: `kill -9 $PIDS` passes
-			# a multi-PID list as a single argument and fails with "illegal pid".
-			printf '%s\n' "$PIDS" | xargs kill -9
-		else
-			echo "No process running on port $PORT"
-		fi
-	done
-
-	echo "Done"
-}
-
 # Fuzzy find and run a package.json script with the correct package manager.
 package_json_scripts() {
 	local directory="$PWD"
@@ -207,7 +160,7 @@ wt() {
 
 	wt_output="$("$wt_binary" "$@")"
 	wt_exit_code=$?
-	if (( wt_exit_code == 0 )); then
+	if ((wt_exit_code == 0)); then
 		if [[ "$wt_output" == cd\ * ]]; then
 			eval -- "$wt_output"
 		else
