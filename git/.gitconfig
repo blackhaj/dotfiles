@@ -1,12 +1,12 @@
 # Useful article on settings https://jvns.ca/blog/2024/02/16/popular-git-config-options/
 
 [credential "https://github.com"]
-helper =
-helper = !/opt/homebrew/bin/gh auth git-credential
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
 
 [credential "https://gist.github.com"]
-helper =
-helper = !/opt/homebrew/bin/gh auth git-credential
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
 
 [github]
 user = blackhaj

@@ -177,7 +177,6 @@ fi
 source "$HOME/dotfiles/shared-shell/vars.sh"
 source "$HOME/dotfiles/shared-shell/functions.sh"
 source "$HOME/dotfiles/shared-shell/aliases.sh"
-source "$HOME/dotfiles/shared-shell/work-aliases.sh"
 source "$HOME/dotfiles/shared-shell/env.sh"
 
 ###############################################################################

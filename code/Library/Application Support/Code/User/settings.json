@@ -160,13 +160,17 @@
 	"gitlens.virtualRepositories.enabled": false,
 	"html.format.enable": false,
 	"json.schemaDownload.trustedDomains": {
-		"https://biomejs.dev": true,
-		"https://json-schema.org/": true,
-		"https://json.schemastore.org/": true,
-		"https://raw.githubusercontent.com/": true,
-		"https://schemastore.azurewebsites.net/": true,
-		"https://www.schemastore.org/": true
-	},
+    "https://biomejs.dev": true,
+    "https://developer.microsoft.com/json-schemas/": true,
+    "https://json-schema.org/": true,
+    "https://json.schemastore.org/": true,
+    "https://raw.githubusercontent.com/": true,
+    "https://raw.githubusercontent.com/devcontainers/spec/": true,
+    "https://raw.githubusercontent.com/microsoft/vscode/": true,
+    "https://schemastore.azurewebsites.net/": true,
+    "https://turbo.build": true,
+    "https://www.schemastore.org/": true
+  },
 	"json.schemas": [
 		{
 			"fileMatch": ["tsconfig.json", "tsconfig.*.json"],

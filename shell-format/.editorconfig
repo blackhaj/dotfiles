@@ -1,7 +1,12 @@
 root=true
 
-[*.{sh,zshrc}]
+[*.sh]
 # like -i=4
 indent_style = tab
 
+switch_case_indent = true  # like -ci
+
+[*.{zsh,zshrc,zprofile,zlogin,zlogout,zshenv}]
+indent_style = tab
+shell_variant = zsh
 switch_case_indent = true  # like -ci
