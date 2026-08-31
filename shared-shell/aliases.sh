@@ -24,7 +24,10 @@ alias cod='cd $CODE_DIR'
 alias proj='cd $PROJECTS_DIR'
 alias dots='code $DOTFILES_DIR'
 alias yard='cd $PROJECTS_DIR/yard'
-alias yardo='cursor $PROJECTS_DIR/yard'
+alias yardo='code $PROJECTS_DIR/yard'
+alias f='cd $PROJECTS_DIR/factory'
+alias factory='cd $PROJECTS_DIR/factory'
+alias fo='code $PROJECTS_DIR/factory'
 
 # PNPM
 alias p="pnpm"
