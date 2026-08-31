@@ -1,21 +1,24 @@
 
-# Core
+# Runtime defaults
 
-# Model
 model = "gpt-5.6-luna"
-model_reasoning_effort = "xhigh"   # minimal|low|medium|high|none
+model_reasoning_effort = "xhigh"   # minimal|low|medium|high|xhigh
 model_reasoning_summary = "concise"
-model_verbosity = "low"          # low|medium|high
-# Approval policy
-approval_policy = "on-request"       # untrusted|on-failure|on-request|never
-sandbox_mode   = "workspace-write"   # read-only|workspace-write|danger-full-access
-# Optional privacy & UX
-file_opener = "vscode"              # vscode|vscode-insiders|windsurf|cursor|none
+model_verbosity = "low"             # low|medium|high
+
+# Execution
+approval_policy = "on-request"      # untrusted|on-request|never
+sandbox_mode = "workspace-write"    # read-only|workspace-write|danger-full-access
+
+# Interface
+file_opener = "vscode"             
 web_search = "live"
 personality = "pragmatic"
 
+# Notifications
 notify = ["/Users/henryblack/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
 
+# Feature flags
 [features]
 shell_snapshot = true
 undo = true
@@ -24,262 +27,86 @@ goals = true
 hooks = true
 js_repl = false
 
+# TUI
 [tui]
 notifications = true
 session_picker_view = "comfortable"
 
-
-# [mcp_servers.fal]
-# url = "https://docs.fal.ai/mcp"
+# Project roots and trust
+# `.codex-workspace` is placed in ~/Documents/Codex so all Codex workspaces
+# beneath it resolve to that single trusted project root.
+project_root_markers = [".git", ".codex-workspace"]
 
 [projects."/Users/henryblack/dotfiles"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/code/projects/yard"]
+[projects."/Users/henryblack/Documents/Codex"]
 trust_level = "trusted"
 
+# Code projects
 [projects."/Users/henryblack/code/projects/agent"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/code/try/2026-03-29-wealthfolio"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/code/try/2026-03-29-blog-ui"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/code/try/2026-03-31-hermes-agent"]
 trust_level = "trusted"
 
 [projects."/Users/henryblack/code/projects/complaints"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/code/try/openclaw"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/code/projects/media"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/code/try/2026-04-21-fin-data"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/code/cloned/pi-mono"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Desktop/vaults"]
+[projects."/Users/henryblack/code/projects/factory"]
 trust_level = "trusted"
 
 [projects."/Users/henryblack/code/projects/keyval"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/code/try/2026-06-08-flue-trial"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Downloads"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Ley Retorno"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Personal Admin/Visas/UK Visa Visitor Mari"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-10/are"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/App ideas"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/LLM Projects/App Ideas"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-10/test"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-10/how"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-10/ana"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-10/referenced-chatgpt-conversation-this-is-untrusted"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-10/read"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-11/what"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-11/bas"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-11/wher"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-11/what-world-cup-related-events-are"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-13/as"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-13/what"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-14/when"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-19/i-m-using-apple-preview-i"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-19/i-want-to-i-married-a"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-19/tran"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-19/i-want-to-have-a-command"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-19/my-wife-is-colombian-i-m"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-19/how-can-i-set-my-primary"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/LLM Projects/Visas & Passports"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-07-19/ho"]
+[projects."/Users/henryblack/code/projects/media"]
 trust_level = "trusted"
 
 [projects."/Users/henryblack/code/projects/media/music"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/Documents/Codex/2026-07-24/z"]
+[projects."/Users/henryblack/code/projects/yard"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/Documents/Codex/2026-07-25/what-time-does-the-salvation-army"]
+[projects."/Users/henryblack/code/try/2026-03-29-blog-ui"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/Documents/Codex/2026-07-25/what"]
+[projects."/Users/henryblack/code/try/2026-03-29-wealthfolio"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/Documents/Codex/2026-07-25/at-facebook-marketplace-can-you-block"]
+[projects."/Users/henryblack/code/try/2026-03-31-hermes-agent"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/Documents/Codex/2026-07-26/i-live-in-florida-and-i"]
+[projects."/Users/henryblack/code/try/2026-04-21-fin-data"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/Documents/Codex/2026-07-28/i-saw-an-article-on-how"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-02/if"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-02/i-am"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-07/i-wan"]
+[projects."/Users/henryblack/code/try/2026-06-08-flue-trial"]
 trust_level = "trusted"
 
 [projects."/Users/henryblack/code/try/2026-08-07-currency-converter"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/Documents/Codex/2026-08-08/why"]
+[projects."/Users/henryblack/code/try/openclaw"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/Documents/Codex/2026-08-08/ther"]
+[projects."/Users/henryblack/code/cloned/pi-mono"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/Documents/Codex/2026-08-08/we-re-looking-to-move-to"]
+# Other active project folders
+[projects."/Users/henryblack/Documents/LLM Projects/App Ideas"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/Documents/Codex/2026-08-08/new-chat"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-08/wh"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-10/read"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-11/i-bought-a-city-bike-subscription"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-11/https-x-com-overment-status-2087166622888808818"]
+[projects."/Users/henryblack/Documents/LLM Projects/Visas & Passports"]
 trust_level = "trusted"
 
 [projects."/Users/henryblack/Documents/LLM Projects/Visas & Passports/yomaide-uk-visitor-visa"]
 trust_level = "trusted"
 
-[projects."/Users/henryblack/Documents/Codex/2026-08-12/give"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-12/giv-e"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-12/can"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-12/find-me-a-load-of-images"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-18/epson-l3110-series"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-19/cn"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-20/cop"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-22/what"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-22/i"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/code/projects/voice-translator"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-27/j"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-27/i-ne"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-28/is-t"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-28/i-wa"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-28/what"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-29/https-gitlab-com-radiolise-radiolise-gitlab"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-29/i-used-to-have-a-rapi"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/code/projects/factory"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-29/i-have-a-screensaver-set-for"]
-trust_level = "trusted"
-
-[projects."/Users/henryblack/Documents/Codex/2026-08-29/tra"]
-trust_level = "trusted"
-
+# App-managed state
 [notice]
 fast_default_opt_out = true
 
 [notice.model_migrations]
 "gpt-5.2-codex" = "gpt-5.3-codex"
 "gpt-5.3-codex" = "gpt-5.4"
-
-
+# Desktop app settings
 [desktop]
 followUpQueueMode = "queue"
 appearanceTheme = "system"
@@ -312,9 +139,10 @@ How to test:
 
 Potential risks:
 <tersely outline any things that might be broken as a result of these changes>"""
-conversationDetailMode = "STEPS_PROSE"
+conversationDetailMode = "STEPS_COMMANDS"
 show-context-window-usage = true
 enabled-reasoning-efforts = ["low", "medium", "high", "xhigh", "ultra", "max"]
+ambient-suggestions-enabled = false
 
 [marketplaces.openai-bundled]
 source_type = "local"
@@ -349,8 +177,8 @@ NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunc
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
 NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = "Control desktop apps on macOS through Computer Use."
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.825.41651"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/henryblack/.codex/plugins/cache/openai-bundled/browser/26.825.41651/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.825.51511"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/henryblack/.codex/plugins/cache/openai-bundled/browser/26.825.51511/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
 CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
 
 [mcp_servers.computer-use]
@@ -359,6 +187,7 @@ args = ["mcp"]
 cwd = "."
 enabled = false
 
+# MCP servers
 [mcp_servers.cua_repl]
 command = "/Applications/ChatGPT.app/Contents/MacOS/ChatGPT"
 enabled = false
