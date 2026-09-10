@@ -39,7 +39,7 @@ session_picker_view = "comfortable"
 project_root_markers = [".git", ".codex-workspace"]
 
 [tui.model_availability_nux]
-gpt-6-astra = 3
+gpt-6-astra = 4
 
 [projects."/Users/henryblack/dotfiles"]
 trust_level = "trusted"
