@@ -216,3 +216,10 @@ if interactive_shell; then
 	antidote load "$HOME/dotfiles/zsh/.zsh_ui_plugins.txt" \
 		"${ZDOTDIR:-$HOME}/.zsh_ui_plugins.zsh"
 fi
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
+# <<< grok installer <<<
+export PATH="$HOME/.local/bin:$PATH"

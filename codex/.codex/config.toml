@@ -1,8 +1,8 @@
 
 # Runtime defaults
 
-model = "gpt-5.6-luna"
-model_reasoning_effort = "xhigh"   # minimal|low|medium|high|xhigh
+model = "gpt-6-astra"
+model_reasoning_effort = "medium"   # minimal|low|medium|high|xhigh
 model_reasoning_summary = "concise"
 model_verbosity = "low"             # low|medium|high
 
@@ -17,6 +17,7 @@ personality = "pragmatic"
 
 # Notifications
 notify = ["/Users/henryblack/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
+approvals_reviewer = "auto_review"
 
 # Feature flags
 [features]
@@ -36,6 +37,9 @@ session_picker_view = "comfortable"
 # `.codex-workspace` is placed in ~/Documents/Codex so all Codex workspaces
 # beneath it resolve to that single trusted project root.
 project_root_markers = [".git", ".codex-workspace"]
+
+[tui.model_availability_nux]
+gpt-6-astra = 3
 
 [projects."/Users/henryblack/dotfiles"]
 trust_level = "trusted"
@@ -99,6 +103,90 @@ trust_level = "trusted"
 [projects."/Users/henryblack/Documents/LLM Projects/Visas & Passports/yomaide-uk-visitor-visa"]
 trust_level = "trusted"
 
+[projects."/Users/henryblack/Documents/Codex/2026-08-31/how"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-08-31/i-x20"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-01/w"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-02/i-h"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-02/my-x20"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-02/my-daughter-was-born-in-the"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-02/tak"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-02/wher"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-03/i-build-a-project-which-effectively"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-03/i-want-to-copy-this-to"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-03/it"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-03/i-x20"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-03/aer"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-03/ho"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-05/it"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-06/how"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-06/if-x20"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-06/wuth"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-07/i-love-my-airports-for-listening"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-07/check"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-07/based-on-everything-you-know-about"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-07/i-wa"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-07/401k-options-comparison-chatgpt-conversation-6a9a1926"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-07/process-the-mp3-files-currently-in"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-07/cou"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-08/wha"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-08/when-i-open-my-downloads-folder"]
+trust_level = "trusted"
+
+[projects."/Users/henryblack/Documents/Codex/2026-09-10/gene"]
+trust_level = "trusted"
+
 # App-managed state
 [notice]
 fast_default_opt_out = true
@@ -139,7 +227,7 @@ How to test:
 
 Potential risks:
 <tersely outline any things that might be broken as a result of these changes>"""
-conversationDetailMode = "STEPS_COMMANDS"
+conversationDetailMode = "STEPS_PROSE"
 show-context-window-usage = true
 enabled-reasoning-efforts = ["low", "medium", "high", "xhigh", "ultra", "max"]
 ambient-suggestions-enabled = false
@@ -147,6 +235,10 @@ ambient-suggestions-enabled = false
 [marketplaces.openai-bundled]
 source_type = "local"
 source = "/Users/henryblack/.codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[marketplaces.openai-primary-runtime]
+source_type = "local"
+source = "/Users/henryblack/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
 [plugins."codex-app-tools@openai-bundled"]
 enabled = true
@@ -158,6 +250,27 @@ enabled = true
 enabled = true
 
 [plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."computer-use@openai-bundled"]
 enabled = true
 
 [mcp_servers.node_repl]
@@ -172,22 +285,18 @@ NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin
 NODE_REPL_TRUSTED_CODE_PATHS = "/Users/henryblack/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
 CODEX_HOME = "/Users/henryblack/.codex"
 BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
-BROWSER_USE_TINYSKY_ENABLED = "0"
-NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
-NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
-NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = "Control desktop apps on macOS through Computer Use."
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.825.51511"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/henryblack/.codex/plugins/cache/openai-bundled/browser/26.825.51511/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.901.51231"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/henryblack/.codex/plugins/cache/openai-bundled/browser/26.901.51231/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+SKY_CUA_SERVICE_PATH = "/Users/henryblack/.codex/computer-use/Codex Computer Use.app"
 CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
 
 [mcp_servers.computer-use]
 command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
 args = ["mcp"]
 cwd = "."
-enabled = false
-
-# MCP servers
-[mcp_servers.cua_repl]
-command = "/Applications/ChatGPT.app/Contents/MacOS/ChatGPT"
 enabled = false
