@@ -7,6 +7,9 @@ add_newline = true
 # Timeout in ms (500 default)
 command_timeout = 2000
 
+# Timeout for scanning files in the current directory, in ms (30 default)
+scan_timeout = 100
+
 [git_branch]
 # truncation_length = 30
 
