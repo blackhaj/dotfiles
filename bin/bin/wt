@@ -201,7 +201,7 @@ show_help() {
 	echo "    - wt requires a shell wrapper function to change directories"
 	echo "    - The wrapper evaluates the 'cd' command output by this script"
 	echo "    - Wrapper saves current location to state file for toggle feature"
-	echo "    - Configured in ~/.config/fish/conf.d/wt.fish"
+	echo "    - Configured in ~/dotfiles/shared-shell/functions.sh"
 	echo
 	echo "  Worktree Organization:"
 	echo "    - All worktrees stored under \$WORKTREE_ROOT/<org>/<repo>/<branch>/"

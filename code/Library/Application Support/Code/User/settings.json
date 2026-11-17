@@ -243,11 +243,6 @@
 	"terminal.integrated.initialHint": false,
 	"terminal.integrated.mouseWheelScrollSensitivity": 3,
 	"terminal.integrated.persistentSessionReviveProcess": "onExit",
-	"terminal.integrated.profiles.osx": {
-		"fish": {
-			"path": "/opt/homebrew/bin/fish"
-		}
-	},
 	"terminal.integrated.scrollback": 1000000,
 	"terminal.integrated.showEnvironmentContributions": false,
 	"terminal.integrated.tabs.title": "${cwdFolder}",
