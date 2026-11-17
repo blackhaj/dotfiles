@@ -17,7 +17,6 @@ alias grc='git rebase --continue'
 alias grm='git rebase main'
 alias gs='git status'
 alias gstr="git stash -u && git rebase main && git stash pop"
-alias prm='$DOTFILES_DIR/scripts/pr-post/pr-post.sh'
 
 #Navigation
 alias cod='cd $CODE_DIR'
