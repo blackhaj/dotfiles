@@ -1,23 +1,40 @@
 {
-	"alwaysThinkingEnabled": true,
-	"attribution": {
-		"commit": "",
-		"pr": ""
-	},
-	"effortLevel": "high",
-	"enabledPlugins": {
-		"typescript-lsp@claude-plugins-official": true
-	},
-	"hooks": {},
-	"includeCoAuthoredBy": false,
-	"permissions": {
-		"defaultMode": "auto"
-	},
-	"skipAutoPermissionPrompt": true,
-	"skipDangerousModePermissionPrompt": true,
-	"statusLine": {
-		"command": "npx -y @owloops/claude-powerline@latest --style=tokyo-night",
-		"type": "command"
-	},
-	"theme": "dark"
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/bin/sh -c 'rex __internal session-start --agent claude 2>/dev/null || true'",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y @owloops/claude-powerline@latest --style=tokyo-night"
+  },
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "medium"
+    }
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
+  "skipAutoPermissionPrompt": true
 }

@@ -26,8 +26,11 @@ alias dots='code $DOTFILES_DIR'
 alias yard='cd $PROJECTS_DIR/yard'
 alias yardo='code $PROJECTS_DIR/yard'
 alias f='cd $PROJECTS_DIR/factory'
-alias factory='cd $PROJECTS_DIR/factory'
 alias fo='code $PROJECTS_DIR/factory'
+alias factory='cd $PROJECTS_DIR/factory'
+alias m='cd $PROJECTS_DIR/music'
+alias mo='code $PROJECTS_DIR/music'
+alias music='cd $PROJECTS_DIR/music'
 
 # PNPM
 alias p="pnpm"
